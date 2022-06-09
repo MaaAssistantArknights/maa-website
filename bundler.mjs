@@ -1,17 +1,20 @@
 import * as fs from "fs";
 
 const maaWebDistPath = "./apps/web/dist";
+const maaDocDistPath = "./apps/doc/build";
 
-const bundlePath = "./dist";
+const bundleBasePath = "./dist";
+const bundleDocPath = "./dist/doc";
 
 if (fs.existsSync(maaWebDistPath) === false) {
   process.exit(-1);
 }
 
-if (fs.existsSync(bundlePath)) {
-  fs.rmdirSync(bundlePath, { recursive: true });
+if (fs.existsSync(bundleBasePath)) {
+  fs.rmdirSync(bundleBasePath, { recursive: true });
 }
 
-fs.mkdirSync(bundlePath);
+fs.mkdirSync(bundleBasePath);
 
-fs.cpSync(maaWebDistPath, bundlePath, { recursive: true });
+fs.cpSync(maaWebDistPath, bundleBasePath, { recursive: true });
+fs.cpSync(maaDocDistPath, bundleDocPath, { recursive: true });
