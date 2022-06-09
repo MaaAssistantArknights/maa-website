@@ -1,9 +1,9 @@
-import { useEffect, useRef } from "react";
-import { useFrame, useLoader } from "@react-three/fiber";
-import { Mesh, TextureLoader, Vector2 } from "three";
-import screenshot0 from "../../../assets/screenshots/0.png?url";
-import screenshot1 from "../../../assets/screenshots/1.png?url";
-import screenshot2 from "../../../assets/screenshots/2.png?url";
+import { useEffect, useRef } from 'react';
+import { useFrame, useLoader } from '@react-three/fiber';
+import { Mesh, TextureLoader, Vector2 } from 'three';
+import screenshot0 from '../../../assets/screenshots/0.png?url';
+import screenshot1 from '../../../assets/screenshots/1.png?url';
+import screenshot2 from '../../../assets/screenshots/2.png?url';
 
 function lerp(v0: number, v1: number, t: number) {
   return v0 * (1 - t) + v1 * t;
@@ -14,10 +14,10 @@ function absInRange(num: number, center: number, delta: number) {
   return abs >= center - delta && abs <= center + delta;
 }
 
-const sidePanelRotationOffset = 0.15
+const sidePanelRotationOffset = 0.15;
 
 export function Screenshots() {
-  const lerpTo = useRef<Vector2>(new Vector2(0, 0))
+  const lerpTo = useRef<Vector2>(new Vector2(0, 0));
   const textureS0 = useLoader(TextureLoader, screenshot0);
   const textureS1 = useLoader(TextureLoader, screenshot1);
   const textureS2 = useLoader(TextureLoader, screenshot2);
@@ -28,10 +28,26 @@ export function Screenshots() {
   const meshRightRef = useRef<Mesh | null>(null);
 
   useFrame(() => {
-    if (meshCenterRef.current && absInRange(meshCenterRef.current.rotation.x, 0, 0.01) && absInRange(meshCenterRef.current.rotation.y, 0, 0.01) &&
-        meshLeftRef.current && absInRange(meshLeftRef.current.rotation.x, 0, 0.01) && absInRange(meshLeftRef.current.rotation.y, sidePanelRotationOffset, 0.01) &&
-        meshRightRef.current && absInRange(meshRightRef.current.rotation.x, 0, 0.01) && absInRange(meshRightRef.current.rotation.y, -sidePanelRotationOffset, 0.01)) {
-      return
+    if (
+      meshCenterRef.current &&
+      absInRange(meshCenterRef.current.rotation.x, 0, 0.01) &&
+      absInRange(meshCenterRef.current.rotation.y, 0, 0.01) &&
+      meshLeftRef.current &&
+      absInRange(meshLeftRef.current.rotation.x, 0, 0.01) &&
+      absInRange(
+        meshLeftRef.current.rotation.y,
+        sidePanelRotationOffset,
+        0.01
+      ) &&
+      meshRightRef.current &&
+      absInRange(meshRightRef.current.rotation.x, 0, 0.01) &&
+      absInRange(
+        meshRightRef.current.rotation.y,
+        -sidePanelRotationOffset,
+        0.01
+      )
+    ) {
+      return;
     }
 
     if (meshCenterRef.current && meshLeftRef.current && meshRightRef.current) {
@@ -67,39 +83,46 @@ export function Screenshots() {
         lerpT
       );
     }
-  })
+  });
 
   useEffect(() => {
     const onMove = (e: MouseEvent | TouchEvent) => {
-      if (meshCenterRef.current && meshLeftRef.current && meshRightRef.current) {
+      if (
+        meshCenterRef.current &&
+        meshLeftRef.current &&
+        meshRightRef.current
+      ) {
         const { clientX, clientY } = e instanceof MouseEvent ? e : e.touches[0];
         const x = (clientX / window.innerWidth) * 2 - 1;
         const y = (clientY / window.innerHeight) * 2 - 1;
-        
-        lerpTo.current.set(y, x) // inverted intentionally
+
+        lerpTo.current.set(y, x); // inverted intentionally
       }
-    }
+    };
 
     const onEnd = () => {
-      if (meshCenterRef.current && meshLeftRef.current && meshRightRef.current) {
+      if (
+        meshCenterRef.current &&
+        meshLeftRef.current &&
+        meshRightRef.current
+      ) {
         // lerp back to 0
-        lerpTo.current.set(0, 0)
+        lerpTo.current.set(0, 0);
       }
-    }
+    };
 
-    document.addEventListener("mousemove", onMove);
-    document.addEventListener("touchmove", onMove);
-    document.addEventListener("mouseleave", onEnd);
-    document.addEventListener("touchend", onEnd);
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('touchmove', onMove);
+    document.addEventListener('mouseleave', onEnd);
+    document.addEventListener('touchend', onEnd);
 
     return () => {
-      document.removeEventListener("mousemove", onMove);
-      document.removeEventListener("touchmove", onMove);
-      document.removeEventListener("mouseleave", onEnd);
-      document.removeEventListener("touchend", onEnd);
-    }
-  }, [])
-  
+      document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('touchmove', onMove);
+      document.removeEventListener('mouseleave', onEnd);
+      document.removeEventListener('touchend', onEnd);
+    };
+  }, []);
 
   return (
     <>
@@ -111,10 +134,7 @@ export function Screenshots() {
         receiveShadow
       >
         <boxGeometry args={[3 * imageAspect, 3, 0]} />
-        <meshPhysicalMaterial
-          transparent
-          map={textureS2}
-        />
+        <meshPhysicalMaterial transparent map={textureS2} />
       </mesh>
       <mesh
         ref={meshLeftRef}
@@ -124,17 +144,11 @@ export function Screenshots() {
         receiveShadow
       >
         <boxGeometry args={[3 * imageAspect, 3, 0]} />
-        <meshPhysicalMaterial
-          transparent
-          map={textureS1}
-        />
+        <meshPhysicalMaterial transparent map={textureS1} />
       </mesh>
       <mesh ref={meshCenterRef} position={[0, 0, 0.5]} castShadow receiveShadow>
         <boxGeometry args={[3 * imageAspect, 3, 0]} />
-        <meshPhysicalMaterial
-          transparent
-          map={textureS0}
-        />
+        <meshPhysicalMaterial transparent map={textureS0} />
       </mesh>
     </>
   );

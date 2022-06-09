@@ -1,0 +1,16 @@
+{
+  "name": "eslint-config-maa",
+  "version": "1.0.0",
+  "description": "Maa custome eslint config",
+  "main": "index.js",
+  "repository": "https://github.com/MaaAssistantArknights/maa-website",
+  "license": "AGPL-3.0-or-later",
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "eslint": "^8.17.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-react": "^7.30.0"
+  }
+}

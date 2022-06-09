@@ -16,7 +16,9 @@ code {
     monospace;
 }
 
-html, body, #root {
+html,
+body,
+#root {
   background: #080808;
   height: 100%;
 }
@@ -24,4 +26,3 @@ html, body, #root {
 .font-logo {
   font-family: 'Saira Condensed', sans-serif;
 }
-

@@ -1,16 +1,12 @@
-import { FC } from "react";
-import { Canvas } from "@react-three/fiber";
-import { Screenshots } from "./Screenshots/Screenshots";
-import { AnimatedBlobs } from "./AnimatedBlobs/AnimatedBlobs";
-import { HomeHeroHeader } from "./HomeHeroHeader/HomeHeroHeader";
-import { HomeActions } from "./HomeActions/HomeActions";
-import {
-  Bloom,
-  EffectComposer,
-  Vignette,
-} from "@react-three/postprocessing";
-import { BlendFunction } from "postprocessing";
-import { Stats } from "@react-three/drei";
+import { FC } from 'react';
+import { Canvas } from '@react-three/fiber';
+import { Screenshots } from './Screenshots/Screenshots';
+import { AnimatedBlobs } from './AnimatedBlobs/AnimatedBlobs';
+import { HomeHeroHeader } from './HomeHeroHeader/HomeHeroHeader';
+import { HomeActions } from './HomeActions/HomeActions';
+import { Bloom, EffectComposer, Vignette } from '@react-three/postprocessing';
+import { BlendFunction } from 'postprocessing';
+import { Stats } from '@react-three/drei';
 
 export const HomeHero: FC = () => {
   return (
@@ -29,12 +25,7 @@ export const HomeHero: FC = () => {
 
 function ScreenshotsCanvas() {
   return (
-    <Canvas
-      shadows
-      camera={{ fov: 35, position: [0, 0, 11] }}
-      flat
-      linear
-    >
+    <Canvas shadows camera={{ fov: 35, position: [0, 0, 11] }} flat linear>
       <EffectComposer>
         <Vignette
           offset={0.1} // vignette offset

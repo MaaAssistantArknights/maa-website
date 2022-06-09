@@ -7,13 +7,19 @@
   "license": "AGPL-3.0-or-later",
   "scripts": {
     "build": "turbo run build && node bundler.mjs",
-    "dev": "turbo run dev"
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "lint:js": "turbo run lint:js",
+    "lint:prettier": "turbo run lint:prettier",
+    "lintfix": "turbo run lintfix"
   },
   "private": true,
   "workspaces": [
-    "apps/*"
+    "apps/*",
+    "packages/*"
   ],
   "devDependencies": {
-    "turbo": "^1.2.16"
+    "prettier": "^2.6.2",
+    "turbo": "latest"
   }
 }

@@ -9,15 +9,15 @@ const platforms = [
   {
     icon: mdiWindows,
     title: 'Windows',
-    url: "https://github.com/MaaAssistantArknights/MaaAssistantArknights/",
-    version: "v3.9.9 (2022.6.5 18:32)",
+    url: 'https://github.com/MaaAssistantArknights/MaaAssistantArknights/',
+    version: 'v3.9.9 (2022.6.5 18:32)',
   },
   {
     icon: mdiApple,
     title: 'macOS',
-    url: "https://github.com/MaaAssistantArknights/MaaAssistantArknights/",
-    version: "v3.9.9 (2022.6.5 18:32)",
-  }
+    url: 'https://github.com/MaaAssistantArknights/MaaAssistantArknights/',
+    version: 'v3.9.9 (2022.6.5 18:32)',
+  },
 ];
 
 export const HomeActions: FC = () => {
@@ -53,7 +53,7 @@ export const HomeActions: FC = () => {
       </div>
 
       <div className="hidden md:flex flex-row items-center justify-center mt-4">
-        <GlowButton translucent href='https://github.com/MaaAssistantArknights'>
+        <GlowButton translucent href="https://github.com/MaaAssistantArknights">
           <div className="flex items-center text-sm -ml-1">
             <Icon icon={mdiGitHub} fontSize="20px" />
             <span className="ml-2">GitHub</span>
@@ -62,4 +62,4 @@ export const HomeActions: FC = () => {
       </div>
     </div>
   );
-}
+};
