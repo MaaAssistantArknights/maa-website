@@ -1,9 +1,9 @@
 import { useEffect, useRef } from 'react';
 import { useFrame, useLoader } from '@react-three/fiber';
 import { Mesh, TextureLoader, Vector2 } from 'three';
-import screenshot0 from '../../../assets/screenshots/0.png?url';
-import screenshot1 from '../../../assets/screenshots/1.png?url';
-import screenshot2 from '../../../assets/screenshots/2.png?url';
+import screenshotCenter from '../../../assets/screenshots/center.webp?url';
+import screenshotLeft from '../../../assets/screenshots/left.webp?url';
+import screenshotRight from '../../../assets/screenshots/right.webp?url';
 
 function lerp(v0: number, v1: number, t: number) {
   return v0 * (1 - t) + v1 * t;
@@ -18,9 +18,9 @@ const sidePanelRotationOffset = 0.15;
 
 export function Screenshots() {
   const lerpTo = useRef<Vector2>(new Vector2(0, 0));
-  const textureS0 = useLoader(TextureLoader, screenshot0);
-  const textureS1 = useLoader(TextureLoader, screenshot1);
-  const textureS2 = useLoader(TextureLoader, screenshot2);
+  const textureCenter = useLoader(TextureLoader, screenshotCenter);
+  const textureLeft = useLoader(TextureLoader, screenshotLeft);
+  const textureRight = useLoader(TextureLoader, screenshotRight);
 
   const imageAspect = 1.4435146444;
   const meshCenterRef = useRef<Mesh | null>(null);
@@ -134,7 +134,7 @@ export function Screenshots() {
         receiveShadow
       >
         <boxGeometry args={[3 * imageAspect, 3, 0]} />
-        <meshPhysicalMaterial transparent map={textureS2} />
+        <meshPhysicalMaterial transparent map={textureRight} />
       </mesh>
       <mesh
         ref={meshLeftRef}
@@ -144,11 +144,11 @@ export function Screenshots() {
         receiveShadow
       >
         <boxGeometry args={[3 * imageAspect, 3, 0]} />
-        <meshPhysicalMaterial transparent map={textureS1} />
+        <meshPhysicalMaterial transparent map={textureLeft} />
       </mesh>
       <mesh ref={meshCenterRef} position={[0, 0, 0.5]} castShadow receiveShadow>
         <boxGeometry args={[3 * imageAspect, 3, 0]} />
-        <meshPhysicalMaterial transparent map={textureS0} />
+        <meshPhysicalMaterial transparent map={textureCenter} />
       </mesh>
     </>
   );

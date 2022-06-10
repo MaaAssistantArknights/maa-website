@@ -10,7 +10,7 @@ const platforms = [
     title: 'Windows',
     url: 'https://github.com/MaaAssistantArknights/MaaAssistantArknights/',
     version: 'v3.9.9 (2022.6.5 18:32)',
-  }
+  },
 ];
 
 export const HomeActions: FC = () => {
