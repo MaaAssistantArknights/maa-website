@@ -1,0 +1,12 @@
+{
+  "name": "maa-tsconfig",
+  "version": "1.0.0",
+  "description": "Maa React App shared",
+  "main": "index.js",
+  "repository": "https://github.com/MaaAssistantArknights/maa-website",
+  "license": "AGPL-3.0-or-later",
+  "files": [
+    "base.json",
+    "react-library.json"
+  ]
+}

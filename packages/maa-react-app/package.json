@@ -1,0 +1,22 @@
+{
+  "name": "maa-react-app",
+  "version": "1.0.0",
+  "description": "Maa React App shared",
+  "main": "index.tsx",
+  "types": "index.tsx",
+  "repository": "https://github.com/MaaAssistantArknights/maa-website",
+  "license": "AGPL-3.0-or-later",
+  "scripts": {
+    "lint:js": "eslint --ext \".js,.jsx,.ts,.tsx\"",
+    "lint:prettier": "prettier --check .",
+    "lint": "yarn lint:js && yarn lint:prettier",
+    "lintfix": "prettier --write --list-different . && yarn lint:js --fix"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.1",
+    "@types/react-dom": "^18.0.1",
+    "react": "^18.0.1",
+    "react-dom": "^18.0.1",
+    "typescript": "^4.6.3"
+  }
+}
