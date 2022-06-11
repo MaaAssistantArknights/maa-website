@@ -1,20 +1,26 @@
-import * as fs from "fs";
+import * as fs from 'fs';
 
-const maaWebDistPath = "./apps/web/dist";
-const maaDocDistPath = "./apps/doc/build";
+const bundleBasePath = './dist';
 
-const bundleBasePath = "./dist";
-const bundleDocPath = "./dist/doc";
+const maaProjectLocationMapping = [
+  {
+    from: './apps/web/dist',
+    to: `${bundleBasePath}`,
+  },
+  {
+    from: './apps/doc/build',
+    to: `${bundleBasePath}/docs`,
+  },
+];
 
-if (fs.existsSync(maaWebDistPath) === false) {
-  process.exit(-1);
-}
+console.log(`remove ${bundleBasePath}`);
+fs.rmSync(bundleBasePath, { recursive: true, force: true });
 
-if (fs.existsSync(bundleBasePath)) {
-  fs.rmdirSync(bundleBasePath, { recursive: true });
-}
-
-fs.mkdirSync(bundleBasePath);
-
-fs.cpSync(maaWebDistPath, bundleBasePath, { recursive: true });
-fs.cpSync(maaDocDistPath, bundleDocPath, { recursive: true });
+maaProjectLocationMapping.forEach(({ from, to }) => {
+  if (fs.existsSync(from) === false) {
+    console.error(`[ERR] ${from} does not exist`);
+    process.exit(-1);
+  }
+  console.log(`[INF] copy ${from} to ${to}`);
+  fs.cpSync(from, to, { recursive: true });
+});
