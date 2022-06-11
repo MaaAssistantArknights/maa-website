@@ -2,13 +2,9 @@ name: build-test
 
 on:
   push:
-    branches:
+    branches-ignore:
       - main
       - dev
-  pull_request:
-    types:
-      - opened
-      - synchronize
 
 jobs:
   build:
