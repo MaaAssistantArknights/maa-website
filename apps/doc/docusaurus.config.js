@@ -9,7 +9,7 @@ const config = {
   title: 'Maa Documentation',
   tagline: 'Maa means MaaAssistantArknights:)',
   url: 'https://www.maa.top',
-  baseUrl: '/doc/',
+  baseUrl: '/docs/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'throw',
   favicon: 'img/favicon.ico',
@@ -63,12 +63,12 @@ const config = {
                 href: 'https://jq.qq.com/?_wv=1027&k=ypbzXcA2',
               },
               {
-                label: 'Bilibili 直播间',
-                href: 'https://live.bilibili.com/2808861',
-              },
-              {
                 label: '自动战斗 JSON 作业分享群',
                 href: 'https://jq.qq.com/?_wv=1027&k=1giyMpPb',
+              },
+              {
+                label: 'Bilibili 直播间',
+                href: 'https://live.bilibili.com/2808861',
               },
             ],
           },
