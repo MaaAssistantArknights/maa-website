@@ -10,7 +10,10 @@ import './index.css'
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <SWRConfig
-      value={{ fetcher: (url: string) => fetch(url).then((r) => r.json()) }}
+      value={{
+        fetcher: (url: string) => fetch(url).then((r) => r.json()),
+        focusThrottleInterval: 1000 * 60 * 10,
+      }}
     >
       <App />
     </SWRConfig>
