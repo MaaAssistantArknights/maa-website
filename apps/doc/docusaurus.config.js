@@ -46,6 +46,11 @@ const config = {
         },
         items: [
           {
+            href: 'https://www.maa.plus',
+            label: '官网',
+            position: 'right',
+          },
+          {
             href: 'https://github.com/MaaAssistantArknights',
             label: 'GitHub',
             position: 'right',
