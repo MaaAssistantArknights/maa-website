@@ -1,14 +1,20 @@
-import mdiGitHub from '@iconify/icons-mdi/github'
-import mdiLoading from '@iconify/icons-mdi/loading'
-import mdiWindows from '@iconify/icons-mdi/windows'
-import type { IconifyIcon } from '@iconify/react'
-import { Icon } from '@iconify/react'
+import mdiAlertCircle from '@iconify/icons-mdi/alert-circle';
+import mdiGitHub from '@iconify/icons-mdi/github';
+import mdiLoading from '@iconify/icons-mdi/loading';
+import mdiWindows from '@iconify/icons-mdi/windows';
+import type { IconifyIcon } from '@iconify/react';
+import { Icon } from '@iconify/react';
 
-import { FC, useMemo } from 'react'
 
-import { Release, ReleaseAsset, useRelease } from '../../../hooks/use-release'
-import { formatDate } from '../../../utils/format'
-import { GlowButton } from '../../foundations/GlowButton/GlowButton'
+
+import { FC, useMemo } from 'react';
+
+
+
+import { Release, ReleaseAsset, useRelease } from '../../../hooks/use-release';
+import { formatDate } from '../../../utils/format';
+import { GlowButton } from '../../foundations/GlowButton/GlowButton';
+
 
 interface PlatformPredicate {
   icon: IconifyIcon
@@ -67,24 +73,39 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
   )
 }
 
+export const StaleVersion: FC<{
+  icon: IconifyIcon
+  iconClassName?: string
+  title: string
+}> = ({ icon, iconClassName, title }) => {
+  return (
+    <div className="flex py-6 px-3 flex-col items-center justify-center text-white font-normal">
+      <div className="flex items-center -ml-1">
+        <Icon className={iconClassName} icon={icon} fontSize="28px" />
+        <span className="ml-2">{title}</span>
+      </div>
+    </div>
+  )
+}
+
 export const HomeActions: FC = () => {
   const { data, error } = useRelease()
   return (
     <div className="absolute bottom-0 left-0 right-0 mb-24 md:mb-[7vh] flex flex-col mx-8">
       <div className="flex-col items-center justify-center hidden gap-2 font-light md:flex md:flex-row md:gap-6">
-        {data && !error ? (
+        {error ? (
+          <StaleVersion
+            iconClassName="animate-spin"
+            icon={mdiLoading}
+            title="正在载入版本信息..."
+          />
+        ) : data ? (
           <DownloadButtons release={data} />
         ) : (
-          <div className="flex py-6 px-3 flex-col items-center justify-center text-white font-normal">
-            <div className="flex items-center -ml-1">
-              <Icon
-                className="animate-spin"
-                icon={mdiLoading}
-                fontSize="28px"
-              />
-              <span className="ml-2">正在载入版本信息...</span>
-            </div>
-          </div>
+          <StaleVersion
+            icon={mdiAlertCircle}
+            title="载入版本信息失败"
+          />
         )}
       </div>
 
