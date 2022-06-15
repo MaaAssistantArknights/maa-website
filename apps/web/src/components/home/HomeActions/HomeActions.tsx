@@ -1,20 +1,15 @@
-import mdiAlertCircle from '@iconify/icons-mdi/alert-circle';
-import mdiGitHub from '@iconify/icons-mdi/github';
-import mdiLoading from '@iconify/icons-mdi/loading';
-import mdiWindows from '@iconify/icons-mdi/windows';
-import type { IconifyIcon } from '@iconify/react';
-import { Icon } from '@iconify/react';
+import mdiAlertCircle from '@iconify/icons-mdi/alert-circle'
+import mdiGitHub from '@iconify/icons-mdi/github'
+import mdiLoading from '@iconify/icons-mdi/loading'
+import mdiWindows from '@iconify/icons-mdi/windows'
+import type { IconifyIcon } from '@iconify/react'
+import { Icon } from '@iconify/react'
 
+import { FC, useMemo } from 'react'
 
-
-import { FC, useMemo } from 'react';
-
-
-
-import { Release, ReleaseAsset, useRelease } from '../../../hooks/use-release';
-import { formatDate } from '../../../utils/format';
-import { GlowButton } from '../../foundations/GlowButton/GlowButton';
-
+import { Release, ReleaseAsset, useRelease } from '../../../hooks/use-release'
+import { formatDate } from '../../../utils/format'
+import { GlowButton } from '../../foundations/GlowButton/GlowButton'
 
 interface PlatformPredicate {
   icon: IconifyIcon
@@ -102,10 +97,7 @@ export const HomeActions: FC = () => {
         ) : data ? (
           <DownloadButtons release={data} />
         ) : (
-          <StaleVersion
-            icon={mdiAlertCircle}
-            title="载入版本信息失败"
-          />
+          <StaleVersion icon={mdiAlertCircle} title="载入版本信息失败" />
         )}
       </div>
 
