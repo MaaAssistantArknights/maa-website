@@ -1,11 +1,13 @@
-import { Canvas } from '@react-three/fiber';
-import { Bloom, EffectComposer, Vignette } from '@react-three/postprocessing';
-import { BlendFunction } from 'postprocessing';
-import { FC } from 'react';
-import { AnimatedBlobs } from './AnimatedBlobs/AnimatedBlobs';
-import { HomeActions } from './HomeActions/HomeActions';
-import { HomeHeroHeader } from './HomeHeroHeader/HomeHeroHeader';
-import { Screenshots } from './Screenshots/Screenshots';
+import { Canvas } from '@react-three/fiber'
+import { Bloom, EffectComposer, Vignette } from '@react-three/postprocessing'
+
+import { BlendFunction } from 'postprocessing'
+import { FC } from 'react'
+
+import { AnimatedBlobs } from './AnimatedBlobs/AnimatedBlobs'
+import { HomeActions } from './HomeActions/HomeActions'
+import { HomeHeroHeader } from './HomeHeroHeader/HomeHeroHeader'
+import { Screenshots } from './Screenshots/Screenshots'
 
 export const HomeHero: FC = () => {
   return (
@@ -19,8 +21,8 @@ export const HomeHero: FC = () => {
       <HomeHeroHeader />
       <HomeActions />
     </>
-  );
-};
+  )
+}
 
 function ScreenshotsCanvas() {
   return (
@@ -37,5 +39,5 @@ function ScreenshotsCanvas() {
       <ambientLight intensity={1} />
       <Screenshots />
     </Canvas>
-  );
+  )
 }

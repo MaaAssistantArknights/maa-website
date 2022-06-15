@@ -1,4 +1,4 @@
-import { HomeHero } from './components/home/HomeHero';
+import { HomeHero } from './components/home/HomeHero'
 
 function App() {
   return (
@@ -7,7 +7,7 @@ function App() {
         <HomeHero />
       </section>
     </main>
-  );
+  )
 }
 
-export default App;
+export default App

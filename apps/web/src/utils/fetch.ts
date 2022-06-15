@@ -1,3 +1,3 @@
-import unfetch from 'unfetch';
+import unfetch from 'unfetch'
 
-export const fetch = window.fetch || unfetch;
+export const fetch = window.fetch || unfetch

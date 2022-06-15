@@ -1,9 +1,11 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { SWRConfig } from 'swr';
-import App from './App';
-import './index.css';
-import { fetch } from './utils/fetch';
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import { SWRConfig } from 'swr'
+
+import App from './App'
+import { fetch } from './utils/fetch'
+
+import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -12,5 +14,5 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     >
       <App />
     </SWRConfig>
-  </React.StrictMode>
-);
+  </React.StrictMode>,
+)

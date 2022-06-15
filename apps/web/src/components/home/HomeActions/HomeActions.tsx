@@ -1,17 +1,19 @@
-import mdiGitHub from '@iconify/icons-mdi/github';
-import mdiLoading from '@iconify/icons-mdi/loading';
-import mdiWindows from '@iconify/icons-mdi/windows';
-import type { IconifyIcon } from '@iconify/react';
-import { Icon } from '@iconify/react';
-import { FC, useMemo } from 'react';
-import { Release, ReleaseAsset, useRelease } from '../../../hooks/use-release';
-import { formatDate } from '../../../utils/format';
-import { GlowButton } from '../../foundations/GlowButton/GlowButton';
+import mdiGitHub from '@iconify/icons-mdi/github'
+import mdiLoading from '@iconify/icons-mdi/loading'
+import mdiWindows from '@iconify/icons-mdi/windows'
+import type { IconifyIcon } from '@iconify/react'
+import { Icon } from '@iconify/react'
+
+import { FC, useMemo } from 'react'
+
+import { Release, ReleaseAsset, useRelease } from '../../../hooks/use-release'
+import { formatDate } from '../../../utils/format'
+import { GlowButton } from '../../foundations/GlowButton/GlowButton'
 
 interface PlatformPredicate {
-  icon: IconifyIcon;
-  title: string;
-  assetMatcher: (release: Release) => ReleaseAsset | undefined;
+  icon: IconifyIcon
+  title: string
+  assetMatcher: (release: Release) => ReleaseAsset | undefined
 }
 
 const predicates: PlatformPredicate[] = [
@@ -20,29 +22,30 @@ const predicates: PlatformPredicate[] = [
     title: 'Windows',
     assetMatcher: (release) => {
       return release.assets.find((el) =>
-        /^MeoAssistantArknights_.*\.zip/.test(el.name)
-      );
+        /^MeoAssistantArknights_.*\.zip/.test(el.name),
+      )
     },
   },
-];
+]
 
 interface ResolvedPlatform {
-  asset: ReleaseAsset;
-  platform: PlatformPredicate;
+  asset: ReleaseAsset
+  platform: PlatformPredicate
 }
 
 export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
   const platforms = useMemo(() => {
     return predicates.reduce((acc, platform) => {
-      const asset = platform.assetMatcher(release);
-      if (asset) acc.push({
-        asset,
-        platform,
-      });
-      return acc;
-    }, [] as ResolvedPlatform[]);
-  }, [release]);
-  
+      const asset = platform.assetMatcher(release)
+      if (asset)
+        acc.push({
+          asset,
+          platform,
+        })
+      return acc
+    }, [] as ResolvedPlatform[])
+  }, [release])
+
   return (
     <>
       {platforms.map((platform) => (
@@ -53,17 +56,19 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
               <span className="ml-2">{platform.platform.title}</span>
             </div>
             <div className="flex mt-1 mb-0.5 ml-8">
-              <span className="text-xs">{release.name} ({formatDate(release.created_at)})</span>
+              <span className="text-xs">
+                {release.name} ({formatDate(release.created_at)})
+              </span>
             </div>
           </div>
         </GlowButton>
       ))}
     </>
-  );
-};
+  )
+}
 
 export const HomeActions: FC = () => {
-  const { data, error } = useRelease();
+  const { data, error } = useRelease()
   return (
     <div className="absolute bottom-0 left-0 right-0 mb-24 md:mb-[7vh] flex flex-col mx-8">
       <div className="flex-col items-center justify-center hidden gap-2 font-light md:flex md:flex-row md:gap-6">
@@ -105,5 +110,5 @@ export const HomeActions: FC = () => {
         </GlowButton>
       </div>
     </div>
-  );
-};
+  )
+}
