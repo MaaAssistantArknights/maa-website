@@ -1,4 +1,5 @@
 import mdiAlertCircle from '@iconify/icons-mdi/alert-circle'
+import mdiDocument from '@iconify/icons-mdi/document'
 import mdiGitHub from '@iconify/icons-mdi/github'
 import mdiLoading from '@iconify/icons-mdi/loading'
 import mdiWindows from '@iconify/icons-mdi/windows'
@@ -49,26 +50,33 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
 
   return (
     <>
-      {platforms.map((platform) => (
-        <GlowButton bordered href={platform.asset.browser_download_url}>
-          <div className="flex flex-col items-start">
-            <div className="flex items-center -ml-1">
-              <Icon icon={platform.platform.icon} fontSize="28px" />
-              <span className="ml-2">{platform.platform.title}</span>
+      {platforms.length ? (
+        platforms.map((platform) => (
+          <GlowButton bordered href={platform.asset.browser_download_url}>
+            <div className="flex flex-col items-start">
+              <div className="flex items-center -ml-1">
+                <Icon icon={platform.platform.icon} fontSize="28px" />
+                <span className="ml-2">{platform.platform.title} 下载</span>
+              </div>
+              <div className="flex mt-1 mb-0.5 ml-8">
+                <span className="text-xs">
+                  {release.name} ({formatDate(release.created_at)})
+                </span>
+              </div>
             </div>
-            <div className="flex mt-1 mb-0.5 ml-8">
-              <span className="text-xs">
-                {release.name} ({formatDate(release.created_at)})
-              </span>
-            </div>
-          </div>
-        </GlowButton>
-      ))}
+          </GlowButton>
+        ))
+      ) : (
+        <UndesiredReleaseState
+          icon={mdiAlertCircle}
+          title="未找到可用的下载链接"
+        />
+      )}
     </>
   )
 }
 
-export const StaleVersion: FC<{
+export const UndesiredReleaseState: FC<{
   icon: IconifyIcon
   iconClassName?: string
   title: ReactNode
@@ -89,7 +97,7 @@ export const HomeActions: FC = () => {
     <div className="absolute bottom-0 left-0 right-0 mb-24 md:mb-[7vh] flex flex-col mx-8">
       <div className="flex-col items-center justify-center hidden gap-2 font-light md:flex md:flex-row md:gap-6">
         {error ? (
-          <StaleVersion
+          <UndesiredReleaseState
             icon={mdiAlertCircle}
             title={
               <div className="flex flex-col ml-4">
@@ -107,16 +115,23 @@ export const HomeActions: FC = () => {
         ) : data ? (
           <DownloadButtons release={data} />
         ) : (
-          <StaleVersion
+          <UndesiredReleaseState
             iconClassName="animate-spin"
             icon={mdiLoading}
             title="正在载入版本信息..."
           />
         )}
+
+        <GlowButton bordered href="/docs">
+          <div className="flex items-center -ml-1">
+            <Icon icon={mdiDocument} fontSize="28px" />
+            <span className="ml-2">文档与 FAQ</span>
+          </div>
+        </GlowButton>
       </div>
 
       <div className="flex flex-row items-center justify-center md:hidden">
-        <GlowButton>
+        <GlowButton bordered>
           <div className="flex items-center -ml-1 text-sm">
             <Icon icon={mdiGitHub} fontSize="20px" />
             <span className="ml-2">GitHub</span>
