@@ -1,0 +1,446 @@
+---
+id: callback-schema
+title: MaaCore 回调消息协议
+description: MaaCore 回调消息协议标准
+---
+
+# MaaCore 回调消息协议
+
+MaaCore 回调消息协议标准
+
+## 回调函数原型
+
+```cpp
+typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom_arg);
+```
+
+## 参数总览
+
+- `int msg`  
+   消息类型
+
+  ```cpp
+  enum class AsstMsg
+  {
+      /* Global Info */
+      InternalError = 0,          // 内部错误
+      InitFailed,                 // 初始化失败
+      ConnectionInfo,             // 连接相关信息
+      AllTasksCompleted,          // 全部任务完成
+      /* TaskChain Info */
+      TaskChainError = 10000,     // 任务链执行/识别错误
+      TaskChainStart,             // 任务链开始
+      TaskChainCompleted,         // 任务链完成
+      TaskChainExtraInfo,         // 任务链额外信息
+      /* SubTask Info */
+      SubTaskError = 20000,       // 原子任务执行/识别错误
+      SubTaskStart,               // 原子任务开始
+      SubTaskCompleted,           // 原子任务完成
+      SubTaskExtraInfo            // 原子任务额外信息
+  };
+  ```
+
+- `const char* details`  
+   消息详情，json 字符串，详见 [字段解释](#字段解释)
+- `void* custom_arg`  
+   调用方自定义参数，会原样传出 `AsstCreateEx` 接口中的 `custom_arg` 参数，C 系语言可利用该参数传出 `this` 指针
+
+## 字段解释
+
+### InternalError
+
+Todo
+
+### InitFailed
+
+```json
+{
+    "what": string,     // 错误类型
+    "why": string,      // 错误原因
+    "details": object   // 错误详情
+}
+```
+
+## ConnectionInfo
+
+```json
+{
+    "what": string,     // 信息类型
+    "why": string,      // 信息原因
+    "uuid": string,     // 设备唯一码（连接失败时为空）
+    "details": {
+        "adb": string,     // AsstConnect 接口 adb_path 参数
+        "address": string, // AsstConnect 接口 address 参数
+        "config": string   // AsstConnect 接口 config 参数
+    }
+
+}
+```
+
+### 常见 `What` 字段
+
+- `ConnectFailed`  
+   连接失败
+- `Connected`  
+   已连接，注意此时的 `uuid` 字段值为空（下一步才是获取）
+- `UuidGetted`  
+   已获取到设备唯一码
+- `UnsupportedResolution`  
+   分辨率不被支持
+- `ResolutionError`  
+   分辨率获取错误
+- `Disconnect`  
+   连接断开（adb / 模拟器 炸了，且已经重试过一次）
+- `CommandExecFailed`  
+   命令执行失败（adb / 模拟器 炸了，且已经重试过一次）
+
+### AllTasksCompleted
+
+```json
+{
+    "taskchain": string,            // 最后的任务链
+    "uuid": string                  // 设备唯一码
+}
+```
+
+#### 常见 `taskchain` 字段
+
+- `StartUp`  
+   开始唤醒
+- `Fight`  
+   刷理智
+- `Mall`  
+   信用点及购物
+- `Recruit`  
+   自动公招
+- `RecruitCalc`  
+   公招识别
+- `Infrast`  
+   基建换班
+- `Roguelike`  
+   无限刷肉鸽
+- `Debug`  
+   调试
+
+### TaskChain 相关消息
+
+```json
+{
+    "taskchain": string,            // 当前的任务链
+    "taskid": int,                  // 当前任务 TaskId
+    "uuid": string                  // 设备唯一码
+}
+```
+
+### TaskChainExtraInfo
+
+Todo
+
+### SubTask 相关消息
+
+```json
+{
+    "subtask": string,             // 子任务名
+    "class": string,               // 子任务符号名
+    "taskchain": string,           // 当前任务链
+    "taskid": int,                 // 当前任务 TaskId
+    "details": object,             // 详情
+    "uuid": string                 // 设备唯一码
+}
+```
+
+#### 常见 `subtask` 字段
+
+- `ProcessTask`
+
+  ```json
+  // 对应的 details 字段举例
+  {
+    "task": "StartButton2", // 任务名
+    "action": 512,
+    "exec_times": 1, // 已执行次数
+    "max_times": 999, // 最大执行次数
+    "algorithm": 0
+  }
+  ```
+
+- Todo 其他
+
+##### 常见 `task` 字段
+
+- `StartButton2`  
+   开始战斗
+- `MedicineConfirm`  
+   使用理智药
+- `StoneConfirm`  
+   碎石
+- `RecruitRefreshConfirm`  
+   公招刷新标签
+- `RecruitConfirm`  
+   公招确认招募
+- `RecruitNowConfirm`  
+   公招使用加急许可
+- `ReportToPenguinStats`  
+   汇报到企鹅数据统计
+- `InfrastDormDoubleConfirmButton`  
+   基建宿舍的二次确认按钮，仅当干员冲突时才会有，请提示用户
+- `Roguelike1Start`  
+   肉鸽开始探索
+- `Roguelike1StageTraderInvestConfirm`  
+   肉鸽投资了源石锭
+- `Roguelike1StageTraderInvestSystemFull`  
+   肉鸽投资达到了游戏上限
+- `Roguelike1ExitThenAbandon`  
+   肉鸽放弃了本次探索
+- `Roguelike1MissionCompletedFlag`  
+   肉鸽战斗完成
+- `Roguelike1MissionFailedFlag`  
+   肉鸽战斗失败
+- `Roguelike1StageSafeHouseEnter`  
+   肉鸽关卡：诡异行商
+- `Roguelike1StageSafeHouseEnter`  
+   肉鸽关卡：安全的角落
+- `Roguelike1StageEncounterEnter`  
+   肉鸽关卡：不期而遇/古堡馈赠
+- `Roguelike1StageCambatDpsEnter`  
+   肉鸽关卡：普通作战
+- `Roguelike1StageEmergencyDps`  
+   肉鸽关卡：紧急作战
+- `Roguelike1StageDreadfulFoe`  
+   肉鸽关卡：险路恶敌
+- `StartGameTask`
+  打开客户端失败（配置文件与传入 client_type 不匹配）
+- Todo 其他
+
+### SubTaskExtraInfo
+
+```json
+{
+    "taskchain": string,           // 当前任务链
+    "class": string,               // 子任务类型
+    "what": string,                // 信息类型
+    "details": object,             // 信息详情
+    "uuid": string,                // 设备唯一码
+}
+```
+
+#### 常见 `what` 及 `details` 字段
+
+- `StageDrops`  
+   关卡材料掉落信息
+
+  ```json
+  // 对应的 details 字段举例
+  {
+    "drops": [
+      // 本次识别到的掉落材料
+      {
+        "itemId": "3301",
+        "quantity": 2,
+        "itemName": "技巧概要·卷1"
+      },
+      {
+        "itemId": "3302",
+        "quantity": 1,
+        "itemName": "技巧概要·卷2"
+      },
+      {
+        "itemId": "3303",
+        "quantity": 2,
+        "itemName": "技巧概要·卷3"
+      }
+    ],
+    "stage": {
+      // 关卡信息
+      "stageCode": "CA-5",
+      "stageId": "wk_fly_5"
+    },
+    "stars": 3, // 行动结束星级
+    "stats": [
+      // 本次执行期间总的材料掉落
+      {
+        "itemId": "3301",
+        "itemName": "技巧概要·卷1",
+        "quantity": 4
+      },
+      {
+        "itemId": "3302",
+        "itemName": "技巧概要·卷2",
+        "quantity": 3
+      },
+      {
+        "itemId": "3303",
+        "itemName": "技巧概要·卷3",
+        "quantity": 4
+      }
+    ]
+  }
+  ```
+
+- `RecruitTagsDetected`  
+   公招识别到了 Tags
+
+  ```json
+  // 对应的 details 字段举例
+  {
+    "tags": ["费用回复", "防护", "先锋干员", "辅助干员", "近战位"]
+  }
+  ```
+
+- `RecruitSpecialTag`  
+   公招识别到了特殊 Tag
+
+  ```json
+  // 对应的 details 字段举例
+  {
+    "tag": "高级资深干员"
+  }
+  ```
+
+- `RecruitRobotTag`  
+   公招识别到了小车 Tag 且跳过小车（即用户需要小车）
+
+  ```json
+  // 对应的 details 字段举例
+  {
+    "tag": "支援机械"
+  }
+  ```
+
+- `RecruitResult`  
+   公招识别结果
+
+  ```json
+  // 对应的 details 字段举例
+  {
+      "level": 4,                 // 总的星级
+      "result": [
+          {
+              "tags": [
+                  "削弱"
+              ],
+              "level": 4,         // 这组 tags 的星级
+              "opers": [
+                  {
+                      "name": "初雪",
+                      "level": 5  // 干员星级
+                  },
+                  {
+                      "name": "陨星",
+                      "level": 5
+                  },
+                  {
+                      "name": "槐琥",
+                      "level": 5
+                  },
+                  {
+                      "name": "夜烟",
+                      "level": 4
+                  },
+                  {
+                      "name": "流星",
+                      "level": 4
+                  }
+              ]
+          },
+          {
+              "tags": [
+                  "减速",
+                  "术师干员"
+              ],
+              "level": 4,
+              "opers": [
+                  {
+                      "name": "夜魔",
+                      "level": 5
+                  },
+                  {
+                      "name": "格雷伊",
+                      "level": 4
+                  }
+              ]
+          },
+          {
+              "tags": [
+                  "削弱",
+                  "术师干员"
+              ],
+              "level": 4,
+              "opers": [
+                  {
+                      "name": "夜烟",
+                      "level": 4
+                  }
+              ]
+          }
+      ],
+      "robot": True               // 公招识别到了小车 Tag 且跳过小车（即用户需要小车）
+  }
+  ```
+
+- `RecruitTagsSelected`  
+   公招选择了 Tags
+
+  ```json
+  // 对应的 details 字段举例
+  {
+    "tags": ["减速", "术师干员"]
+  }
+  ```
+
+- `EnterFacility`  
+   基建进入了设施
+
+  ```json
+  // 对应的 details 字段举例
+  {
+    "facility": "Mfg", // 设施名
+    "index": 0 // 设施序号
+  }
+  ```
+
+- `NotEnoughStaff`  
+   基建可用干员不足
+
+  ```json
+  // 对应的 details 字段举例
+  {
+    "facility": "Mfg", // 设施名
+    "index": 0 // 设施序号
+  }
+  ```
+
+- `ProductOfFacility`  
+   基建产物
+
+  ```json
+  // 对应的 details 字段举例
+  {
+    "product": "Money", // 产物名
+    "facility": "Mfg", // 设施名
+    "index": 0 // 设施序号
+  }
+  ```
+
+- `StageInfo`  
+   自动作战关卡信息
+
+  ```json
+  // 对应的 details 字段举例
+  {
+      "name": string  // 关卡名
+  }
+  ```
+
+- `StageInfoError`  
+   自动作战关卡识别错误
+
+- `PenguinId`  
+   企鹅物流 ID
+
+  ```json
+  // 对应的 details 字段举例
+  {
+      "id": string
+  }
+  ```
