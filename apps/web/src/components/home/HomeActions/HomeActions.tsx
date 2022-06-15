@@ -1,35 +1,86 @@
-import { Icon } from '@iconify/react';
-import { FC } from 'react';
-import { GlowButton } from '../../foundations/GlowButton/GlowButton';
-import mdiWindows from '@iconify/icons-mdi/windows';
 import mdiGitHub from '@iconify/icons-mdi/github';
+import mdiLoading from '@iconify/icons-mdi/loading';
+import mdiWindows from '@iconify/icons-mdi/windows';
+import type { IconifyIcon } from '@iconify/react';
+import { Icon } from '@iconify/react';
+import { FC, useMemo } from 'react';
+import { Release, ReleaseAsset, useRelease } from '../../../hooks/use-release';
+import { formatDate } from '../../../utils/format';
+import { GlowButton } from '../../foundations/GlowButton/GlowButton';
 
-const platforms = [
+interface PlatformPredicate {
+  icon: IconifyIcon;
+  title: string;
+  assetMatcher: (release: Release) => ReleaseAsset | undefined;
+}
+
+const predicates: PlatformPredicate[] = [
   {
     icon: mdiWindows,
     title: 'Windows',
-    url: 'https://github.com/MaaAssistantArknights/MaaAssistantArknights/',
-    version: 'v3.9.9 (2022.6.5 18:32)',
+    assetMatcher: (release) => {
+      return release.assets.find((el) =>
+        /^MeoAssistantArknights_.*\.zip/.test(el.name)
+      );
+    },
   },
 ];
 
+interface ResolvedPlatform {
+  asset: ReleaseAsset;
+  platform: PlatformPredicate;
+}
+
+export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
+  const platforms = useMemo(() => {
+    return predicates.reduce((acc, platform) => {
+      const asset = platform.assetMatcher(release);
+      if (asset) acc.push({
+        asset,
+        platform,
+      });
+      return acc;
+    }, [] as ResolvedPlatform[]);
+  }, [release]);
+  
+  return (
+    <>
+      {platforms.map((platform) => (
+        <GlowButton href={platform.asset.browser_download_url}>
+          <div className="flex flex-col items-start">
+            <div className="flex items-center -ml-1">
+              <Icon icon={platform.platform.icon} fontSize="28px" />
+              <span className="ml-2">{platform.platform.title}</span>
+            </div>
+            <div className="flex mt-1 mb-0.5 ml-8">
+              <span className="text-xs">{release.name} ({formatDate(release.created_at)})</span>
+            </div>
+          </div>
+        </GlowButton>
+      ))}
+    </>
+  );
+};
+
 export const HomeActions: FC = () => {
+  const { data, error } = useRelease();
   return (
     <div className="absolute bottom-0 left-0 right-0 mb-24 md:mb-[7vh] flex flex-col mx-8">
       <div className="flex-col items-center justify-center hidden gap-2 font-light md:flex md:flex-row md:gap-6">
-        {platforms.map((platform) => (
-          <GlowButton>
-            <div className="flex flex-col items-start">
-              <div className="flex items-center -ml-1">
-                <Icon icon={platform.icon} fontSize="28px" />
-                <span className="ml-2">{platform.title}</span>
-              </div>
-              <div className="flex mt-1 mb-0.5 ml-8">
-                <span className="text-xs">{platform.version}</span>
-              </div>
+        {data && !error ? (
+          <DownloadButtons release={data} />
+        ) : (
+          <div className="flex py-6 px-3 flex-col items-center justify-center text-white font-normal">
+            <div className="flex items-center -ml-1">
+              <Icon
+                className="animate-spin"
+                icon={mdiLoading}
+                fontSize="28px"
+              />
+              <span className="ml-2">正在载入版本信息...</span>
             </div>
-          </GlowButton>
-        ))}
+          </div>
+        )}
       </div>
 
       <div className="flex flex-row items-center justify-center md:hidden">

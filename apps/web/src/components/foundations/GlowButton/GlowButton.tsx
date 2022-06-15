@@ -1,6 +1,6 @@
-import { FC, memo } from 'react';
-import { FCC } from '../../../types';
 import clsx from 'clsx';
+import { memo } from 'react';
+import { FCC } from '../../../types';
 import styles from './GlowButton.module.css';
 
 export const GlowButton: FCC<{ translucent?: boolean; href?: string }> = memo(
@@ -21,7 +21,12 @@ export const GlowButton: FCC<{ translucent?: boolean; href?: string }> = memo(
 
     if (href) {
       return (
-        <a href={href} className={styles.link}>
+        <a
+          href={href}
+          target="_blank"
+          rel="noreferrer noopener"
+          className={styles.link}
+        >
           {inner}
         </a>
       );

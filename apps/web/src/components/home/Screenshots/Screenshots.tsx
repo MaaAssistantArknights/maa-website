@@ -1,5 +1,5 @@
-import { useEffect, useRef } from 'react';
 import { useFrame, useLoader } from '@react-three/fiber';
+import { useEffect, useRef } from 'react';
 import { Mesh, TextureLoader, Vector2 } from 'three';
 import screenshotCenter from '../../../assets/screenshots/center.webp?url';
 import screenshotLeft from '../../../assets/screenshots/left.webp?url';
@@ -22,7 +22,11 @@ export function Screenshots() {
   const textureLeft = useLoader(TextureLoader, screenshotLeft);
   const textureRight = useLoader(TextureLoader, screenshotRight);
 
-  const imageAspect = 1.4435146444;
+  const imageAspects = {
+    left: 1010 / 768,
+    center: 786 / 588,
+    right: 1010 / 768,
+  };
   const meshCenterRef = useRef<Mesh | null>(null);
   const meshLeftRef = useRef<Mesh | null>(null);
   const meshRightRef = useRef<Mesh | null>(null);
@@ -133,7 +137,7 @@ export function Screenshots() {
         castShadow
         receiveShadow
       >
-        <boxGeometry args={[3 * imageAspect, 3, 0]} />
+        <boxGeometry args={[3 * imageAspects.right, 3, 0]} />
         <meshPhysicalMaterial transparent map={textureRight} />
       </mesh>
       <mesh
@@ -143,11 +147,11 @@ export function Screenshots() {
         castShadow
         receiveShadow
       >
-        <boxGeometry args={[3 * imageAspect, 3, 0]} />
+        <boxGeometry args={[3 * imageAspects.left, 3, 0]} />
         <meshPhysicalMaterial transparent map={textureLeft} />
       </mesh>
       <mesh ref={meshCenterRef} position={[0, 0, 0.5]} castShadow receiveShadow>
-        <boxGeometry args={[3 * imageAspect, 3, 0]} />
+        <boxGeometry args={[3 * imageAspects.center, 3, 0]} />
         <meshPhysicalMaterial transparent map={textureCenter} />
       </mesh>
     </>
