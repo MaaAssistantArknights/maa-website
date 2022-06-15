@@ -18,5 +18,6 @@
 }
 .link:hover * {
   text-decoration: underline;
-  text-decoration-color: rgba(255, 255, 255, 0.5);
+  text-underline-offset: 1px;
+  text-decoration-color: rgba(255, 255, 255, 0.15);
 }

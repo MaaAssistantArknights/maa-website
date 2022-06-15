@@ -5,7 +5,7 @@ import mdiWindows from '@iconify/icons-mdi/windows'
 import type { IconifyIcon } from '@iconify/react'
 import { Icon } from '@iconify/react'
 
-import { FC, useMemo } from 'react'
+import { FC, ReactNode, useMemo } from 'react'
 
 import { Release, ReleaseAsset, useRelease } from '../../../hooks/use-release'
 import { formatDate } from '../../../utils/format'
@@ -50,7 +50,7 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
   return (
     <>
       {platforms.map((platform) => (
-        <GlowButton href={platform.asset.browser_download_url}>
+        <GlowButton bordered href={platform.asset.browser_download_url}>
           <div className="flex flex-col items-start">
             <div className="flex items-center -ml-1">
               <Icon icon={platform.platform.icon} fontSize="28px" />
@@ -71,7 +71,7 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
 export const StaleVersion: FC<{
   icon: IconifyIcon
   iconClassName?: string
-  title: string
+  title: ReactNode
 }> = ({ icon, iconClassName, title }) => {
   return (
     <div className="flex py-6 px-3 flex-col items-center justify-center text-white font-normal">
@@ -90,14 +90,28 @@ export const HomeActions: FC = () => {
       <div className="flex-col items-center justify-center hidden gap-2 font-light md:flex md:flex-row md:gap-6">
         {error ? (
           <StaleVersion
-            iconClassName="animate-spin"
-            icon={mdiLoading}
-            title="正在载入版本信息..."
+            icon={mdiAlertCircle}
+            title={
+              <div className="flex flex-col ml-4">
+                <span className="mb-2">载入版本信息失败。您可尝试</span>
+                <GlowButton
+                  translucent
+                  bordered
+                  href="https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases"
+                >
+                  <span className="text-sm">前往 GitHub Releases 下载</span>
+                </GlowButton>
+              </div>
+            }
           />
         ) : data ? (
           <DownloadButtons release={data} />
         ) : (
-          <StaleVersion icon={mdiAlertCircle} title="载入版本信息失败" />
+          <StaleVersion
+            iconClassName="animate-spin"
+            icon={mdiLoading}
+            title="正在载入版本信息..."
+          />
         )}
       </div>
 
