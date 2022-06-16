@@ -1,12 +1,13 @@
-import { FC } from 'react';
-import { Canvas } from '@react-three/fiber';
-import { Screenshots } from './Screenshots/Screenshots';
-import { AnimatedBlobs } from './AnimatedBlobs/AnimatedBlobs';
-import { HomeHeroHeader } from './HomeHeroHeader/HomeHeroHeader';
-import { HomeActions } from './HomeActions/HomeActions';
-import { Bloom, EffectComposer, Vignette } from '@react-three/postprocessing';
-import { BlendFunction } from 'postprocessing';
-import { Stats } from '@react-three/drei';
+import { Canvas } from '@react-three/fiber'
+import { Bloom, EffectComposer, Vignette } from '@react-three/postprocessing'
+
+import { BlendFunction } from 'postprocessing'
+import { FC } from 'react'
+
+import { AnimatedBlobs } from './AnimatedBlobs/AnimatedBlobs'
+import { HomeActions } from './HomeActions/HomeActions'
+import { HomeHeroHeader } from './HomeHeroHeader/HomeHeroHeader'
+import { Screenshots } from './Screenshots/Screenshots'
 
 export const HomeHero: FC = () => {
   return (
@@ -20,8 +21,8 @@ export const HomeHero: FC = () => {
       <HomeHeroHeader />
       <HomeActions />
     </>
-  );
-};
+  )
+}
 
 function ScreenshotsCanvas() {
   return (
@@ -29,14 +30,14 @@ function ScreenshotsCanvas() {
       <EffectComposer>
         <Vignette
           offset={0.1} // vignette offset
-          darkness={1} // vignette darkness
+          darkness={0.7} // vignette darkness
           eskil={false} // Eskil's vignette technique
-          blendFunction={BlendFunction.NORMAL} // blend mode
+          blendFunction={BlendFunction.DARKEN} // blend mode
         />
         <Bloom luminanceThreshold={0.7} luminanceSmoothing={0.9} />
       </EffectComposer>
       <ambientLight intensity={1} />
       <Screenshots />
     </Canvas>
-  );
+  )
 }

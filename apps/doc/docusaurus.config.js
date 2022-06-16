@@ -8,7 +8,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 const config = {
   title: 'Maa Documentation',
   tagline: 'Maa means MaaAssistantArknights:)',
-  url: 'https://www.maa.top',
+  url: 'https://www.maa.plus',
   baseUrl: '/docs/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'throw',
@@ -45,6 +45,11 @@ const config = {
           src: 'img/logo.webp',
         },
         items: [
+          {
+            href: 'https://www.maa.plus',
+            label: '官网',
+            position: 'right',
+          },
           {
             href: 'https://github.com/MaaAssistantArknights',
             label: 'GitHub',

@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC } from 'react'
 
 export const HomeHeroHeader: FC = () => {
   return (
@@ -14,5 +14,5 @@ export const HomeHeroHeader: FC = () => {
         </p>
       </div>
     </header>
-  );
-};
+  )
+}

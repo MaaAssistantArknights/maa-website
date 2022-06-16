@@ -1,10 +1,21 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './App';
-import './index.css';
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import { SWRConfig } from 'swr'
+
+import App from './App'
+import { fetch } from './utils/fetch'
+
+import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+    <SWRConfig
+      value={{
+        fetcher: (url: string) => fetch(url).then((r) => r.json()),
+        focusThrottleInterval: 1000 * 60 * 10,
+      }}
+    >
+      <App />
+    </SWRConfig>
+  </React.StrictMode>,
+)
