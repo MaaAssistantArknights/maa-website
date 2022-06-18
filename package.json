@@ -8,10 +8,14 @@
   "scripts": {
     "build": "turbo run lint && turbo run build && node bundler.mjs",
     "dev": "turbo run dev",
+    "dev:home": "turbo run dev:home",
+    "dev:doc:cn": "turbo run dev:doc:cn",
+    "dev:doc:en": "turbo run dev:doc:en",
     "lint": "turbo run lint",
     "lint:js": "turbo run lint:js",
     "lint:prettier": "turbo run lint:prettier",
-    "lintfix": "turbo run lintfix"
+    "lintfix": "turbo run lintfix",
+    "doc:generate:en": "turbo run doc:generate:en"
   },
   "private": true,
   "workspaces": [

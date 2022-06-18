@@ -7,6 +7,7 @@
   "license": "AGPL-3.0-or-later",
   "scripts": {
     "dev": "vite",
+    "dev:home": "vite",
     "build": "tsc && vite build",
     "lint:js": "eslint --ext \".js,.jsx,.ts,.tsx\"",
     "lint:prettier": "prettier --check .",
