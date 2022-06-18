@@ -45,7 +45,10 @@ Start a development server
 - `apps/web` will be hosted on `http://localhost:3000`
 - `apps/doc` will be hosted on `http://localhost:3001/doc`
 ```shell
-yarn dev
+yarn dev            # Home and Doc:zh-CN
+yarn dev:home       # Home ONLY
+yarn dev:doc:cn     # Doc:zh-CN ONLY
+yarn dev:doc:en     # Doc:en ONLY
 ```
 
 Lint code
