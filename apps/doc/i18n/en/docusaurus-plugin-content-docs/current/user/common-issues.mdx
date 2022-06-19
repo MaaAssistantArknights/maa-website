@@ -16,7 +16,7 @@ sidebar_position: 2
   Please try installing [Visual C++ Redistributable](https://docs.microsoft.com/en/cpp/windows/latest-supported-vc-redist?view=msvc-160#visual-studio-2015-2017-2019-and-2022), [.NET Framework 4.8](https://dotnet.microsoft.com/download/dotnet-framework/net48) and restart the program.
 - Possible solution 2: your CPU instruction set is incompatible.
   This project requires `PaddleOCR` to do the image recognition, which requires `AVX` instruction set that is supported by only some of the newly-released CPUs, while others may not support it.
-  You can also try downloading `PaddleOCR` [NoAVX](../3rdparty/ppocr_noavx.zip) version, unzip and replace the files with the same names. Since it may cause performance drop, please do not use it unless it is necessary.  
+  You can also try downloading `PaddleOCR` [NoAVX](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/3rdparty/ppocr_noavx.zip) version, unzip and replace the files with the same names. Since it may cause performance drop, please do not use it unless it is necessary.  
   ([CPU-Z](https://www.cpuid.com/softwares/cpu-z.html) is a tool that provides check of existence of `AVX` instruction set.)
 - If those solutions above do not work, please submit an issue to us.
 
