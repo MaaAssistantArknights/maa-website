@@ -1,55 +1,58 @@
 ---
 id: common-issues
-title: 常见问题
-description: MAA 常见问题的解决方案
-sidebar_position: 99
+title: FAQ
+description: Solutions to common problems
+sidebar_position: 2
 ---
 
-# 常见问题
+# Frequently Asked Questions
 
-## 软件一打开就闪退
+## The program crashes immediately when I try to run it
 
-- 可能性 1: 运行库问题。  
-  请尝试安装 [Visual C++ Redistributable](https://docs.microsoft.com/zh-CN/cpp/windows/latest-supported-vc-redist?view=msvc-160#visual-studio-2015-2017-2019-and-2022)、[.NET Framework 4.8](https://dotnet.microsoft.com/download/dotnet-framework/net48) 后重新运行本软件。
-- 可能性 2: CPU 指令集不支持。  
-  项目使用 `PaddleOCR` 对游戏部分界面进行识别。`PaddleOCR` 用到了较新发布的 CPU 才支持的 `AVX` 指令集，而一些较老的 CPU 可能并不支持该指令集。  
-  您可以尝试下载 [NoAVX](https://github.com/MaaAssistantArknights/MaaAssistantArknights/3rdparty/ppocr_noavx.zip) 版本的 `PaddleOCR`, 解压后替换本软件中同名的文件。这是对于使用不支持 `AVX` 指令集的 CPU 的用户的性能降低的替代方案，如非必要，请不要使用。  
-  （具体可以下载 [CPU-Z](https://www.cpuid.com/softwares/cpu-z.html)，查看“指令集”中有无 `AVX` 这一项来判断）
-- 若上述均没有效果，请提 issue。
+- Possible solution 0: The downloaded archive is incomplete.
+  - If you are the first time using this software, please do not download the compressed package with the word `OTA` in the file name, this is for incremental update and cannot be used alone.
+  - If you can't use it after an automatic update, there may be some bugs in the automatic update function, you can try to manually download the complete package and use it again.
+- Possible solution 1: you are missing some runtime libraries.
+  Please try installing [Visual C++ Redistributable](https://docs.microsoft.com/en/cpp/windows/latest-supported-vc-redist?view=msvc-160#visual-studio-2015-2017-2019-and-2022), [.NET Framework 4.8](https://dotnet.microsoft.com/download/dotnet-framework/net48) and restart the program.
+- Possible solution 2: your CPU instruction set is incompatible.
+  This project requires `PaddleOCR` to do the image recognition, which requires `AVX` instruction set that is supported by only some of the newly-released CPUs, while others may not support it.
+  You can also try downloading `PaddleOCR` [NoAVX](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/3rdparty/ppocr_noavx.zip) version, unzip and replace the files with the same names. Since it may cause performance drop, please do not use it unless it is necessary.  
+  ([CPU-Z](https://www.cpuid.com/softwares/cpu-z.html) is a tool that provides check of existence of `AVX` instruction set.)
+- If those solutions above do not work, please submit an issue to us.
 
-## 连接错误
+## Connection error/not knowing how to fill in ADB path
 
-提示 : 请参考 [模拟器支持](emulator-support.mdx) 确定您的模拟器是受支持的
+Tips: please refer to the [Usage](emulator-support.mdx#Usage) section to ensure that you are using your emulator correctly.
 
-### 方式一
+### Approach 1
 
-1. 确认 MAA `设置` - `连接设置` - `adb 路径` 是否自动填写了，若已填写请忽略这步。若未填写：
+1. Make sure that MAA `Settings` - `Connection Settings` - `adb path` is automatically filled in, if it has been filled in, please ignore this step. If not filled in:
 
-   - 方法 1: 找到你的模拟器安装路径，大概率会有一个 `adb.exe`（不一定就叫这个名字，可能叫 `nox_adb.exe`, `HD-adb.exe`, `adb_server.exe`... 总之是名字带 `adb` 的 exe, 选择它！
-   - 方法 2: 自行下载 [adb](https://dl.google.com/android/repository/platform-tools-latest-windows.zip) 并解压，选择里面的 `adb.exe`
+   - Option 1: Find the installation path of your emulator, where there may be a file named `adb.exe` (or something similar, e.g. `nox_adb.exe`, `HD-adb.exe`, `adb_server.exe`, etc., EXE files with `adb`). Simply choose the file in the connection settings of MAA!
+   - Option 2: Download [adb](https://dl.google.com/android/repository/platform-tools-latest-windows.zip) and unzip it, select the `adb.exe`
 
-2. 确认您的连接地址填写正确。可在网上搜索您使用的模拟器 adb 地址是什么，一般是类似 `127.0.0.1:5555` 这样的格式（雷电模拟器除外）
+2. Confirm that your connection address is filled in correctly, you can Google what the adb address of the emulator you are using is generally in a format like `127.0.0.1:5555`
 
-### 方式二
+### Approach 2
 
-- 换模拟器，推荐 [蓝叠国际版](https://www.bluestacks.com/download.html) Nougat 64 bit
+Change another emulator, such as [Bluestacks international version](https://www.bluestacks.com/download.html) Nougat 64 bit
 
-## 识别错误/任务开始后一直不动、没有反应
+### Approach 3
 
-提示 1. 自动战斗功能 和 刷理智的 `当前关卡`，都是需要手动点到关卡页有 `开始行动` 按钮的地方再开始任务的。请确认不是这个问题~  
-提示 2. 依次进行，若问题解决，则无需往下
+Try restarting your computer
 
-1. 请根据 [模拟器支持情况](emulator-support.mdx) 确定您的模拟器是受支持的
-2. 修改模拟器分辨率设置，`320 dpi`
-3. 修改模拟器分辨率设置，横屏 `1280 * 720` 分辨率
-4. 换模拟器，推荐 [蓝叠国际版](https://www.bluestacks.com/download.html) Nougat 64 bit ( 请注意蓝叠需要在模拟器设置里开启 adb )
-5. 若仍有问题，请提 issue
+## Wrong Recognition/Program freezes after starting
 
-## 自定义连接
+Tip 1: The `Current Stage` of auto battle that costs Sanity requires you to go to the screen with the start button. Please confirm they are not related.
+Tip 2: Follow the steps below until the problem is solved.
 
-- 下载 [adb](https://dl.google.com/android/repository/platform-tools-latest-windows.zip) 并解压
-- 进入软件 `设置` - `连接设置`，选择 adb.exe 的文件路径、填写 adb 地址（需要填写 IP + 端口，例如 `127.0.0.1:5555` ），并选择你的模拟器类型
+1. Confirm that your emulator is supported in the [List of the Supported Emulators](emulator-support.mdx).
+2. Change the DPI to `320 dpi`.
+3. Change the resolution to landscape, `1280 * 720`.
+4. Try with another emulator, such as [Bluestacks international version](https://www.bluestacks.com/download.html) Nougat 64 bit. (Please note that you are required to switch on ADB in Bluestack emulator.)
+5. Submit an issue to us if the problem still exists.
 
-## 环境变量中已有 adb, 可以不再下载一份么？
+## Custom Connection
 
-可以！进入软件 `设置` - `连接设置`，将 `adb 路径` 设置为 `adb.exe`, 或其他相对路径即可
+- Download [adb](https://dl.google.com/android/repository/platform-tools-latest-windows.zip) and unzip it.
+- Go to `Settings` - `Connection Settings`, and select the location of `adb.exe`, fill in the address of ADB (with the format of IP+port, e.g. `127.0.0.1:5555`), and choose the type of your emulator.
