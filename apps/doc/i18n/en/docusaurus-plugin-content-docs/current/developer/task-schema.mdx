@@ -1,132 +1,124 @@
 ---
 id: task-schema
-title: 任务流程协议
-description: Maa 任务流程协议标准
+title: Task Schema
+description: Schemas for Task Flow
+sidebar_position: 2
 ---
 
-# 任务流程协议
+# Task Schema
 
-Maa 任务流程协议标准
+Usage of `resource/tasks.json` and description of each field
 
-`resource/tasks.json` 的使用方法及各字段说明
+## Overview
 
-## 完整字段一览
-
-```json
+```jsonc
 {
   "TaskName": {
-    // 任务名
+    // Task name
 
-    "algorithm": "MatchTemplate", // 可选项，表示识别算法的类型
-    // 不填写时默认为 MatchTemplate
-    //      - JustReturn:       不进行识别，直接执行 action
-    //      - MatchTemplate:    匹配图片
-    //      - OcrDetect:        文字识别
-    //      - Hash:             哈希计算
+    "algorithm": "MatchTemplate", // Recognition algorithm, optional
+    // MatchTemplate by default
+    //      - JustReturn:       Proceed action without recognition
+    //      - MatchTemplate:    Matching template image
+    //      - OcrDetect:        OCR detection
+    //      - Hash:             Hash calculation
 
-    "template": "xxx.png", // 仅当 algorithm 为 MatchTemplate 时有效；可选项，要匹配的图片文件名
-    // 不填时写默认 "任务名.png"
+    "template": "xxx.png", // Available only when `algorithm` is `MatchTemplate`; Image file for matching, optional
+    // "任务名.png" by default
 
-    "text": ["接管作战", "代理指挥"], // 仅当 algorithm 为 OcrDetect 时有效；必选项，要识别的文字内容，只要任一匹配上了即认为识别到了
+    "text": ["接管作战", "代理指挥"], // Available only when `algorithm` is `OcrDetect`; text to recognize, required, matched when any of the texts are found
 
-    "action": "ClickSelf", // 可选项，表示识别到后的动作
-    // 不填写时默认为 DoNothing
-    //      - ClickSelf:              点击识别到的位置（识别到的目标范围内随机点）
-    //      - ClickRand:              点击整个画面中随机位置
-    //      - DoNothing:              什么都不做
-    //      - Stop:                   停止当前任务
-    //      - ClickRect:              点击指定的区域，对应 specificRect 字段，不建议使用该选项
-    //      - SwipeToTheLeft:         滑动到最左侧
-    //      - SwipeToTheRight:        滑动到最右侧
-    //      - SlowlySwipeToTheLeft:   缓慢左滑
-    //      - SlowlySwipeToTheRight:  缓慢右滑
+    "action": "ClickSelf", // Action after recognition, optional
+    // DoNothing by default
+    //      - ClickSelf:        Clicking the position recognized (random position within the region)
+    //      - ClickRand:        Clicking any position in the screen
+    //      - DoNothing:        Doing nothing
+    //      - Stop:             Stopping current task
+    //      - ClickRect:        Clicking in the specified rectangle. See the specificRect field, not recommended
+    //      - SwipeToTheLeft:   Swiping to the left
+    //      - SwipeToTheRight:  Swiping to the right
 
     "sub": ["SubTaskName1", "SubTaskName2"],
-    // 可选项，子任务。会在执行完当前任务后，依次执行每一个子任务
-    // 可以套娃，子任务再套子任务。但要注意不要写出了死循环
+    // Subtasks, optional. Will be executed in the order of the list after execution of the current task.
+    // Subtasks can contain other subtasks. Pay attention to the infinite loop.
 
-    "subErrorIgnored": true, // 可选项，是否忽略子任务的错误。
-    // 不填写默认 false
-    // 为 false 时，若某个子任务出错，则不继续执行后续任务（相当于本任务出错了）
-    // 为 true 时，子任务是否出错没有影响
+    "subErrorIgnored": true, // Whether to ignore the error of the subtask, optional
+    // `false` by default
+    // `false` for not executing proceeding subtasks when one of the subtasks fails (considered as a failure of the current task).
+    // `true` for ignoring subtask errors.
 
     "next": ["OtherTaskName1", "OtherTaskName2"],
-    // 可选项，表示执行完当前任务和 sub 任务后，下一个要执行的任务
-    // 会从前往后依次去识别，去执行第一个匹配上的
-    // 不填写默认执行完当前任务直接停止
+    // Next tasks to be executed after the current task is finished, optional
+    // Will be recognized from the first item of the list and execute the first matched one.
+    // Empty list means to stop the task after the current task is finished.
 
-    "maxTimes": 10, // 可选项，表示该任务最大执行次数
-    // 不填写时默认无穷大
-    // 达到最大次数后，若存在 exceededNext 字段，则执行 exceededNext；否则直接任务停止
+    "maxTimes": 10, // Maximum execution times, optional
+    // Infinity by default
+    // Proceeds with `exceedNext` if it exists; otherwise stops.
 
     "exceededNext": ["OtherTaskName1", "OtherTaskName2"],
-    // 可选项，表示达到了最大执行次数后要执行的任务
-    // 不填写时，达到了最大执行次数则停止；填写后就执行这里的，而不是 next 里的
-    "onErrorNext": ["OtherTaskName1", "OtherTaskName2"],
-    // 可选项，表示执行出错时，后续要执行的任务
+    // Tasks to be executed after reaching `maxTimes`, optional
+    // Stops the task if empty; otherwise, proceeds with the tasks here in the list instead of `next`.
 
-    "preDelay": 1000, // 可选项，表示识别到后延迟多久才执行 action，单位毫秒；不填写时默认 0
-    "rearDelay": 1000, // 可选项，表示 action 执行完后延迟多久才去识别 next, 单位毫秒；不填写时默认 0
+    "preDelay": 1000, // Pre-delay of action in ms after recognition, optional; 0 by default
+    "rearDelay": 1000, // Post-delay of action in ms after recognition, optional; 0 by default
 
-    "roi": [0, 0, 1280, 720], // 可选项，表示识别的范围，格式为 [ x, y, width, height ]
-    // 以 1280 * 720 为基准自动缩放；不填写时默认 [ 0, 0, 1280, 720 ]
-    // 尽量填写，减小识别范围可以减少性能消耗，加快识别速度
+    "roi": [0, 0, 1280, 720], // Recognition region with the format of [ x, y, width, height ], optional
+    // Auto-scaling based on 1280 * 720 resolution；[ 0, 0, 1280, 720 ] by default
+    // Reducing the region has the effect of reducing performance consumption and speeding up the recognition.
 
-    "cache": true, // 可选项，表示该任务是否使用缓存，默认为 true;
-    // 第一次识别到后，以后永远只在第一次识别到的位置进行识别，开启可大幅节省性能
-    // 但仅适用于待识别目标位置完全不会变的任务，若待识别目标位置会变请设为 false
+    "cache": true, // Whether the task uses cache, optional; `true` by default
+    // After a successful recognition, subsequent recognition will be done only in the region cached, which has a significant performance enhancement.
+    // Only for targets that do not change position. Please set it to `false` for targets with changing position.
 
-    "rectMove": [0, 0, 0, 0], // 可选项，识别后的目标移动，不建议使用该选项。以 1280 * 720 为基准自动缩放
-    // 例如识别到了 A 图标，但实际要点击的是 A 图标旁边的某个位置，则进行移动后再点击。
-    // 可以的话尽量直接识别要点击的位置，不建议使用该选项
+    "rectMove": [0, 0, 0, 0], // Target movements after recognition, optional, not recommended. Auto-scaling based on 1280 * 720 resolution.
+    // E.g. Icon A is recognized but the target is some position beside A. You can set it to click the place beside it. It is suggested that it should recognize the target to click instead of using this field.
 
     "reduceOtherTimes": ["OtherTaskName1", "OtherTaskName2"],
-    // 可选项，执行后减少其他任务的执行计数。
-    // 例如执行了吃理智药，则说明上一次点击蓝色开始行动按钮没生效，所以蓝色开始行动要-1
+    // Reducing execution counter of other tasks after execution, optional
+    // E.g. Using sanity potion means clicking the blue start button did not take effect so the counter of the starting task should be reduced by 1.
 
     "specificRect": [100, 100, 50, 50],
-    // 仅当 action 为 ClickRect 时有效且必选，表示指定的点击位置（范围内随机一点）。
-    // 以 1280 * 720 为基准自动缩放
+    // Available only when `action` is `ClickRect`, indicating the position to click (random position within the region), required. Auto-scaling based on 1280 * 720 resolution.
 
-    /* 以下字段仅当 algorithm 为 MatchTemplate 时有效 */
+    /* Available only when `algorithm` is `MatchTemplate` */
 
-    "templThreshold": 0.8, // 可选项，图片模板匹配得分的阈值，超过阈值才认为识别到了。
-    // 默认 0.8, 可根据日志查看实际得分是多少
+    "templThreshold": 0.8, // Threshold of image recognition, optional. Image is matched only when the similarity is greater than the threshold.
+    // 0.8 by default. You can check it in the logs.
 
-    "maskRange": [1, 255], // 可选项，灰度掩码范围。例如将图片不需要识别的部分涂成黑色（灰度值为 0）
-    // 然后设置"maskRange"的范围为 [ 1, 255 ], 匹配的时候即刻忽略涂黑的部分
+    "maskRange": [1, 255], // Grayscale mask range, optional. E.g. fill in the region that does not require recognition with black colour, and set it to [ 1, 255 ] so that the black region is ignored.
 
-    /* 以下字段仅当 algorithm 为 OcrDetect 时有效 */
+    /* Available only when `algorithm` is `OcrDetect` */
 
-    "fullMatch": false, // 可选项，文字识别是否需要全字匹配（不能多字），默认为 false
-    // false 时只要是子串即可：例如 text: [ "开始" ]，实际识别到了 "开始行动"，也算识别成功；
-    // true 时则必须识别到了 "开始"，多一个字都不行
+    "fullMatch": false, // Whether the text recognition is full match, optional. `false` by default.
+    // `false` means substring matches as well. E.g.: `text: [ "开始" ]` matches "开始行动";
+    // `true` means, e.g. it must match "开始" without other characters.
 
     "ocrReplace": [
-      // 可选项，针对常见识别错的文字进行替换（支持正则）
+      // Text replacement for common wrong recognition of OCR (supporting RegExp)
       ["千员", "干员"],
       [".+击干员", "狙击干员"]
     ]
 
-    /* 以下字段仅当 algorithm 为 Hash 时有效 */
-    // 算法不成熟，仅部分特例情况中用到了，暂不推荐使用
+    /* Available only when `algorithm` is `Hash` */
+    // Development in progress, only used in some special cases, not recommended
     // Todo
   }
 }
 ```
 
-## 一些小技巧
+## Tips
 
-- `next` 中再填写自身的任务名，可形成循环。例如
+- Put the name of the task itself in `next` for looping, for example:
 
-```json
+```jsonc
 {
   "Waiting": {
     "algorithm": "OcrDetect",
     "text": ["正在加载"],
     "next": [
-      "Succeed", // 首先识别 "加载完成"，
-      "Waiting" // 如果没识别到，再识别 "正在加载"
+      "Succeed", // Matches "加载完成" first
+      "Waiting" // Otherwise matches "正在加载"
     ]
   },
   "Succeed": {
@@ -137,11 +129,11 @@ Maa 任务流程协议标准
 }
 ```
 
-- `algorithm` 的 `JustReturn` 不建议形成循环，如果出现 adb 断开等情况，会出现一直当做识别成功
+- The `JustReturn` field of `algorithm` is not recommended to set as a loop. Otherwise recognition will be always successful in some cases like adb disconnection.
 
-- 某些任务每次要执行 N 次，可将该任务复制 N 遍，分别取不同的名字，例如
+- Tasks that are required to be executed N times can be copied N times with different names. For example:
 
-```json
+```jsonc
 {
   "DoIt": {
     "next": ["DoItAgain"]
@@ -152,14 +144,14 @@ Maa 任务流程协议标准
 }
 ```
 
-## Schema 检验
+## Schema Check
 
-本项目为 `tasks.json` 配置了 json schema 检验，schema 文件为 [这个](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/docs/maa_tasks_schema.json)。
+This project provides JSON schema check for `tasks.json`. The schema file can be found at `docs/maa_tasks_schema.json`.
 
 ### Visual Studio
 
-在 `MeoAssistant.vcxporj` 中已对其进行配置，开箱即用。提示效果较为晦涩，且有部分信息缺失。
+Visual Studio has been configured with `MeoAssistant.vcxporj`. Developers should be able to use it directly after loading the project.
 
 ### Visual Studio Code
 
-在 `.vscode/settings.json` 中已对其进行配置，用 vscode 打开该**项目文件夹**即可使用。提示效果较好。
+Visual Studio Code has been configured with `.vscode/settings.json`. Developeres can open the **project folder** to use it, with better experience than Visual Studio.

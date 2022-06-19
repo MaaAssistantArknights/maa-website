@@ -1,85 +1,87 @@
 ---
 id: details
-title: 功能详解
-description: MAA 包含的各个功能的介绍
-sidebar_position: 1
+title: User Manuel
+description: User Manuel for Maa
+sidebar_position: 2
 ---
 
-# 详细介绍
+# MAA User Manual
 
-## 刷理智
+## Introduction
 
-- 若选项中没有你需要的关卡，请手动进入游戏 **蓝色开始按钮** 界面，并选择 `当前关卡`。
-- 主界面上的 `吃理智`、`吃石头`、`指定次数` 三个选项为短路开关，即三个选项中的任一条件达到，均会视为任务完成，停止刷理智。
-  - 举例 1：设置 `吃理智药` : `999`、`吃石头` : `10`、`指定次数` : `1`。则在刷完 **一次** 后，由于满足了 `指定次数`:`1` 的条件，视为任务完成，停止刷理智。
-  - 举例 2：不勾选 `吃理智药`、不勾选 `吃石头`，设置 `指定次数` : `100`。则在当前可用理智全部刷完后（可能只刷了几次），由于满足了 `不吃理智药`、`不吃石头` 的条件，视为任务完成，停止刷理智。
-- 刷完自动上传 [企鹅物流数据统计](https://penguin-stats.cn/)
-- 可自定义企鹅物流 ID
-- 识别并显示材料掉落
-- 掉线后会重连，继续刷上次的图
-- 凌晨 4 点刷新后也会重连，继续刷上次的图
-- 支持剿灭模式
-- 支持打完升级了的情况
-- 支持代理失败的情况，会自动放弃本次行动
+### Operations
 
-## 基建换班
+- If there is no stage you need, please click **blue start button** manually and select `current stage`.
+- When any of the `Sanity Potion`, `Originite Prime`, `Times` conditions are met, the task is considered completed and stops.
+  - Example 1: check `Sanity Potion`: `999`, `Originite Prime`: `10`, `Times`: `1`. After **ONE** operation is completed, the task stops because `Times`: `1` is met.
+  - Example 2: uncheck `Sanity Potion` and `Originite Prime`, and set `Times`: `100`. After sanity is used up (maybe several times), the condition `Sanity Potion` and `Originite Prime` is met, and the task stops.
+- Uploading operation statistics to [Penguin Stats](https://penguin-stats.cn/).
+- Custom Penguin Stats ID.
+- Recognizing and displaying drops.
+- Auto-reconnection after disconnection.
+- Auto-reconnection after 4 AM.
+- Annihilation support.
+- Supporting operator level-up.
+- Supporting auto-combat failure by abandoning the operation.
 
-### 换班策略
+### Infrastructure
 
-自动计算并选择 **单设施内的最优解**，支持所有通用类技能和特殊技能组合；支持识别经验书、赤金、原石碎片、芯片，分别使用不同的干员组合！
+#### Shifting Strategy
 
-#### 宿舍入驻心情阈值
+Auto-calculate and choose the **optimal solution within a single facility**. Supports all general and special skill combination. Supports recognition of Battle Record, Pure Gold, Originium Shard, Chip, etc. for different operators.
 
-识别心情进度条的百分比；心情小于该阈值的干员，不会再去上班，直接进驻宿舍。
+#### Morale Threshold for Resting
 
-### 特殊说明
+Recognize the percentage of the Morale progress bar. When Morale decreases beyond some threshold, move the operator to the domitory.
 
-- 基建换班目前均为单设施最优解，但非跨设施的全局最优解。例如：`巫恋+龙舌兰`、`红云+稀音` 等这类单设施内的组合，都是可以正常识别并使用的；`迷迭香`、`红松骑士团` 这类多个设施间联动的体系，暂不支持使用。
-- 若 `无人机用途` 选择 `贸易站-龙门币` ，则将额外识别是否有 `巫恋组`，并优先为其使用。
-- 会客室仅缺一个线索时，会选择对应流派的干员；否则会选择通用干员。
-- 会客室仅当自有线索满时，才会送出线索，并且只送三个。有需要的同学可自行修改 `resource/tasks.json` 中 `SelectClue` - `maxTimes` 字段，自定义送出个数。
-- 控制中枢策略太过复杂，目前只考虑 `阿米娅`、`诗怀雅`、`凯尔希`、`彩虹小队` 及其他心情 +0.05 的干员，后续逐步优化。
-- 部分异格干员会在基建内产生冲突，请留意辅助界面上是否有提示 “干员冲突”，若有请手动再查看下基建换班情况（可能会有某个设施没人）
+#### Note
 
-## 公开招募识别
+- The shifting strategy is based on the optimal solution within a single facility instead of multiple facilities. Combination such as: `Shamare+Tequila`, `Vermeil+Scene` within a single facility can be recognized correctly; while combination like `Rosmontis`, `Pinus Sylvestris` among facilities is not supported yet.
+- If `Usage of Drone` is selected with the option `Trading Post-LMD`, it will recognize `Shamare` and reserve it for her.
+- Operators of corresponding fraction will be selected when only one Clue is needed Reception Room; otherwise general operators will be chosen.
+- Reception Room will send out Clues only when your Clues are full. Three Clues will be send out at most. You can edit `SelectClue` - `maxTimes` field in `resource/tasks.json` to edit number of Clues sent if you want.
+- Due to the complexity of Control Center, only `Amiya`, `Swire`, `Kal'tsit`, `Team Rainbow` and other Morale+0.05 operators will be considered. To be improved in future.
+- Some alternate operators may have conflicts in Infrastructure. Please notice if there is "Operator conflict" warnings on the UI, and double check the Infrastructure to shift manually (e.g. some facilities may not have any operator).
 
-- 自动公招和公招识别是两个独立的功能！
-- 自动公招支持使用 `加急许可`，全自动连续公招！请进入设置中选择~
-- 出 5、6 星都会有弹窗提示
+### Recruitment Recognition
 
-### 自动肉鸽功能
+- Auto-recruitment and recruitment recognition are two different features!
+- Auto-recruitment supports using `Expedited Plan` to make it fully automated! Please set it in the settings.
+- Pop-up window when 5★, 6★ operators are recruited.
 
-- 设置中的三个选项
+### Integrated Strategy (I.S.) Support
 
-  - 尽可能往后打：用于刷蜡烛
-  - 刷源石锭投资，第一层商店后直接退出：刷源石锭最高效的模式，建议手动选择 `古堡观光` （简单）模式
-  - 刷源石锭投资，投资后退出：兼顾刷蜡烛和刷源石锭投资的模式
+- Three options in the settings
 
-- 肉鸽已支持自动识别干员及练度，并自动选择较优干员及技能
-- 支持掉线重连、支持凌晨 4 点更新后继续回去刷
-- 如果软件出现 bug 卡住了，会自动放弃当次探索并重试。但如果经常在某个地方卡住然后放弃、严重影响效率的，欢迎提个 issue 反馈一下~
+  - Plays as much as you can: for getting candles.
+  - Exits after first level: the most efficient mode for getting Originium Ingots. Easy mode is recommended.
+  - Plays until trading: for getting both items.
 
-## 自动抄作业
+- I.S. now supports recognition of operators and levels, and can choose an optimal solution of operators and skills.
+- Supports auto-reconnecting after disconnection, and replaying after 4 AM.
+- The program will abandon the operation and retry if it is stuck by some bug. If it is stuck frequently at some place and has severe impact on efficiency, please submit an issue to us.
 
-欢迎加作业分享 Q 群: 912322156
+### Share Your Tasks
 
-### 抄作业
+Welcome to QQ Group: 912322156
 
-- 本功能需要在有 `开始行动` 的关卡入口界面开始运行
-- 若需要选择助战等，关闭 `自动编队` 功能，并手动编队后再开始即可
+#### Load Tasks
 
-### 写作业
+- Please run it on the screen with `Start Operation` button.
+- If you need to make your own build manually, turn off `auto build` to do so.
 
-- exe 同目录下有简易的制作器，可以结合 [战斗流程协议文档](/developer/copilot-schema.mdx) 使用
-- 地图坐标获取：填写 `stage_name` 后直接开一局，会在目录下生成 `map.png`, 可以用于参考。后面会想办法直接在制作器上显示坐标（画饼）
-- 支持演习模式，不用一直浪费理智测试的
-- 若某个干员名字一直识别不对，可以打开日志 `asst.log` 看一下到底被识别成了什么，并修改 `resource/tasks.json` - `CharsNameOcrReplace` 进行正则替换
-- 推荐在作业描述里填上你自己的名字（作者名）、参考的攻略视频 url, 其他想说的等等（
+#### Create Tasks
 
-## 其他乱七八糟的说明
+- A tool for creating tasks is provided in the directory of EXE file. See also: [Task schema documenatation](../developer/task-schema.mdx) for help.
+- How to get map coordinates: start an operation after filling in `stage_name`. A file named `map.png` will be generated for your reference. Features like displaying map on the creator tool will be supported in future.
+- Drill plan is recommended for testing.
+- If the name of operator is not recognized correctly, check the log `asst.log` to see what is the recognition result, and edit `resource/tasks.json` - `CharsNameOcrReplace` to replace it.
+- It is recommended to write your own name, video walkthrough URL, or other things that you think helpful in the description.
 
-- 主界面上要执行的任务，是可以拖动改变顺序的。同样设置中基建换班的顺序，也是可以拖动改变的。
-- 所有点击操作，都是点击按钮内随机位置，并模拟泊松分布（按钮偏中间位置点的概率大，越往旁边点到的概率越小）。
-- 底层算法纯 C++ 开发，并设计了多重的缓存技术，最大限度降低 CPU 和内存占用。
-- 软件支持自动更新 ✿✿ ヽ(°▽°)ノ ✿ 推荐非杠精的同学使用测试版，一般来说更新快且 bug 少（什么 MIUI (╯‵□′)╯︵┻━┻
-- 如果新版本自动下载失败，可手动下载后，直接把压缩包放到同目录下，会自动更新的。
+### Miscellaneous
+
+- Tasks order can be changed on the UI. So can the shifting order in the infrastructure.
+- All clicking event is randomized within a region, following Poisson distribution (higher probability at the center, lower probability around).
+- Developed in C++, the core algorithm supports multi-level cache, in order to reduce CPU and memory usage as much as possible.
+- Our software supports auto-update ✿✿ ヽ(°▽°)ノ ✿ Beta-testers can try beta versions, which updates faster and less buggy (maybe).
+- If auto-update fails, you can download manually and put the ZIP file under the same directory. The update will start automatically.

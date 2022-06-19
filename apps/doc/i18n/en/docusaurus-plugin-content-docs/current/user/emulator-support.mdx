@@ -1,95 +1,85 @@
 ---
 id: emulator-support
-title: 模拟器支持
-description: MAA 安卓模拟器支持
-sidebar_position: 0
+title: Emulator Support
+description: Emulator Support Status for Maa
+sidebar_position: 99
 ---
 
-# 模拟器支持
+# Emulator Supports
 
-## ✅ 蓝叠模拟器
+## ✅ Bluestack
 
-完美支持。需要在模拟器 `设置` - `引擎设置` 中打开 `允许ADB连接`
+Fully compatible. Need to turn on `Settings` - `Engine Settings` - `Allow ADB connection`.
 
-## ✅ 蓝叠模拟器国际版（推荐使用）
+## ✅ Bluestack International Version (Recommended)
 
-完美支持。需要在模拟器 `设定` - `进阶` 中打开 `Android调试桥`
+Fully compatible. Need to turn on `Settings` - `Advanced` - `Android Debug Bridge`.
 
-## ✅ 蓝叠模拟器国际版 Hyper-V 版本
+## ✅ Bluestack Hyper-V Version
 
-支持
+Compatible.
 
-- 在模拟器 `设定` - `进阶` 中打开 `Android调试桥`
-- 由于蓝叠 Hyper-V 的端口号在不断变动，所以留了个专用的小后门：
+- Turn on `Settings` - `Advanced` - `Android Debug Bridge`.
+- Bluestack Hyper-V port changes frequently. Here is a simple hack:
+  1. Find `bluestacks.conf` in the installation location of the emulator.
+  2. Launch MAA, which generates `gui.json`. Open it.
+  3. Add a new field `Bluestacks.Config.Path`, with the value of the full path of `bluestacks.conf` (backslash should be escaped like `\\`).
+  4. LinkStart!
 
-  1. 在蓝叠模拟器的数据目录下找到 `bluestacks.conf` 这个文件（默认路径为`C:\ProgramData\BlueStacks_nxt\bluestacks.conf`）
-  2. 如果是第一次使用，请开启一次 MAA，会在同目录下生成 `gui.json`
-  3. **先关闭** MAA，**然后**打开 `gui.json`，新增一个字段 `Bluestacks.Config.Path`，填入 `bluestacks.conf` 的完整路径（注意斜杠要用转义 `\\`）
+## ✅ Nox
 
-  示例：（以 `C:\ProgramData\BlueStacks_nxt\bluestacks.conf` 为例）
+Fully compatible.
 
-  ```json
-  "Bluestacks.Config.Path": "C:\\ProgramData\\BlueStacks_nxt\\bluestacks.conf",
-  ```
+## ✅ Nox Android 9
 
-  4. 开启 MAA, LinkStart!
+Fully compatible.
 
-## ✅ 夜神模拟器
+## ⚠️ MuMu
 
-完美支持
+Compatible but:
 
-## ✅ 夜神模拟器 安卓 9
+- Requires MAA to "Run as Administrator" to get ADB path and address (since MuMu runs as admin).
+- You can also fill in the ADB path and address if you do not wish to run as admin.
+- It has a chance that MAA may stuck at the main screen and prompt mission failed, which is probably related to the rendering method of MuMu. Recommend to change other emulator.
 
-完美支持
+## 🚫 MuMu Mobile Game Assistant
 
-## ⚠️ MuMu 模拟器
+Incompatible. ADB port is not open.
 
-支持。但
+## 🚫 MuMu Android 9
 
-- 需要使用管理员权限打开 MAA 才能自动获取 adb 路径和地址（因为 MuMu 本身是管理员启动的）
-- 如果不希望管理员启动，可以在 MAA 设置中自行填写 adb 路径和地址
-- 可能会卡在主界面无法识别，过一会提示任务出错：和 MuMu 的渲染方式有关，暂时不知道根本原因，推荐换模拟器（
+Incompatible. ADB screenshot is black.
 
-## 🚫 MuMu 手游助手（星云引擎）
+## ⚠️ Leidian
 
-不支持。没开放 adb 端口
+Compatible.
 
-## 🚫 MuMu 模拟器 安卓 9
+But the connection address will change between `127.0.0.1:5555` and `emulator-5554`, varies from device to device, or may change after restarting. Try another when one address is not available.
 
-不支持。adb 截图出来是黑的，不知道怎么整
+## ⚠️ Xiaoyao
 
-## ⚠️ 雷电模拟器
+Compatible, but some recognition error may occur.
 
-勉强支持。但雷电可能获取不到分辨率，若一直提示分辨率过低，推荐换别的模拟器
+## 🚫 Tencent Mobile Game Assistant
 
-## ⚠️ 逍遥模拟器
+Incompatible. ADB port is not open.
 
-支持。但可能有莫名其妙的识别错误问题
+## ⚠️ Win11 WSA
 
-## 🚫 腾讯手游助手
+Partially compatible.
 
-不支持。没开放 adb 端口
-
-## ⚠️ 适用于 Windows 的安卓子系统（WSA）
-
-勉强支持。
-
-- 2204 或更高版本（版本号在子系统设置的`关于`页面中）：
-  - 需要使用 [自定义连接](#自定义连接) 的方式来连接，连接配置选择`通用配置`。
-  - 需将明日方舟游戏全屏运行（在明日方舟游戏界面上按`F11`），且辅助运行过程中请尽量保证明日方舟在前台且无其他安卓应用同时在前台运行，否则可能导致游戏暂停运行或辅助识别错误。
-- 2203 或更老版本（版本号在子系统设置页面的上方）：
-  - 连接配置选择`WSA旧版本`。
-  - 由于本软件仅对 720p 以上 `16:9` 分辨率支持较好，旧版本 WSA 无法修改分辨率，所以请手动拖动窗口大小，尽量贴近 16:9 比例（如果你的显示器是 16:9 的，可以直接全屏）。
-- WSA 的截图经常莫名其妙截出来一个白屏，导致识别异常，还是不推荐使用
+- Need to connect with [Custom Connection](#custom-connection). Try `Legacy WSA` or `General Configuration` to connect.
+- Since WSA does not support changing resolution, please resize the window manually because this program supports 720p or higher `16:9` resolution better. (Or you can simply maximize the window if your monitor is 16:9.)
+- Sometimes the screenshot of WSA may be blank, causing recognition failure. So it is not recommended to use WSA.
 
 ## ✅ AVD
 
-支持。
+Compatible.
 
-## ⚙️ 自定义连接
+## ⚙️ Custom Connection
 
-1. 下载 [adb](https://dl.google.com/android/repository/platform-tools-latest-windows.zip) 并解压
-2. 进入软件 `设置` - `连接设置`，填写 adb 路径及地址（需要填写 IP + 端口，例如 `127.0.0.1:5555` ）
+1. Download [adb](https://dl.google.com/android/repository/platform-tools-latest-windows.zip) and unzip.
+2. Go to `Settings` - `Connection Settings`, and fill in ADB path and address (IP+port is required, e.g. `127.0.0.1:5555`)
 
-**注意 :** 若是使用手机，在非 `16:9` 分辨率下，部分功能不稳定（但也凑合能用），尤其是基建，几乎是不可用状态，正在进一步适配中。推荐使用 `16:9` 分辨率，经过的测试验证最多，也最稳定。  
-另外手机其实是可以通过 `adb shell wm size` 的方式来硬改分辨率的，使用完再改回来。等有空出一篇详细一点的文档，有兴趣的朋友们可先自行尝试一下~
+**Note:** Some features on mobile phone with non-`16:9` resolution is not stable, especially the Infrastructure. We are working in progress to make it compatible. `16:9` is the most recommended resolution since it is tested stable in most of the time.
+You can set resolution with `adb shell wm size` on your phone and change it back later.
