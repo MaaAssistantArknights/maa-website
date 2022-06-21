@@ -24,7 +24,7 @@ const predicates: PlatformPredicate[] = [
     title: 'Windows',
     assetMatcher: (release) => {
       return release.assets.find((el) =>
-        /^MeoAssistantArknights_.*\.zip/.test(el.name),
+        /^MeoAssistantArknights_v.*\.zip/.test(el.name),
       )
     },
   },
