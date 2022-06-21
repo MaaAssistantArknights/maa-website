@@ -6,7 +6,7 @@ import mdiWindows from '@iconify/icons-mdi/windows'
 import type { IconifyIcon } from '@iconify/react'
 import { Icon } from '@iconify/react'
 
-import { FC, ReactNode, useMemo } from 'react'
+import { Component, FC, ReactNode, Suspense, useMemo } from 'react'
 
 import { Release, ReleaseAsset, useRelease } from '../../../hooks/use-release'
 import { formatDate } from '../../../utils/format'
@@ -91,36 +91,65 @@ export const UndesiredReleaseState: FC<{
   )
 }
 
+class HomeActionsReleaseErrorBoundary extends Component<{
+  children?: React.ReactNode
+}> {
+  state = {
+    error: null as Error | null,
+  }
+
+  componentDidCatch(error: Error) {
+    this.setState({ error })
+  }
+
+  render() {
+    const { error } = this.state
+    if (error) {
+      return (
+        <UndesiredReleaseState
+          icon={mdiAlertCircle}
+          title={
+            <div className="flex flex-col ml-4">
+              <span className="mb-2">载入版本信息失败。您可尝试</span>
+              <GlowButton
+                translucent
+                bordered
+                href="https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases"
+              >
+                <span className="text-sm">前往 GitHub Releases 下载</span>
+              </GlowButton>
+            </div>
+          }
+        />
+      )
+    }
+
+    return this.props.children
+  }
+}
+
+export const HomeActionsRelease: FC = () => {
+  const { data } = useRelease()
+  return <>{data && <DownloadButtons release={data} />}</>
+}
+
 export const HomeActions: FC = () => {
-  const { data, error } = useRelease()
   return (
     <div className="absolute bottom-0 left-0 right-0 mb-24 md:mb-[7vh] flex flex-col mx-8">
       <div className="flex-col items-center justify-center hidden gap-2 font-light md:flex md:flex-row md:gap-6">
-        {error ? (
-          <UndesiredReleaseState
-            icon={mdiAlertCircle}
-            title={
-              <div className="flex flex-col ml-4">
-                <span className="mb-2">载入版本信息失败。您可尝试</span>
-                <GlowButton
-                  translucent
-                  bordered
-                  href="https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases"
-                >
-                  <span className="text-sm">前往 GitHub Releases 下载</span>
-                </GlowButton>
-              </div>
+        <HomeActionsReleaseErrorBoundary>
+          <Suspense
+            fallback={
+              <UndesiredReleaseState
+                iconClassName="animate-spin"
+                icon={mdiLoading}
+                title="正在载入版本信息..."
+              />
             }
-          />
-        ) : data ? (
-          <DownloadButtons release={data} />
-        ) : (
-          <UndesiredReleaseState
-            iconClassName="animate-spin"
-            icon={mdiLoading}
-            title="正在载入版本信息..."
-          />
-        )}
+          >
+            <HomeActionsRelease />
+          </Suspense>
+        </HomeActionsReleaseErrorBoundary>
 
         <GlowButton bordered href="/docs">
           <div className="flex items-center -ml-1">
