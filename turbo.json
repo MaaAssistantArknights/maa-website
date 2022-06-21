@@ -13,29 +13,27 @@
     "dev": {
       "cache": false
     },
+    "dev:home": {
+      "cache": false
+    },
+    "dev:doc:cn": {
+      "cache": false
+    },
+    "dev:doc:en": {
+      "cache": false
+    },
     "lint": {
-      "dependsOn": [
-        "^lint"
-      ],
       "cache": false
     },
     "lint:js": {
-      "dependsOn": [
-        "^lint:js"
-      ],
       "cache": false
     },
     "lint:prettier": {
-      "dependsOn": [
-        "^lint:prettier"
-      ],
       "cache": false
     },
     "lintfix": {
-      "dependsOn": [
-        "^lintfix"
-      ],
       "cache": false
-    }
+    },
+    "doc:generate:en": {}
   }
 }

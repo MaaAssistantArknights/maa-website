@@ -1,0 +1,14 @@
+{
+  "version.label": {
+    "message": "Next",
+    "description": "The label for version current"
+  },
+  "sidebar.maaDocSidebars.category.用户指南": {
+    "message": "用户指南",
+    "description": "The label for category 用户指南 in sidebar maaDocSidebars"
+  },
+  "sidebar.maaDocSidebars.category.开发者文档": {
+    "message": "开发者文档",
+    "description": "The label for category 开发者文档 in sidebar maaDocSidebars"
+  }
+}

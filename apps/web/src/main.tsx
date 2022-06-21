@@ -13,6 +13,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       value={{
         fetcher: (url: string) => fetch(url).then((r) => r.json()),
         focusThrottleInterval: 1000 * 60 * 10,
+        suspense: true,
       }}
     >
       <App />
