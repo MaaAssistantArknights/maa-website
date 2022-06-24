@@ -11,7 +11,7 @@ Usage of `resource/tasks.json` and description of each field
 
 ## Overview
 
-```jsonc
+```json
 {
   "TaskName": {
     // Task name
@@ -111,7 +111,7 @@ Usage of `resource/tasks.json` and description of each field
 
 - Put the name of the task itself in `next` for looping, for example:
 
-```jsonc
+```json
 {
   "Waiting": {
     "algorithm": "OcrDetect",
@@ -133,7 +133,7 @@ Usage of `resource/tasks.json` and description of each field
 
 - Tasks that are required to be executed N times can be copied N times with different names. For example:
 
-```jsonc
+```json
 {
   "DoIt": {
     "next": ["DoItAgain"]

@@ -52,7 +52,7 @@ Todo
 
 ### InitFailed
 
-```jsonc
+```json
 {
     "what": string,     // Error type
     "why": string,      // Error reason
@@ -62,7 +62,7 @@ Todo
 
 ## ConnectionInfo
 
-```jsonc
+```json
 {
     "what": string,     // Info type
     "why": string,      // Info reason
@@ -89,7 +89,7 @@ Todo
 
 ### AllTasksCompleted
 
-```jsonc
+```json
 {
     "taskchain": string,            // Last task chain
     "uuid": string                  // UUID
@@ -117,7 +117,7 @@ Todo
 
 ### Information Related to TaskChain
 
-```jsonc
+```json
 {
     "taskchain": string,            // Current task chain
     "taskid": int,                  // Current task ID
@@ -131,7 +131,7 @@ Todo
 
 ### Information Related to SubTask
 
-```jsonc
+```json
 {
     "subtask": string,             // Subtask name
     "class": string,               // Subtask class
@@ -146,7 +146,7 @@ Todo
 
 - `ProcessTask`
 
-  ```jsonc
+  ```json
   // Example of corresponding details field
   {
     "task": "StartButton2", // Task name
@@ -205,7 +205,7 @@ Todo
 
 ### SubTaskExtraInfo
 
-```jsonc
+```json
 {
     "taskchain": string,           // Current task chain
     "class": string,               // Subtask class
@@ -220,7 +220,7 @@ Todo
 - `StageDrops`  
    Stage drop information
 
-  ```jsonc
+  ```json
   // Example of corresponding details field
   {
     "drops": [
@@ -271,7 +271,7 @@ Todo
 - `RecruitTagsDetected`  
    Recruitment tags detected
 
-  ```jsonc
+  ```json
   // Example of corresponding details field
   {
     "tags": [
@@ -287,7 +287,7 @@ Todo
 - `RecruitSpecialTag`  
    Special recruitment tags detected
 
-  ```jsonc
+  ```json
   // Example of corresponding details field
   {
     "tag": "高级资深干员" // Senior operator
@@ -297,7 +297,7 @@ Todo
 - `RecruitResult`  
    Recruitment result
 
-  ```jsonc
+  ```json
   // Example of corresponding details field
   {
     "level": 4, // ★ in total
@@ -367,7 +367,7 @@ Todo
 - `RecruitTagsSelected`  
    Recruitment tags selected
 
-  ```jsonc
+  ```json
   // Example of corresponding details field
   {
     "tags": [
@@ -380,7 +380,7 @@ Todo
 - `EnterFacility`  
    Entering the facility
 
-  ```jsonc
+  ```json
   // Example of corresponding details field
   {
     "facility": "Mfg", // Facility name
@@ -391,7 +391,7 @@ Todo
 - `NotEnoughStaff`  
    Available operators not enough
 
-  ```jsonc
+  ```json
   // Example of corresponding details field
   {
     "facility": "Mfg", // Facility name
@@ -402,7 +402,7 @@ Todo
 - `ProductOfFacility`  
    Production of the facility
 
-  ```jsonc
+  ```json
   // Example of corresponding details field
   {
     "product": "Money", // Product
@@ -414,7 +414,7 @@ Todo
 - `StageInfo`  
    Auto-battle stage info
 
-  ```jsonc
+  ```json
   // Example of corresponding details field
   {
       "name": string  // Stage name
@@ -427,7 +427,7 @@ Todo
 - `PenguinId`  
    Penguin ID
 
-  ```jsonc
+  ```json
   // Example of corresponding details field
   {
       "id": string
