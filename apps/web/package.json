@@ -21,6 +21,8 @@
     "@react-three/drei": "^9.12.0",
     "@react-three/fiber": "^8.0.22",
     "@react-three/postprocessing": "^2.3.2",
+    "@sentry/react": "^7.3.0",
+    "@sentry/tracing": "^7.3.0",
     "clsx": "^1.1.1",
     "react": "^18.0.1",
     "react-dom": "^18.0.1",
