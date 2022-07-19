@@ -39,7 +39,7 @@ export const HomeActions: FC = () => {
       </div>
 
       <div className="flex flex-row items-center justify-center md:hidden">
-        <GlowButton bordered>
+        <GlowButton bordered href="https://github.com/MaaAssistantArknights">
           <div className="flex items-center -ml-1 text-sm">
             <Icon icon={mdiGitHub} fontSize="20px" />
             <span className="ml-2">GitHub</span>
