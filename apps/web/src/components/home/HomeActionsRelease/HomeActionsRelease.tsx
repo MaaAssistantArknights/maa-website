@@ -20,7 +20,7 @@ const predicates: PlatformPredicate[] = [
     icon: mdiWindows,
     title: 'Windows',
     assetMatcher: (release) => {
-      return release.assets.find((el) => /^MaaBundle.*\.zip/.test(el.name))
+      return release.assets.find((el) => /^MaaBundle-v.*\.zip/.test(el.name))
     },
   },
 ]
