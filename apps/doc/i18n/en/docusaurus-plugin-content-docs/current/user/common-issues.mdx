@@ -16,15 +16,15 @@ sidebar_position: 2
 
 ### Possible cause 1: missing runtime libraries
 
- Please try installing [Visual C++ Redistributable](https://docs.microsoft.com/en/cpp/windows/latest-supported-vc-redist?view=msvc-160#visual-studio-2015-2017-2019-and-2022) and [.NET Framework 4.8](https://dotnet.microsoft.com/download/dotnet-framework/net48), and restart your computer and the application.
+Please try installing [Visual C++ Redistributable](https://docs.microsoft.com/en/cpp/windows/latest-supported-vc-redist?view=msvc-160#visual-studio-2015-2017-2019-and-2022) and [.NET Framework 4.8](https://dotnet.microsoft.com/download/dotnet-framework/net48), and restart your computer and the application.
 
 ### Possible cause 2: incompatible CPU instruction set
 
- This project requires `PaddleOCR` for image recognition, which depends on the `AVX` instruction set supported only by some of the newly-released CPUs, while old versions may not support it.
- 
- You can also try downloading `PaddleOCR` of [NoAVX](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/3rdparty/ppocr_noavx.zip) version, unzip and replace the files with the same names. Since it may cause performance drop, please do not use it unless it is necessary.
+This project requires `PaddleOCR` for image recognition, which depends on the `AVX` instruction set supported only by some of the newly-released CPUs, while old versions may not support it.
 
- _([CPU-Z](https://www.cpuid.com/softwares/cpu-z.html) is a tool that provides check of existence of `AVX` instruction set.)_
+You can also try downloading `PaddleOCR` of [NoAVX](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/3rdparty/ppocr_noavx.zip) version, unzip and replace the files with the same names. Since it may cause performance drop, please do not use it unless it is necessary.
+
+_([CPU-Z](https://www.cpuid.com/softwares/cpu-z.html) is a tool that provides check of existence of `AVX` instruction set.)_
 
 ### Possible cause 3: other runtime library problems
 
@@ -39,8 +39,9 @@ Tips: please refer to the [List of the Supported Emulators](EMULATOR_SUPPORTS.md
 #### Approach 1: make sure ADB and address are correct
 
 - Make sure that MAA `Settings` - `Connection Settings` - `adb path` is automatically filled in. If so, skip to the next step. Otherwise:
-    * Option 1: find the installation path of your emulator, where there may be a file named `adb.exe` (or something similar, e.g. `nox_adb.exe`, `HD-adb.exe`, `adb_server.exe`, etc., any EXE files with `adb`). Simply choose the file in the connection settings of MAA!
-    * Option 2: download [adb](https://dl.google.com/android/repository/platform-tools-latest-windows.zip) and unzip it. Select the `adb.exe` file.
+
+  - Option 1: find the installation path of your emulator, where there may be a file named `adb.exe` (or something similar, e.g. `nox_adb.exe`, `HD-adb.exe`, `adb_server.exe`, etc., any EXE files with `adb`). Simply choose the file in the connection settings of MAA!
+  - Option 2: download [adb](https://dl.google.com/android/repository/platform-tools-latest-windows.zip) and unzip it. Select the `adb.exe` file.
 
 - Confirm that your connection address is filled in correctly. The ADB address is usually like `127.0.0.1:5555`, depending on the emulators (except Leidian emulator).
 
