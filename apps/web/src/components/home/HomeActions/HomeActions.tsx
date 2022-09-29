@@ -51,7 +51,14 @@ export const HomeActions: FC = () => {
         MAA 以 AGPL-3.0 协议开源；使用即表示您同意并知悉「用户协议」的相关内容。
       </div>
 
-      <div className="flex-row items-center justify-center hidden mt-4 md:flex">
+      <div className="flex-row gap-4 items-center justify-center hidden mt-4 md:flex">
+        <GlowButton translucent href="https://github.com/MaaAssistantArknights">
+          <div className="flex items-center -ml-1 text-sm">
+            <Icon icon={mdiGitHub} fontSize="20px" />
+            <span className="ml-2">GitHub</span>
+          </div>
+        </GlowButton>
+
         <GlowButton translucent href="https://github.com/MaaAssistantArknights">
           <div className="flex items-center -ml-1 text-sm">
             <Icon icon={mdiGitHub} fontSize="20px" />
