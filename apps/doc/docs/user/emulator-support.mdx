@@ -7,41 +7,49 @@ sidebar_position: 0
 
 # 模拟器支持
 
-## ✅ 蓝叠模拟器
+## ✅ [蓝叠模拟器](https://www.bluestacks.cn/)
 
 完美支持。需要在模拟器 `设置` - `引擎设置` 中打开 `允许ADB连接`
 
-## ✅ 蓝叠模拟器国际版（推荐使用 👍 ）
+## ✅ [蓝叠模拟器国际版](https://www.bluestacks.com/tw/index.html)（推荐使用 👍）
 
 完美支持。需要在模拟器 `设定` - `进阶` 中打开 `Android调试桥`
 
-## ✅ 蓝叠模拟器国际版 Hyper-V 版本
+## ✅ [蓝叠模拟器国际版 Hyper-V 版本](https://support.bluestacks.com/hc/zh-tw/articles/4415238471053-BlueStacks-5-%E6%94%AF%E6%8F%B4-Hyper-V-%E7%9A%84-Windows-10-%E5%92%8C-11-%E4%B8%8A%E7%9A%84%E9%9B%BB%E8%85%A6%E8%A6%8F%E6%A0%BC%E9%9C%80%E6%B1%82)
 
 支持
 
 - 在模拟器 `设定` - `进阶` 中打开 `Android调试桥`
 - 由于蓝叠 Hyper-V 的端口号在不断变动，所以留了个专用的小后门：
 
-  1. 在蓝叠模拟器的数据目录下找到 `bluestacks.conf` 这个文件（默认路径为 `C:\ProgramData\BlueStacks_nxt\bluestacks.conf`）
-  2. 如果是第一次使用，请开启一次 MAA，会在同目录下生成 `gui.json`
-  3. **先关闭** MAA，**然后** 打开 `gui.json`，新增一个字段 `Bluestacks.Config.Path`，填入 `bluestacks.conf` 的完整路径（注意斜杠要用转义 `\\`）  
-     示例：（以 `C:\ProgramData\BlueStacks_nxt\bluestacks.conf` 为例）
+  1.  在蓝叠模拟器的数据目录下找到 `bluestacks.conf` 这个文件（默认路径为 `C:\ProgramData\BlueStacks_nxt\bluestacks.conf`）
+  2.  如果是第一次使用，请开启一次 MAA，会在同目录下生成 `gui.json`
+  3.  **先关闭** MAA，**然后** 打开 `gui.json`，新增一个字段 `Bluestacks.Config.Path`，填入 `bluestacks.conf` 的完整路径（注意斜杠要用转义 `\\`）  
+      示例：（以 `C:\ProgramData\BlueStacks_nxt\bluestacks.conf` 为例）
 
-  ```json
-  "Bluestacks.Config.Path":"C:\\ProgramData\\BlueStacks_nxt\\bluestacks.conf",
+          ```jsonc
+          "Bluestacks.Config.Path":"C:\\ProgramData\\BlueStacks_nxt\\bluestacks.conf",
+          ```
+
+  4.  开启 MAA，LinkStart！
+
+- 如果你还需要多开（不使用多开请忽略这步），可以再修改 MAA 检测配置文件的关键字。  
+   参照上述步骤，添加 `Bluestacks.Config.Keyword` 字段  
+   示例：
+
+  ```jsonc
+  "Bluestacks.Config.Keyword":"bst.instance.Nougat64.status.adb_port",
   ```
 
-  4. 开启 MAA, LinkStart!
-
-## ✅ 夜神模拟器
+## ✅ [夜神模拟器](https://www.yeshen.com/)
 
 完美支持
 
-## ✅ 夜神模拟器 安卓 9
+## ✅ [夜神模拟器 安卓 9](https://www.yeshen.com/)
 
 完美支持
 
-## ⚠️ MuMu 模拟器
+## ⚠️ [MuMu 模拟器](https://mumu.163.com/)
 
 支持。但
 
@@ -57,11 +65,12 @@ sidebar_position: 0
 
 不支持。adb 截图出来是黑的，无法解决
 
-## ⚠️ 雷电模拟器
+## 🚫 雷电模拟器
 
-勉强支持，但非常不推荐使用。雷电存在小概率画面颠倒及黑屏的问题，会造成各种奇怪的问题。
+勉强支持，但非常不推荐使用。雷电存在小概率画面颠倒及黑屏的问题，会造成各种奇怪的问题。  
+例如准备点击左上角返回键的一瞬间画面颠倒 180°，导致点到了右下角的碎石确认按钮，造成误碎石（这个情况有用户真实遇到过）
 
-## ⚠️ 逍遥模拟器
+## ⚠️ [逍遥模拟器](https://www.xyaz.cn/)
 
 支持。但可能有莫名其妙的识别错误问题
 
@@ -69,7 +78,7 @@ sidebar_position: 0
 
 不支持。没开放 adb 端口
 
-## ⚠️ 适用于 Windows 的安卓子系统（WSA）
+## ⚠️ [Win11 WSA](https://docs.microsoft.com/zh-cn/windows/android/wsa/)
 
 勉强支持。
 
@@ -80,7 +89,7 @@ sidebar_position: 0
 - 辅助运行过程中请尽量保证明日方舟在前台且无其他安卓应用同时在前台运行，否则可能导致游戏暂停运行或辅助识别错误。
 - WSA 的截图经常莫名其妙截出来一个白屏，导致识别异常，还是不推荐使用。
 
-## ✅ AVD
+## ✅ [AVD](https://developer.android.com/studio/run/managing-avds)
 
 支持。
 
