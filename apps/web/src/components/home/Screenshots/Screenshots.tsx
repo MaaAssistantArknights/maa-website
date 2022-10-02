@@ -18,8 +18,15 @@ function absInRange(num: number, center: number, delta: number) {
 
 const sidePanelRotationOffset = 0.15
 
-export function Screenshots() {
-  const lerpTo = useRef<Vector2>(new Vector2(0, 0))
+export function Screenshots({
+  sidebarRef,
+  indicatorRef,
+}: {
+  sidebarRef: React.MutableRefObject<HTMLDivElement | null>
+  indicatorRef: React.MutableRefObject<HTMLDivElement | null>
+}) {
+  const lerpRotationTo = useRef<Vector2>(new Vector2(0, 0))
+  const lerpPositionXTo = useRef<number>(0)
   const textureCenter = useLoader(TextureLoader, screenshotCenter)
   const textureLeft = useLoader(TextureLoader, screenshotLeft)
   const textureRight = useLoader(TextureLoader, screenshotRight)
@@ -56,38 +63,88 @@ export function Screenshots() {
       return
     }
 
-    if (meshCenterRef.current && meshLeftRef.current && meshRightRef.current) {
+    if (
+      meshCenterRef.current &&
+      meshLeftRef.current &&
+      meshRightRef.current &&
+      sidebarRef.current
+    ) {
       const lerpT = 0.25
       meshCenterRef.current.rotation.x = lerp(
         meshCenterRef.current.rotation.x,
-        0 + lerpTo.current.x * 0.1,
+        0 + lerpRotationTo.current.x * 0.1,
         lerpT,
       )
       meshCenterRef.current.rotation.y = lerp(
         meshCenterRef.current.rotation.y,
-        0 + lerpTo.current.y * 0.1,
+        0 + lerpRotationTo.current.y * 0.1,
         lerpT,
       )
+
       meshLeftRef.current.rotation.x = lerp(
         meshLeftRef.current.rotation.x,
-        0 + lerpTo.current.x * 0.1,
+        0 + lerpRotationTo.current.x * 0.1,
         lerpT,
       )
       meshLeftRef.current.rotation.y = lerp(
         meshLeftRef.current.rotation.y,
-        sidePanelRotationOffset + lerpTo.current.y * 0.1,
+        sidePanelRotationOffset + lerpRotationTo.current.y * 0.1,
         lerpT,
       )
+
       meshRightRef.current.rotation.x = lerp(
         meshRightRef.current.rotation.x,
-        0 + lerpTo.current.x * 0.1,
+        0 + lerpRotationTo.current.x * 0.1,
         lerpT,
       )
       meshRightRef.current.rotation.y = lerp(
         meshRightRef.current.rotation.y,
-        -sidePanelRotationOffset + lerpTo.current.y * 0.1,
+        -sidePanelRotationOffset + lerpRotationTo.current.y * 0.1,
         lerpT,
       )
+
+      // position
+      // posOffset and posOffsetConstant "smoothly" transitions using a sigmoid function
+      const baseSigmoid =
+        2 / (1 + Math.exp(-(lerpPositionXTo.current - 0.3) * 10))
+      const posOffset = baseSigmoid
+      const posOffsetConstant = -baseSigmoid + 3
+      meshCenterRef.current.position.x = lerp(
+        meshCenterRef.current.position.x,
+        -lerpPositionXTo.current * posOffset,
+        lerpT,
+      )
+      meshLeftRef.current.position.x = lerp(
+        meshLeftRef.current.position.x,
+        -lerpPositionXTo.current * posOffset - posOffsetConstant,
+        lerpT,
+      )
+      meshRightRef.current.position.x = lerp(
+        meshRightRef.current.position.x,
+        -lerpPositionXTo.current * posOffset + posOffsetConstant,
+        lerpT,
+      )
+
+      // sidebarExpansion
+      const sidebarExpansionRatio =
+        1 / (1 + Math.exp(-(lerpPositionXTo.current - 0.3) * 30))
+      const sidebarExpansionSlowRatio =
+        1 / (1 + Math.exp(-(lerpPositionXTo.current - 0.3) * 10))
+      sidebarRef.current.style.transform = `translateX(${
+        -window.innerWidth * 0.03 * sidebarExpansionRatio
+      }px) rotateY(${(1 - sidebarExpansionSlowRatio) * 30}deg)`
+      sidebarRef.current.style.scale = `${
+        sidebarExpansionSlowRatio * 0.1 + 0.9
+      }`
+      sidebarRef.current.style.opacity = `${sidebarExpansionRatio}`
+
+      // indicator
+      if (indicatorRef.current) {
+        indicatorRef.current.style.opacity = `${1 - sidebarExpansionRatio}`
+        indicatorRef.current.style.transform = `translateX(${
+          window.innerWidth * -0.03 * sidebarExpansionRatio
+        }px)`
+      }
     }
   })
 
@@ -102,7 +159,8 @@ export function Screenshots() {
         const x = (clientX / window.innerWidth) * 2 - 1
         const y = (clientY / window.innerHeight) * 2 - 1
 
-        lerpTo.current.set(y, x) // inverted intentionally
+        lerpRotationTo.current.set(y, x) // inverted intentionally
+        lerpPositionXTo.current = x
       }
     }
 
@@ -113,7 +171,8 @@ export function Screenshots() {
         meshRightRef.current
       ) {
         // lerp back to 0
-        lerpTo.current.set(0, 0)
+        lerpRotationTo.current.set(0, 0)
+        lerpPositionXTo.current = 0
       }
     }
 
@@ -134,7 +193,7 @@ export function Screenshots() {
     <>
       <mesh
         ref={meshRightRef}
-        position={[3, 0, -0.5]}
+        position={[3, 0.25, -0.5]}
         rotation={[0, -sidePanelRotationOffset, 0]}
         castShadow
         receiveShadow
@@ -144,7 +203,7 @@ export function Screenshots() {
       </mesh>
       <mesh
         ref={meshLeftRef}
-        position={[-3, 0, -0.5]}
+        position={[-3, 0.25, -0.5]}
         rotation={[0, sidePanelRotationOffset, 0]}
         castShadow
         receiveShadow
@@ -152,7 +211,12 @@ export function Screenshots() {
         <boxGeometry args={[3 * imageAspects.left, 3, 0]} />
         <meshPhysicalMaterial transparent map={textureLeft} />
       </mesh>
-      <mesh ref={meshCenterRef} position={[0, 0, 0.5]} castShadow receiveShadow>
+      <mesh
+        ref={meshCenterRef}
+        position={[0, 0.25, 0.5]}
+        castShadow
+        receiveShadow
+      >
         <boxGeometry args={[3 * imageAspects.center, 3, 0]} />
         <meshPhysicalMaterial transparent map={textureCenter} />
       </mesh>
