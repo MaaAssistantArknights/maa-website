@@ -193,7 +193,7 @@ export function Screenshots({
     <>
       <mesh
         ref={meshRightRef}
-        position={[3, 0.25, -0.5]}
+        position={[3, 0, -0.5]}
         rotation={[0, -sidePanelRotationOffset, 0]}
         castShadow
         receiveShadow
@@ -203,7 +203,7 @@ export function Screenshots({
       </mesh>
       <mesh
         ref={meshLeftRef}
-        position={[-3, 0.25, -0.5]}
+        position={[-3, 0, -0.5]}
         rotation={[0, sidePanelRotationOffset, 0]}
         castShadow
         receiveShadow
@@ -211,12 +211,7 @@ export function Screenshots({
         <boxGeometry args={[3 * imageAspects.left, 3, 0]} />
         <meshPhysicalMaterial transparent map={textureLeft} />
       </mesh>
-      <mesh
-        ref={meshCenterRef}
-        position={[0, 0.25, 0.5]}
-        castShadow
-        receiveShadow
-      >
+      <mesh ref={meshCenterRef} position={[0, 0, 0.5]} castShadow receiveShadow>
         <boxGeometry args={[3 * imageAspects.center, 3, 0]} />
         <meshPhysicalMaterial transparent map={textureCenter} />
       </mesh>

@@ -31,10 +31,12 @@ export const HomeHero: FC = () => {
 
 const HomeIndicator = forwardRef<HTMLDivElement>((_props, ref) => (
   <div
-    className="fixed right-[4vw] top-[50vh] pointer-events-none select-none hidden md:block"
+    className="fixed right-[2vw] top-[50vh] pointer-events-none select-none hidden md:block"
     ref={ref}
   >
-    <div className="-rotate-90 text-white/10 text-8xl font-light">友情链接</div>
+    <div className="-rotate-90 text-white/10 text-[4rem] font-light">
+      友情链接
+    </div>
   </div>
 ))
 

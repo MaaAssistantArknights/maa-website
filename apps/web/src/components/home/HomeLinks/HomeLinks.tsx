@@ -46,7 +46,7 @@ export const HomeLinks = forwardRef<HTMLDivElement>((_props, ref) => (
   <div
     ref={ref}
     className={clsx(
-      'fixed right-[5vw] top-[20vh] hidden md:flex flex-col p-8 h-[60vh] w-[20vw] min-w-[20rem] text-[#eee] bg-black/80 rounded-xl opacity-0',
+      'fixed right-[5vw] top-[20vh] hidden md:flex flex-col p-8 h-[60vh] w-[20vw] min-w-[25rem] text-[#eee] bg-black/80 rounded-xl opacity-0',
       styles.root,
     )}
   >
