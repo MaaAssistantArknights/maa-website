@@ -59,15 +59,6 @@ export const HomeActions: FC = () => {
           </div>
         </GlowButton>
       </div>
-
-      <div className="flex-row gap-4 items-center justify-center hidden mt-4 md:flex">
-        <GlowButton translucent href="https://github.com/MaaAssistantArknights">
-          <div className="flex items-center -ml-1 text-sm">
-            <Icon icon={mdiGitHub} fontSize="20px" />
-            <span className="ml-2">企鹅物流数据统计</span>
-          </div>
-        </GlowButton>
-      </div>
     </div>
   )
 }
