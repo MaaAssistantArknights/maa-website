@@ -33,4 +33,6 @@ export default defineUserConfig({
     },
   },
   plugins: [SearchPlugin()],
+  temp: '.vuepress/.temp',
+  cache: '.vuepress/.cache'
 });

@@ -8,7 +8,7 @@ const maaProjectLocationMapping = [
     to: `${bundleBasePath}`,
   },
   {
-    from: './apps/doc/build',
+    from: './apps/doc/dist',
     to: `${bundleBasePath}/docs`,
   },
 ];
