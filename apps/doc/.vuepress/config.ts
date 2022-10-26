@@ -3,7 +3,7 @@ import Theme from './theme.config';
 import SearchPlugin from './plugins/search';
 
 export default defineUserConfig({
-  base: '/doc/',
+  base: '/docs/',
   lang: "zh-CN",
   title: "MaaAssistantArknights",
   description: "MAA",
