@@ -16,10 +16,7 @@
     "dev:home": {
       "cache": false
     },
-    "dev:doc:cn": {
-      "cache": false
-    },
-    "dev:doc:en": {
+    "dev:doc": {
       "cache": false
     },
     "lint": {
@@ -33,7 +30,6 @@
     },
     "lintfix": {
       "cache": false
-    },
-    "doc:generate:en": {}
+    }
   }
 }

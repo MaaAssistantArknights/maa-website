@@ -1,49 +1,23 @@
 {
-  "name": "maa-website-doc",
+  "name": "maa-docs",
   "version": "1.0.0",
-  "description": "Maa website - documentation",
-  "repository": "https://github.com/MaaAssistantArknights/maa-website",
-  "license": "AGPL-3.0-or-later",
-  "scripts": {
-    "dev": "docusaurus start --port 3001 --no-open",
-    "dev:doc:cn": "docusaurus start --port 3001 --no-open",
-    "dev:doc:en": "docusaurus start --port 3001 --no-open --locale en",
-    "build": "docusaurus build",
-    "write-translations": "docusaurus write-translations",
-    "write-heading-ids": "docusaurus write-heading-ids",
-    "typecheck": "tsc",
-    "lint:js": "eslint --ext \".js,.jsx,.ts,.tsx\"",
-    "lint:prettier": "prettier --check .",
-    "lint": "yarn lint:js && yarn lint:prettier",
-    "lintfix": "prettier --write --list-different . && yarn lint:js --fix",
-    "generate-i18n:en": "docusaurus write-translations --locale en"
-  },
+  "description": "manual for MaaAssistantArknights",
+  "main": "index.js",
+  "repository": "https://github.com/MaaAssistantArknights/MaaAssistantArknights",
+  "author": "bakashigure <me@shigure.fun>",
+  "license": "AGPL-3.0",
   "dependencies": {
-    "@docusaurus/core": "2.0.0-beta.21",
-    "@docusaurus/preset-classic": "2.0.0-beta.21",
-    "@mdx-js/react": "^1.6.22",
-    "@types/react": "^17.0.2",
-    "clsx": "^1.1.1",
-    "prism-react-renderer": "^1.3.3",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "@vuepress/plugin-docsearch": "next",
+    "@vuepress/plugin-search": "next"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "2.0.0-beta.21",
-    "@tsconfig/docusaurus": "^1.0.5",
-    "eslint-config-maa": "*",
-    "typescript": "^4.6.4"
+    "markdownlint-cli": "^0.32.2",
+    "vuepress": "next"
   },
-  "browserslist": {
-    "production": [
-      ">0.5%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "scripts": {
+    "dev": "vuepress dev .",
+    "dev:doc": "vuepress dev .",
+    "build": "vuepress build .",
+    "lintfix": "markdownlint \"**/*.md\" --fix"
   }
 }

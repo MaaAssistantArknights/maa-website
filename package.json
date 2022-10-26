@@ -9,13 +9,11 @@
     "build": "turbo run lint && turbo run build && node bundler.mjs",
     "dev": "turbo run dev",
     "dev:home": "turbo run dev:home",
-    "dev:doc:cn": "turbo run dev:doc:cn",
-    "dev:doc:en": "turbo run dev:doc:en",
+    "dev:doc": "turbo run dev:doc",
     "lint": "turbo run lint",
     "lint:js": "turbo run lint:js",
     "lint:prettier": "turbo run lint:prettier",
-    "lintfix": "turbo run lintfix",
-    "doc:generate:en": "turbo run doc:generate:en"
+    "lintfix": "turbo run lintfix"
   },
   "private": true,
   "workspaces": [
@@ -25,5 +23,6 @@
   "devDependencies": {
     "prettier": "^2.6.2",
     "turbo": "latest"
-  }
+  },
+  "packageManager": "yarn@3.2.4"
 }
