@@ -1,13 +1,12 @@
+import linksIconArkNights from '@/assets/links/ark-nights.com.png?url'
+import linksIconPenguinStats from '@/assets/links/penguin-stats.png?url'
+import linksIconYituliu from '@/assets/links/yituliu.site.png?url'
 import chevronRight from '@iconify/icons-mdi/chevron-right'
 import mdiGitHub from '@iconify/icons-mdi/github'
 import { Icon } from '@iconify/react'
 
 import clsx from 'clsx'
 import { FC, ReactNode, forwardRef } from 'react'
-
-import linksIconArkNights from '../../../assets/links/ark-nights.com.png?url'
-import linksIconPenguinStats from '../../../assets/links/penguin-stats.png?url'
-import linksIconYituliu from '../../../assets/links/yituliu.site.png?url'
 
 import styles from './HomeLinks.module.css'
 

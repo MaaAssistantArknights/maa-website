@@ -1,7 +1,7 @@
+import { FCC } from '@/types'
+
 import clsx from 'clsx'
 import { memo } from 'react'
-
-import { FCC } from '../../../types'
 
 import styles from './GlowButton.module.css'
 

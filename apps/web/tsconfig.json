@@ -1,4 +1,10 @@
 {
   "extends": "maa-tsconfig/react-library.json",
-  "include": ["src", "src/types.ts", "vite.config.ts"]
+  "include": ["src", "src/types.ts", "vite.config.ts"],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  }
 }

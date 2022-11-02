@@ -1,16 +1,15 @@
+import { GlowButton } from '@/components/foundations/GlowButton/GlowButton'
+import {
+  HomeActionsRelease,
+  HomeActionsReleaseErrorBoundary,
+  UndesiredReleaseState,
+} from '@/components/home/HomeActionsRelease/HomeActionsRelease'
 import mdiDocument from '@iconify/icons-mdi/document'
 import mdiGitHub from '@iconify/icons-mdi/github'
 import mdiLoading from '@iconify/icons-mdi/loading'
 import { Icon } from '@iconify/react'
 
 import { FC, Suspense } from 'react'
-
-import { GlowButton } from '../../foundations/GlowButton/GlowButton'
-import {
-  HomeActionsRelease,
-  HomeActionsReleaseErrorBoundary,
-  UndesiredReleaseState,
-} from '../../home/HomeActionsRelease/HomeActionsRelease'
 
 export const HomeActions: FC = () => {
   return (
@@ -31,9 +30,14 @@ export const HomeActions: FC = () => {
         </HomeActionsReleaseErrorBoundary>
 
         <GlowButton bordered href="/docs">
-          <div className="flex items-center -ml-1">
-            <Icon icon={mdiDocument} fontSize="28px" />
-            <span className="ml-2">文档与 FAQ</span>
+          <div className="flex flex-col items-start">
+            <div className="flex items-center -ml-1">
+              <Icon icon={mdiDocument} fontSize="28px" />
+              <span className="ml-2">文档与 FAQ</span>
+            </div>
+            <div className="flex mt-1 mb-0.5 ml-8">
+              <span className="text-xs"></span>
+            </div>
           </div>
         </GlowButton>
       </div>

@@ -1,13 +1,12 @@
+import { GlowButton } from '@/components/foundations/GlowButton/GlowButton'
+import { Release, ReleaseAsset, useRelease } from '@/hooks/use-release'
 import mdiAlertCircle from '@iconify/icons-mdi/alert-circle'
 import mdiWindows from '@iconify/icons-mdi/windows'
 import type { IconifyIcon } from '@iconify/react'
 import { Icon } from '@iconify/react'
 
+import moment from 'moment'
 import { Component, FC, ReactNode, useMemo } from 'react'
-
-import { Release, ReleaseAsset, useRelease } from '../../../hooks/use-release'
-import { formatDate } from '../../../utils/format'
-import { GlowButton } from '../../foundations/GlowButton/GlowButton'
 
 interface PlatformPredicate {
   icon: IconifyIcon
@@ -20,7 +19,7 @@ const predicates: PlatformPredicate[] = [
     icon: mdiWindows,
     title: 'Windows',
     assetMatcher: (release) => {
-      return release.assets.find((el) => /^MaaBundle-v.*\.zip/.test(el.name))
+      return release.assets.find((el) => /^MAA-v.*\.zip/.test(el.name))
     },
   },
 ]
@@ -59,7 +58,8 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
               </div>
               <div className="flex mt-1 mb-0.5 ml-8">
                 <span className="text-xs">
-                  {release.name} ({formatDate(release.created_at)})
+                  {release.name} (
+                  {moment(release.created_at).format('[build] YYYYMMDD')})
                 </span>
               </div>
             </div>

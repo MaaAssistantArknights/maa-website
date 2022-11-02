@@ -1,11 +1,10 @@
+import screenshotCenter from '@/assets/screenshots/center.webp?url'
+import screenshotLeft from '@/assets/screenshots/left.webp?url'
+import screenshotRight from '@/assets/screenshots/right.webp?url'
 import { useFrame, useLoader } from '@react-three/fiber'
 
 import { useEffect, useRef } from 'react'
 import { Mesh, TextureLoader, Vector2 } from 'three'
-
-import screenshotCenter from '../../../assets/screenshots/center.webp?url'
-import screenshotLeft from '../../../assets/screenshots/left.webp?url'
-import screenshotRight from '../../../assets/screenshots/right.webp?url'
 
 function lerp(v0: number, v1: number, t: number) {
   return v0 * (1 - t) + v1 * t
