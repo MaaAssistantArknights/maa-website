@@ -153,7 +153,7 @@ const DownloadButton: FC<{ href: string; children: ReactNode }> = ({
         onProgress: (progressEvent) => {
           setLoadState({
             state: 'downloading',
-            mirrorIndex: index,
+            mirrorIndex: index + 1,
             progressDownloaded: progressEvent.loaded,
             progressTotal: progressEvent.total,
           })
@@ -175,7 +175,7 @@ const DownloadButton: FC<{ href: string; children: ReactNode }> = ({
             if (prev.state === 'detecting') {
               return {
                 ...prev,
-                detected: prev.detected + 1,
+                detected: index + 1,
               }
             }
             return prev
@@ -206,9 +206,7 @@ const DownloadButton: FC<{ href: string; children: ReactNode }> = ({
       <DownloadState
         iconClassName="animate-spin"
         icon={mdiLoading}
-        title={`正在检测下载镜像 (${loadState.detected + 1}/${
-          GITHUB_MIRRORS.length
-        })...`}
+        title={`正在检测下载镜像 (${loadState.detected}/${GITHUB_MIRRORS.length})...`}
       />
     )
   } else if (loadState.state === 'downloading') {
