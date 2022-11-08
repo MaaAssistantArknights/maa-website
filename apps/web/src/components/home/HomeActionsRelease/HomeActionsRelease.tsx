@@ -195,6 +195,21 @@ const DownloadButton: FC<{ href: string; children: ReactNode }> = ({
     }
   }, [loadState])
 
+  useEffect(() => {
+    if (loadState.state === 'downloading') {
+      window.onbeforeunload = () => {
+        // this is basically useless lol. all you need is a non-null value to the window.onbeforeunload property
+        return 'Please do not close this window until the download is complete.'
+      }
+    } else {
+      window.onbeforeunload = null
+    }
+
+    return () => {
+      window.onbeforeunload = null
+    }
+  }, [loadState])
+
   if (loadState.state === 'idle') {
     return (
       <GlowButton bordered onClick={detectDownload}>
