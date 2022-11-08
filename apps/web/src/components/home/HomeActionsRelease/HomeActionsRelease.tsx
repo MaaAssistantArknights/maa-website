@@ -24,10 +24,23 @@ import { download } from '../../../utils/fetch'
 import { formatBytes } from '../../../utils/format'
 
 const GITHUB_MIRRORS = [
-  'https://gh.api.99988866.xyz/',
-  'https://agent.imgg.dev/',
-  'https://ghproxy.com/',
-  '',
+  {
+    name: '99988866',
+    transform: (original: URL) =>
+      `https://gh.api.99988866.xyz/${original.toString()}`,
+  },
+  {
+    name: 'agent.imgg.dev',
+    transform: (original: URL) => `https://agent.imgg.dev/${original.pathname}`,
+  },
+  {
+    name: 'ghproxy',
+    transform: (original: URL) => `https://ghproxy.com/${original.toString()}`,
+  },
+  {
+    name: 'origin',
+    transform: (original: URL) => original.toString(),
+  },
 ]
 
 const DataLoadRate: FC<{ loaded: number; total: number }> = ({
@@ -132,8 +145,10 @@ const DownloadButton: FC<{ href: string; children: ReactNode }> = ({
   const detectDownload = useCallback(async () => {
     setLoadState({ state: 'detecting', detected: 0 })
 
+    const original = new URL(href)
+
     for (const [index, mirror] of GITHUB_MIRRORS.entries()) {
-      await download(`${mirror}${href}`, {
+      await download(mirror.transform(original), {
         ttfbTimeout: 3500,
         onProgress: (progressEvent) => {
           setLoadState({
@@ -191,7 +206,9 @@ const DownloadButton: FC<{ href: string; children: ReactNode }> = ({
       <DownloadState
         iconClassName="animate-spin"
         icon={mdiLoading}
-        title={`正在检测下载镜像 (${loadState.detected}/${GITHUB_MIRRORS.length})...`}
+        title={`正在检测下载镜像 (${loadState.detected + 1}/${
+          GITHUB_MIRRORS.length
+        })...`}
       />
     )
   } else if (loadState.state === 'downloading') {
