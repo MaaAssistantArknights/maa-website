@@ -1,7 +1,7 @@
 import { FCC } from '@/types'
 
 import clsx from 'clsx'
-import { memo } from 'react'
+import { MouseEventHandler, memo } from 'react'
 
 import styles from './GlowButton.module.css'
 
@@ -9,7 +9,8 @@ export const GlowButton: FCC<{
   translucent?: boolean
   bordered?: boolean
   href?: string
-}> = memo(({ children, translucent, bordered, href }) => {
+  onClick?: MouseEventHandler<HTMLButtonElement>
+}> = memo(({ children, translucent, bordered, href, onClick }) => {
   const inner = (
     <button
       type="button"
@@ -20,6 +21,7 @@ export const GlowButton: FCC<{
         !bordered && 'border-none',
         'flex px-6 py-3 active:bg-zinc-800 rounded-lg hover:-translate-y-[1px] active:translate-y-[1px] text-2xl text-white/80',
       )}
+      onClick={onClick}
     >
       {children}
     </button>

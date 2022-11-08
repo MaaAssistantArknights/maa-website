@@ -28,3 +28,6 @@ yarn-error.log*
 # build
 dist
 *.tsbuildinfo
+.yarn
+apps/doc/.docusaurus
+apps/doc/build

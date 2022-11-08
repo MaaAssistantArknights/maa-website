@@ -1,8 +1,8 @@
 import { GlowButton } from '@/components/foundations/GlowButton/GlowButton'
 import {
+  DownloadState,
   HomeActionsRelease,
   HomeActionsReleaseErrorBoundary,
-  UndesiredReleaseState,
 } from '@/components/home/HomeActionsRelease/HomeActionsRelease'
 import mdiDocument from '@iconify/icons-mdi/document'
 import mdiGitHub from '@iconify/icons-mdi/github'
@@ -18,7 +18,7 @@ export const HomeActions: FC = () => {
         <HomeActionsReleaseErrorBoundary>
           <Suspense
             fallback={
-              <UndesiredReleaseState
+              <DownloadState
                 iconClassName="animate-spin"
                 icon={mdiLoading}
                 title="正在载入版本信息..."

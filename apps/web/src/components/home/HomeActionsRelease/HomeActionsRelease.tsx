@@ -1,12 +1,83 @@
 import { GlowButton } from '@/components/foundations/GlowButton/GlowButton'
 import { Release, ReleaseAsset, useRelease } from '@/hooks/use-release'
 import mdiAlertCircle from '@iconify/icons-mdi/alert-circle'
+import mdiCheck from '@iconify/icons-mdi/check'
+import mdiLoading from '@iconify/icons-mdi/loading'
 import mdiWindows from '@iconify/icons-mdi/windows'
 import type { IconifyIcon } from '@iconify/react'
 import { Icon } from '@iconify/react'
 
+import clsx from 'clsx'
 import moment from 'moment'
-import { Component, FC, ReactNode, useMemo } from 'react'
+import {
+  Component,
+  FC,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react'
+
+import { downloadBlob } from '../../../utils/blob'
+import { download } from '../../../utils/fetch'
+import { formatBytes } from '../../../utils/format'
+
+const GITHUB_MIRRORS = [
+  'https://gh.api.99988866.xyz/',
+  'https://agent.imgg.dev/',
+  'https://ghproxy.com/',
+  '',
+]
+
+const DataLoadRate: FC<{ loaded: number; total: number }> = ({
+  loaded,
+  total,
+}) => {
+  const percentage = useMemo(() => {
+    const percentage = (loaded / total) * 100
+    return percentage > 100 ? 100 : percentage
+  }, [loaded, total])
+
+  return (
+    <div className="flex flex-row items-center justify-center gap-2 font-mono">
+      <div className="flex flex-col items-start justify-center gap-1">
+        <div className="text-sm">{percentage.toFixed(0)}%</div>
+        <div className="w-12 h-1 bg-white/10 rounded-full">
+          <div
+            className="h-full rounded-full bg-white"
+            style={{ width: `${percentage}%` }}
+          />
+        </div>
+      </div>
+      <div className="flex flex-col items-end justify-center">
+        <div className="text-sm">{formatBytes(loaded, 1)}</div>
+        <div className="text-sm">{formatBytes(total, 1)}</div>
+      </div>
+    </div>
+  )
+}
+
+export const DownloadState: FC<{
+  icon: IconifyIcon
+  iconClassName?: string
+  title: ReactNode
+  className?: string
+}> = ({ icon, iconClassName, title, className }) => {
+  return (
+    <div
+      className={clsx(
+        'flex py-6 px-3 flex-col items-center justify-center text-white font-normal',
+        className,
+      )}
+    >
+      <div className="flex items-center -ml-1">
+        <Icon className={iconClassName} icon={icon} fontSize="28px" />
+        <span className="ml-2">{title}</span>
+      </div>
+    </div>
+  )
+}
 
 interface PlatformPredicate {
   icon: IconifyIcon
@@ -29,6 +100,144 @@ interface ResolvedPlatform {
   platform: PlatformPredicate
 }
 
+type DownloadDetectionStates =
+  | {
+      state: 'idle'
+    }
+  | {
+      state: 'detecting'
+      detected: number
+    }
+  | {
+      state: 'downloading'
+      mirrorIndex: number
+      progressDownloaded: number
+      progressTotal: number
+    }
+  | {
+      state: 'downloaded'
+    }
+  | {
+      state: 'fallback'
+    }
+
+const DownloadButton: FC<{ href: string; children: ReactNode }> = ({
+  href,
+  children,
+}) => {
+  const [loadState, setLoadState] = useState<DownloadDetectionStates>({
+    state: 'idle',
+  })
+
+  const detectDownload = useCallback(async () => {
+    setLoadState({ state: 'detecting', detected: 0 })
+
+    for (const [index, mirror] of GITHUB_MIRRORS.entries()) {
+      await download(`${mirror}${href}`, {
+        ttfbTimeout: 3500,
+        onProgress: (progressEvent) => {
+          setLoadState({
+            state: 'downloading',
+            mirrorIndex: index,
+            progressDownloaded: progressEvent.loaded,
+            progressTotal: progressEvent.total,
+          })
+        },
+      })
+        .then((blob) => {
+          downloadBlob(blob, href.split('/').pop()!)
+
+          setLoadState({ state: 'downloaded' })
+        })
+        .catch((err) => {
+          console.warn(
+            'download mirror detection: unable to detect download to mirror',
+            err,
+          )
+        })
+        .finally(() => {
+          setLoadState((prev) => {
+            if (prev.state === 'detecting') {
+              return {
+                ...prev,
+                detected: prev.detected + 1,
+              }
+            }
+            return prev
+          })
+        })
+    }
+  }, [href])
+
+  useEffect(() => {
+    if (
+      loadState.state === 'detecting' &&
+      loadState.detected === GITHUB_MIRRORS.length
+    ) {
+      console.warn('no mirrors responded correctly; fallback to original URL')
+      window.location.href = href
+      setLoadState({ state: 'fallback' })
+    }
+  }, [loadState])
+
+  if (loadState.state === 'idle') {
+    return (
+      <GlowButton bordered onClick={detectDownload}>
+        {children}
+      </GlowButton>
+    )
+  } else if (loadState.state === 'detecting') {
+    return (
+      <DownloadState
+        iconClassName="animate-spin"
+        icon={mdiLoading}
+        title={`正在检测下载镜像 (${loadState.detected}/${GITHUB_MIRRORS.length})...`}
+      />
+    )
+  } else if (loadState.state === 'downloading') {
+    return (
+      <DownloadState
+        iconClassName="animate-spin"
+        icon={mdiLoading}
+        title={
+          <div className="flex items-center">
+            <span className="mr-4">
+              正在从镜像 #{loadState.mirrorIndex} 下载...
+            </span>
+            <DataLoadRate
+              loaded={loadState.progressDownloaded}
+              total={loadState.progressTotal}
+            />
+          </div>
+        }
+        className="tabular-nums"
+      />
+    )
+  } else if (loadState.state === 'downloaded') {
+    return (
+      <DownloadState
+        icon={mdiCheck}
+        title="下载完成，解压后运行 MeoAsstGui.exe 即可"
+      />
+    )
+  } else if (loadState.state === 'fallback') {
+    return (
+      <DownloadState
+        iconClassName="animate-spin"
+        icon={mdiLoading}
+        title="下载失败，正在尝试直接下载..."
+      />
+    )
+  } else {
+    return (
+      <DownloadState
+        icon={mdiAlertCircle}
+        title="无效的下载状态，请刷新页面重试"
+      />
+    )
+  }
+}
+
 export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
   const platforms = useMemo(() => {
     return predicates.reduce((acc, platform) => {
@@ -46,10 +255,9 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
     <>
       {platforms.length ? (
         platforms.map((platform) => (
-          <GlowButton
-            key={platform.platform.title}
-            bordered
+          <DownloadButton
             href={platform.asset.browser_download_url}
+            key={platform.platform.title}
           >
             <div className="flex flex-col items-start">
               <div className="flex items-center -ml-1">
@@ -63,30 +271,12 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
                 </span>
               </div>
             </div>
-          </GlowButton>
+          </DownloadButton>
         ))
       ) : (
-        <UndesiredReleaseState
-          icon={mdiAlertCircle}
-          title="未找到可用的下载链接"
-        />
+        <DownloadState icon={mdiAlertCircle} title="未找到可用的下载链接" />
       )}
     </>
-  )
-}
-
-export const UndesiredReleaseState: FC<{
-  icon: IconifyIcon
-  iconClassName?: string
-  title: ReactNode
-}> = ({ icon, iconClassName, title }) => {
-  return (
-    <div className="flex py-6 px-3 flex-col items-center justify-center text-white font-normal">
-      <div className="flex items-center -ml-1">
-        <Icon className={iconClassName} icon={icon} fontSize="28px" />
-        <span className="ml-2">{title}</span>
-      </div>
-    </div>
   )
 }
 
@@ -105,7 +295,7 @@ export class HomeActionsReleaseErrorBoundary extends Component<{
     const { error } = this.state
     if (error) {
       return (
-        <UndesiredReleaseState
+        <DownloadState
           icon={mdiAlertCircle}
           title={
             <div className="flex flex-col ml-4">
