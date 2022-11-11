@@ -24,11 +24,11 @@ import { download } from '../../../utils/fetch'
 import { formatBytes } from '../../../utils/format'
 
 const GITHUB_MIRRORS = [
-  {
-    name: '99988866',
-    transform: (original: URL) =>
-      `https://gh.api.99988866.xyz/${original.toString()}`,
-  },
+  // {
+  //   name: '99988866',
+  //   transform: (original: URL) =>
+  //     `https://gh.api.99988866.xyz/${original.toString()}`,
+  // },
   {
     name: 'agent.imgg.dev',
     transform: (original: URL) => `https://agent.imgg.dev/${original.pathname}`,
@@ -149,7 +149,7 @@ const DownloadButton: FC<{ href: string; children: ReactNode }> = ({
 
     for (const [index, mirror] of GITHUB_MIRRORS.entries()) {
       await download(mirror.transform(original), {
-        ttfbTimeout: 3500,
+        ttfbTimeout: 2500,
         onProgress: (progressEvent) => {
           setLoadState({
             state: 'downloading',
