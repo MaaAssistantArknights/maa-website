@@ -1,7 +1,5 @@
 import { Canvas } from '@react-three/fiber'
-import { Bloom, EffectComposer, Vignette } from '@react-three/postprocessing'
 
-import { BlendFunction } from 'postprocessing'
 import { FC, forwardRef, useRef } from 'react'
 
 import { AnimatedBlobs } from './AnimatedBlobs/AnimatedBlobs'
@@ -49,15 +47,6 @@ function ScreenshotsCanvas({
 }) {
   return (
     <Canvas shadows camera={{ fov: 35, position: [0, -1, 11] }} flat linear>
-      <EffectComposer>
-        <Vignette
-          offset={0.1} // vignette offset
-          darkness={0.7} // vignette darkness
-          eskil={false} // Eskil's vignette technique
-          blendFunction={BlendFunction.DARKEN} // blend mode
-        />
-        <Bloom luminanceThreshold={0.7} luminanceSmoothing={0.9} />
-      </EffectComposer>
       <ambientLight intensity={1} />
       <Screenshots sidebarRef={sidebarRef} indicatorRef={indicatorRef} />
     </Canvas>
