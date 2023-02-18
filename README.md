@@ -17,8 +17,8 @@ Monorepo Technology:
 
 Deployment Status:
 
-![GitHub Workflow Status (main)](https://img.shields.io/github/workflow/status/MaaAssistantArknights/maa-website/azure-deploy/main?logo=microsoftazure&label=Azure%20Static%20Web%20Apps%20%28Production%20Build%29)
-![GitHub Workflow Status (dev)](https://img.shields.io/github/workflow/status/MaaAssistantArknights/maa-website/azure-deploy/dev?logo=microsoftazure&label=Azure%20Static%20Web%20Apps%20%28Development%20Build%29)
+![GitHub Workflow Status (main)](https://img.shields.io/github/actions/workflow/status/MaaAssistantArknights/maa-website/azure-deploy.yaml?branch=main&logo=microsoftazure&label=Azure%20Static%20Web%20Apps%20%28Production%20Build%29)
+![GitHub Workflow Status (dev)](https://img.shields.io/github/actions/workflow/status/MaaAssistantArknights/maa-website/azure-deploy.yaml?branch=dev&logo=microsoftazure&label=Azure%20Static%20Web%20Apps%20%28Development%20Build%29)
 
 ## Projects
 
@@ -31,10 +31,12 @@ Deployment Status:
 ## Local Development
 
 Requirements:
+
 - NodeJS ^16.15.0
 - Yarn ^1.22.19
 
 Resolve dependencies with `yarn` in root directory
+
 ```shell
 yarn
 ```
@@ -43,6 +45,7 @@ Start a development server
 
 - `apps/web` will be hosted on `http://localhost:3000`
 - `apps/doc` will be hosted on `http://localhost:3001/doc`
+
 ```shell
 yarn dev            # Home and Doc:zh-CN
 yarn dev:home       # Home ONLY
@@ -51,6 +54,7 @@ yarn dev:doc:en     # Doc:en ONLY
 ```
 
 Lint code
+
 ```shell
 yarn lint           # All
 yarn lint:js        # Use ESLint for JS/TS code
@@ -58,11 +62,13 @@ yarn lint:prettier  # Use Prettier for code formatting
 ```
 
 Lint fix
+
 ```shell
 yarn lintfix
 ```
 
 Build release
+
 ```shell
 yarn build          # This will run lint first
 ```
