@@ -38,6 +38,7 @@ export async function download(
   const xhr = new XMLHttpRequest()
   xhr.open('GET', url, true)
   xhr.responseType = 'blob'
+  xhr.withCredentials = false
 
   let ttfbTimeoutTimer = ttfbTimeout
     ? setTimeout(() => {

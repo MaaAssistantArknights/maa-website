@@ -31,7 +31,11 @@ const GITHUB_MIRRORS = [
   // },
   {
     name: 'agent.imgg.dev',
-    transform: (original: URL) => `https://agent.imgg.dev/${original.pathname}`,
+    transform: (original: URL) => `https://agent.imgg.dev${original.pathname}`,
+  },
+  {
+    name: 'maverick',
+    transform: (original: URL) => `https://qz.minasan.xyz${original.pathname}`,
   },
   {
     name: 'ghproxy',
@@ -148,39 +152,42 @@ const DownloadButton: FC<{ href: string; children: ReactNode }> = ({
     const original = new URL(href)
 
     for (const [index, mirror] of GITHUB_MIRRORS.entries()) {
-      await download(mirror.transform(original), {
-        ttfbTimeout: 2500,
-        onProgress: (progressEvent) => {
-          setLoadState({
-            state: 'downloading',
-            mirrorIndex: index + 1,
-            progressDownloaded: progressEvent.loaded,
-            progressTotal: progressEvent.total,
-          })
-        },
-      })
-        .then((blob) => {
-          downloadBlob(blob, href.split('/').pop()!)
+      try {
+        await download(mirror.transform(original), {
+          ttfbTimeout: 3500,
+          onProgress: (progressEvent) => {
+            setLoadState({
+              state: 'downloading',
+              mirrorIndex: index + 1,
+              progressDownloaded: progressEvent.loaded,
+              progressTotal: progressEvent.total,
+            })
+          },
+        })
+          .then((blob) => {
+            downloadBlob(blob, href.split('/').pop()!)
 
-          setLoadState({ state: 'downloaded' })
-        })
-        .catch((err) => {
-          console.warn(
-            'download mirror detection: unable to detect download to mirror',
-            err,
-          )
-        })
-        .finally(() => {
-          setLoadState((prev) => {
-            if (prev.state === 'detecting') {
-              return {
-                ...prev,
-                detected: index + 1,
-              }
-            }
-            return prev
+            setLoadState({ state: 'downloaded' })
           })
-        })
+          .finally(() => {
+            setLoadState((prev) => {
+              if (prev.state === 'detecting') {
+                return {
+                  ...prev,
+                  detected: index + 1,
+                }
+              }
+              return prev
+            })
+          })
+
+        break
+      } catch (err) {
+        console.warn(
+          'download mirror detection: unable to detect download to mirror',
+          err,
+        )
+      }
     }
   }, [href])
 
@@ -247,7 +254,7 @@ const DownloadButton: FC<{ href: string; children: ReactNode }> = ({
     return (
       <DownloadState
         icon={mdiCheck}
-        title="下载完成，解压后运行 MeoAsstGui.exe 即可"
+        title="下载完成，解压后运行 MAA.exe 即可"
       />
     )
   } else if (loadState.state === 'fallback') {

@@ -1,5 +1,6 @@
 import linksIconArkNights from '@/assets/links/ark-nights.com.png?url'
 import linksIconPenguinStats from '@/assets/links/penguin-stats.png?url'
+import linksIconPrtsPlus from '@/assets/links/prts.plus.png?url'
 import linksIconYituliu from '@/assets/links/yituliu.site.png?url'
 import chevronRight from '@iconify/icons-mdi/chevron-right'
 import mdiGitHub from '@iconify/icons-mdi/github'
@@ -32,6 +33,7 @@ const HomeLink: FC<{
 
 const LINKS = [
   <HomeLink
+    key="penguin-stats"
     href="https://penguin-stats.io"
     title="企鹅物流数据统计"
     icon={
@@ -43,6 +45,7 @@ const LINKS = [
     }
   />,
   <HomeLink
+    key="ark-nights"
     href="https://ark-nights.com"
     title="Arknights | Planner"
     icon={
@@ -54,6 +57,7 @@ const LINKS = [
     }
   />,
   <HomeLink
+    key="yituliu"
     href="https://yituliu.site"
     title="明日方舟一图流"
     icon={
@@ -61,9 +65,22 @@ const LINKS = [
     }
   />,
   <HomeLink
+    key="alas"
     href="https://github.com/LmeSzinc/AzurLaneAutoScript"
     title="AzurLaneAutoScript (ALAS)"
     icon={<Icon icon={mdiGitHub} className="h-8 w-8" />}
+  />,
+  <HomeLink
+    key="prts-plus"
+    href="https://prts.plus"
+    title="MAA Copilot 作业分享站"
+    icon={
+      <img
+        src={linksIconPrtsPlus}
+        alt="MAA Copilot 作业分享站"
+        className="h-8 w-8"
+      />
+    }
   />,
 ]
 
