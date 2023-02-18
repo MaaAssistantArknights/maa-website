@@ -25,6 +25,10 @@ export default defineUserConfig({
     '/ja-jp/': {
       lang: 'ja-JP',
       description: 'ドキュメント'
+    },
+    '/ko-kr/': {
+      lang: 'ko-KR',
+      description: '문서'
     }
   },
   markdown: {
