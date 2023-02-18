@@ -26,7 +26,7 @@ MAAは、MAA Assistant Arknightsです。
 
 画像認識技術に基づいて、ワンクリックですべてのデイリーリクエストを完了します！
 
-絶賛開発中  ✿✿ヽ(°▽°)ノ✿  
+絶賛開発中  ✿✿ヽ(°▽°)ノ✿<br>
 
 </div>
 
@@ -40,7 +40,7 @@ MAAは、MAA Assistant Arknightsです。
 - 作業JSONファイルをインポートし、自動操作も可能！ [ビデオデモ](https://www.bilibili.com/video/BV1H841177Fk/)（現在JP未対応/中文）
 - **新機能！倉庫のアイテム認識機能（アルファ）** [Arkplanner](https://penguin-stats.io/planner)/[ARK-NIGHTS.com](https://ark-nights.com/settings)と[アークナイツ ツールボックス](https://arkn.lolicon.app/#/material)へ出力可能！使用方法はツール内文章を参照してください。
 
-UIを見れば使い方もすぐ分かる！  
+UIを見れば使い方もすぐ分かる！<br>
 
 ![image](https://user-images.githubusercontent.com/74226084/190089010-d98052b1-fc42-4428-91e5-bb8fdf450e43.png)
 ![image](https://user-images.githubusercontent.com/63186641/189559879-cfaa825c-c2fe-43de-83e2-854ca99000a9.png)
@@ -48,7 +48,7 @@ UIを見れば使い方もすぐ分かる！
 
 ## ダウンロードリンク
 
-[安定版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/latest)  
+[安定版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/latest)<br>
 [ベータ版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)
 
 ## マニュアル
@@ -72,17 +72,17 @@ UIを見れば使い方もすぐ分かる！
 
 ## サーバーに応じてサポートされる機能
 
-- アメリカサーバー  
-  作戦、戦友訪問、FP交換所、レワード収集、統合戦略（ベータ版）、公開求人認識の機能がサポートされている。  
+- アメリカサーバー<br>
+  作戦、戦友訪問、FP交換所、レワード収集、統合戦略（ベータ版）、公開求人認識の機能がサポートされている。
   サポート内容については[README](resource/global/YoStarEN/readme.md)を参照してください。
-- 日本サーバー  
-  作戦、自動基地、自動公開求人、戦友訪問、FP交換所、レワード収集、統合戦略（ベータ版）、公開求人認識の機能がサポートされている。  
+- 日本サーバー<br>
+  作戦、自動基地、自動公開求人、戦友訪問、FP交換所、レワード収集、統合戦略（ベータ版）、公開求人認識の機能がサポートされている。
   サポート内容については[README](resource/global/YoStarJP/readme.md)を参照してください。
-- 韓国サーバー  
-  作戦、戦友訪問、FP交換所、レワード収集、統合戦略（ベータ版）、公開求人認識の機能がサポートされている。  
+- 韓国サーバー<br>
+  作戦、戦友訪問、FP交換所、レワード収集、統合戦略（ベータ版）、公開求人認識の機能がサポートされている。<br>
   サポート内容については[README](resource/global/YoStarKR/readme.md)を参照してください。
-- TXWYサーバー  
-  基本的な作戦、自動公開求人、統合戦略（ベータ版）、公開求人認識の機能がサポートされている。  
+- TXWYサーバー<br>
+  基本的な作戦、自動公開求人、統合戦略（ベータ版）、公開求人認識の機能がサポートされている。<br>
   サポート内容については[README](resource/global/txwy/readme.md)を参照してください。
 
 海外サーバーのユーザーが不足しており、基本的な機能しかサポートされていません。要件があれば[提案](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions)ページで提案をお願い致します。いっしょにMAAの開発に協力しましょう! Please refer to [Overseas Clients Adaptation](#overseas-clients-adaptation)
@@ -144,13 +144,13 @@ MAAをより良くするために開発・テストに貢献してくれたす�
 
 ### API
 
-- [Cインターフェース](include/AsstCaller.h)：[統合例](src/Cpp/main.cpp)
-- [Pythonインターフェース](src/Python/asst/asst.py)：[統合例](src/Python/sample.py)
-- [Golangインターフェース](src/Golang/)：[統合例](src/Golang/maa/maa.go)
-- [Dartインターフェース](src/Dart/)
-- [Javaインターフェース](src/Java/src/main/java/com/iguigui/maaj/easySample/MaaCore.java)：[統合例](src/Java/src/main/java/com/iguigui/maaj/easySample/MaaJavaSample.java)
-- [Rustインターフェース](src/Rust/src/maa_sys/)：[HTTPインターフェース](src/Rust)
-- [HTTPインターフェース](src/Java/Readme.md)
+- [Cインターフェース](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/include/AsstCaller.h)：[統合例](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Cpp/main.cpp)
+- [Pythonインターフェース](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Python/asst/asst.py)：[統合例](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Python/sample.py)
+- [Golangインターフェース](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/master/src/Golang/)：[統合例](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Golang/maa/maa.go)
+- [Dartインターフェース](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/master/src/Dart)
+- [Javaインターフェース](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Java/src/main/java/com/iguigui/maaj/easySample/MaaCore.java)：[統合例](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Java/src/main/java/com/iguigui/maaj/easySample/MaaJavaSample.java)
+- [Java HTTPインターフェース](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Java/Readme.md)
+- [Rustインターフェース](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/master/src/Rust/src/maa_sys)：[HTTPインターフェース](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/master/src/Rust)
 - [TypeScriptインターフェース](https://github.com/MaaAssistantArknights/MaaAsstElectronUI/tree/main/packages/main/coreLoader)
 - [統合ドキュメント](https://maa.plus/docs/ja-jp/3.1-統合ドキュメント.html)
 - [コールバックAPI](https://maa.plus/docs/ja-jp/3.2-コールバックAPI.html)
@@ -179,13 +179,12 @@ Please refer to [Overseas clients Adaptation](https://maa.plus/docs/ja-jp/2.5-OV
 
 ## 広告
 
-
-ユーザー研究グループQQグループ：[QQグループ](https://ota.maa.plus/MaaAssistantArknights/api/qqgroup/index.html)  
-ユーザー研究グループTGグループ：[Telegram](https://t.me/+Mgc2Zngr-hs3ZjU1)  
-自動作戦JSON作業シェア：[prts.plus](https://prts.plus)  
-ビリビリ生放送：[ビリビリ生放送](https://live.bilibili.com/2808861) 毎晩ライブでコーディングします、最近はずっとこのソフトウェアのプログラミングをしていることが多いです。  
-  
-技術研究(アークナイツ無関係)：[インボリューション・ヘル！(QQグループ)](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)  
-開発者グループ：[QQグループ](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)  
+ユーザー研究グループQQグループ：[QQグループ](https://ota.maa.plus/MaaAssistantArknights/api/qqgroup/index.html)<br>
+ユーザー研究グループTGグループ：[Telegram](https://t.me/+Mgc2Zngr-hs3ZjU1)<br>
+自動作戦JSON作業シェア：[prts.plus](https://prts.plus)<br>
+ビリビリ生放送：[ビリビリ生放送](https://live.bilibili.com/2808861) 毎晩ライブでコーディングします、最近はずっとこのソフトウェアのプログラミングをしていることが多いです。<br>
+<br>
+技術研究(アークナイツ無関係)：[インボリューション・ヘル！(QQグループ)](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)<br>
+開発者グループ：[QQグループ](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)<br>
 
 ソフトウェアが役立つと思うなら、Star（ページの右上隅にある星）をクリックしてください。私たちにとって最高のサポートです！

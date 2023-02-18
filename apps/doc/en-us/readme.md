@@ -26,7 +26,7 @@ An Arknights assistant
 
 Based on image recognition, helps you to complete daily quests efficiently!
 
-Development in progress  ✿✿ヽ(°▽°)ノ✿  
+Development in progress  ✿✿ヽ(°▽°)ノ✿<br>
 
 </div>
 
@@ -41,7 +41,7 @@ Development in progress  ✿✿ヽ(°▽°)ノ✿
 - Depot recognition and upports exporting to [Penguin Stats Planner](https://penguin-stats.cn/planner), [Arknight Tools](https://arkn.lolicon.app/#/material), and [ARK-NIGHTS Operator Builds](https://ark-nights.com/settings)
 - Support C, Python, Java, Rust, Golang, Java HTTP, Rust HTTP and other interfaces, easy to integrate and call, customize your MAA!
 
-Talk is cheap. Show me the pictures!  
+Talk is cheap. Show me the pictures!<br>
 
 ![image](https://user-images.githubusercontent.com/18511905/198692842-1ad89bd0-f943-4763-bdd1-c212e09dc832.png)
 ![image](https://user-images.githubusercontent.com/99072975/181417869-bb312d7e-f867-45c6-84b9-d18c583232d5.png)
@@ -49,7 +49,7 @@ Talk is cheap. Show me the pictures!
 
 ## Download
 
-[Stable](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/latest)  
+[Stable](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/latest)<br>
 [Development](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)
 
 ## How to Use
@@ -75,13 +75,13 @@ Please refer to: [FAQ](https://maa.plus/docs/en-us/1.2-FAQ.html)
 
 ## Supports for overseas clients
 
-- Global(EN) Client  
+- Global(EN) Client<br>
   Supports basic features like Combat, Credit Shopping, Visiting, Collecting, Auto Roguelike(beta), Recruitment calculate, etc. See also [README](resource/global/YoStarEN/readme.md)
-- JP Client  
+- JP Client<br>
   Supports basic features like Combat, Auto Base shift, Credit Shopping, Auto Recruiting, Visiting, Collecting, Auto Roguelike(beta), Recruitment calculate, etc. See also [README](resource/global/YoStarJP/readme.md)
-- KR Client  
+- KR Client<br>
   Supports basic features like Combat, Credit Shopping, Visiting, Collecting, Auto Roguelike(beta), Recruitment calculate, etc. See also [README](resource/global/YoStarKR/readme.md)
-- ZH_CHT Client  
+- ZH_CHT Client<br>
   Supports basic features like Combat, Auto Recruiting, Auto Roguelike(beta), Recruitment calculate, etc. See also [README](resource/global/txwy/readme.md)
 
 Due to the small number of overseas clients users and the lack of project manpower, the overseas clients is currently only adapted to basic functions. If you have strong needs, welcome to ask the progress in the [discussions](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions), or join us to make MAA better! Please refer to [Overseas Clients Adaptation](#overseas-clients-adaptation)
@@ -90,7 +90,7 @@ Due to the small number of overseas clients users and the lack of project manpow
 
 - New GUI: [MaaAsstElectronUI](https://github.com/MaaAssistantArknights/MaaAsstElectronUI) (Development in progress, welcome to join us!)
 - Backend: [MaaBackendCenter](https://github.com/MaaAssistantArknights/MaaBackendCenter) (Development in progress, welcome to join us!)
-- [Co-pilot (auto-battle) site](https://prts.plus)：[frontend](https://github.com/MaaAssistantArknights/maa-copilot-frontend)
+- [Co-pilot (auto-battle) site](https://prts.plus): [frontend](https://github.com/MaaAssistantArknights/maa-copilot-frontend)
 - [Website](https://www.maa.plus): [frontend](https://github.com/MaaAssistantArknights/maa-website)
 
 ## Acknowledgements
@@ -143,13 +143,13 @@ Please refer to [Linux Tutorial](https://maa.plus/docs/en-us/2.1-LINUX_TUTORIAL.
 
 ### API
 
-- [C interface](include/AsstCaller.h): [Integration Example](src/Cpp/main.cpp)
-- [Python interface](src/Python/asst/asst.py): [Integration Example](src/Python/sample.py)
-- [Golang interface](src/Golang/): [Integration Example](src/Golang/maa/maa.go)
-- [Dart interface](src/Dart/)
-- [Java interface](src/Java): [Integration Example](src/Java/src/main/java/com/iguigui/maaj/MaaJavaSample.java)
-- [Rust interface](src/Rust/src/maa_sys/): [HTTP API](src/Rust)
-- [HTTP interface](src/Java/Readme.md)
+- [C interface](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/include/AsstCaller.h): [Integration Example](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Cpp/main.cpp)
+- [Python interface](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Python/asst/asst.py): [Integration Example](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Python/sample.py)
+- [Golang interface](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/master/src/Golang/): [Integration Example](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Golang/maa/maa.go)
+- [Dart interface](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/master/src/Dart)
+- [Java interface](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Java/src/main/java/com/iguigui/maaj/easySample/MaaCore.java): [Integration Example](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Java/src/main/java/com/iguigui/maaj/easySample/MaaJavaSample.java)
+- [Java HTTP interface](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Java/Readme.md)
+- [Rust interface](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/master/src/Rust/src/maa_sys): [HTTP interface](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/master/src/Rust)
 - [TypeScript interface](https://github.com/MaaAssistantArknights/MaaAsstElectronUI/tree/main/packages/main/coreLoader)
 - [Integration Documentation](https://maa.plus/docs/en-us/3.1-INTEGRATION.html)
 - [Callback Schema](https://maa.plus/docs/en-us/3.2-CALLBACK_SCHEMA.html)
@@ -178,10 +178,10 @@ Please refer to [Issue Bot Usage](https://maa.plus/docs/en-us/2.3-ISSUE_BOT_USAG
 
 ## Advertisement
 
-User Group: [Telegram](https://t.me/+Mgc2Zngr-hs3ZjU1), [QQ Group](https://ota.maa.plus/MaaAssistantArknights/api/qqgroup/index.html)  
-[Copilot JSON Sharing](https://prts.plus)  
-[Bilibili Live](https://live.bilibili.com/2808861): live coding on this program  
-[Technical Discussion & Talk(QQ Group)](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)  
+User Group: [Telegram](https://t.me/+Mgc2Zngr-hs3ZjU1), [QQ Group](https://ota.maa.plus/MaaAssistantArknights/api/qqgroup/index.html)<br>
+[Copilot JSON Sharing](https://prts.plus)<br>
+[Bilibili Live](https://live.bilibili.com/2808861): live coding on this program<br>
+[Technical Discussion & Talk(QQ Group)](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)<br>
 [Dev Group(QQ Group)](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)
 
 Please click "Star" if you consider it helpful! Thank you for your support!

@@ -26,7 +26,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 基於圖像辨識技術，一鍵完成全部日常任務！
 
-絕讚更新中  ✿✿ヽ(°▽°)ノ✿  
+絕讚更新中  ✿✿ヽ(°▽°)ノ✿<br>
 
 </div>
 
@@ -40,7 +40,7 @@ MAA 的意思是 MAA Assistant Arknights
 - 導入作業 JSON 檔案，自動抄作業！ [影片演示](https://www.bilibili.com/video/BV1H841177Fk/)
 - 新功能：倉庫辨識！支援導出至 [企鵝物流刷圖規劃器](https://penguin-stats.cn/planner), [明日方舟工具箱](https://arkn.lolicon.app/#/material), [ARK-NIGHTS 幹員培養表](https://ark-nights.com/settings)
 
-話不多說，看圖！  
+話不多說，看圖！<br>
 
 ![image](https://user-images.githubusercontent.com/18511905/189659056-67587818-9844-4f5a-b2f5-838a8932b387.png)
 ![image](https://user-images.githubusercontent.com/99072975/181418131-f4eefa07-6623-470e-ba4a-0ad15cb8aa91.png)
@@ -48,7 +48,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 ## 下載連結
 
-[穩定版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/latest)  
+[穩定版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/latest)<br>
 [開發版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)
 
 ## 使用說明
@@ -74,13 +74,13 @@ MAA 的意思是 MAA Assistant Arknights
 
 ## 外服支援
 
-- 國際服（美服）  
+- 國際服（美服）<br>
   支援基本的刷理智、信用購物、訪問好友、領取獎勵、自動肉鴿（測試版本）、公招辨識，請參考 [說明](resource/global/YoStarEN/readme.md)
-- 日服  
+- 日服<br>
   支援基本的刷理智、自動基建、信用購物、自動公招、訪問好友、領取獎勵、自動肉鴿（測試版本）、公招辨識，請參考 [說明](resource/global/YoStarJP/readme.md)
-- 韓服  
+- 韓服<br>
   支援基本的刷理智、信用購物、訪問好友、領取獎勵、自動肉鴿（測試版本）、公招辨識，請參考 [說明](resource/global/YoStarKR/readme.md)
-- 繁中服  
+- 繁中服<br>
   支援基本的刷理智、自動公招、自動肉鴿、領取日常、公招辨識功能，請參考 [說明](resource/global/txwy/readme.md)
 
 由於外服使用者較少及項目人手不足的問題，外服目前都僅適配了基本的功能。若您有強需求，歡迎在 [討論區](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions) 催更，或加入我们一起建设 MAA！请参考 [外服适配教程](#外服適配)
@@ -142,13 +142,13 @@ MAA 的意思是 MAA Assistant Arknights
 
 ### API
 
-- [C 介面](include/AsstCaller.h)：[整合示例](src/Cpp/main.cpp)
-- [Python 介面](src/Python/asst/asst.py)：[整合示例](src/Python/sample.py)
-- [Golang 介面](src/Golang/)：[整合示例](src/Golang/maa/maa.go)
-- [Dart 介面](src/Dart/)
-- [Java 介面](src/Java/src/main/java/com/iguigui/maaj/easySample/MaaCore.java)：[整合示例](src/Java/src/main/java/com/iguigui/maaj/easySample/MaaJavaSample.java)
-- [Rust 介面](src/Rust/src/maa_sys/)：[HTTP 介面](src/Rust)
-- [HTTP 介面](src/Java/Readme.md)
+- [C 介面](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/include/AsstCaller.h)：[整合示例](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Cpp/main.cpp)
+- [Python 介面](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Python/asst/asst.py)：[整合示例](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Python/sample.py)
+- [Golang 介面](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/master/src/Golang/)：[整合示例](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Golang/maa/maa.go)
+- [Dart 介面](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/master/src/Dart)
+- [Java 介面](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Java/src/main/java/com/iguigui/maaj/easySample/MaaCore.java)：[整合示例](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Java/src/main/java/com/iguigui/maaj/easySample/MaaJavaSample.java)
+- [Java HTTP 介面](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Java/Readme.md)
+- [Rust 介面](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/master/src/Rust/src/maa_sys)：[HTTP 介面](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/master/src/Rust)
 - [TypeScript 介面](https://github.com/MaaAssistantArknights/MaaAsstElectronUI/tree/main/packages/main/coreLoader)
 - [整合文件](https://maa.plus/docs/zh-tw/3.1-集成文件.html)
 - [回呼訊息協定](https://maa.plus/docs/zh-tw/3.2-回呼訊息協定.html)
@@ -177,12 +177,12 @@ MAA 的意思是 MAA Assistant Arknights
 
 ## 廣告
 
-用戶交流QQ群：[MAA使用 & 舟遊交流群](https://ota.maa.plus/MaaAssistantArknights/api/qqgroup/index.html)  
-用戶交流TG群：[Telegram 群](https://t.me/+Mgc2Zngr-hs3ZjU1)  
-自動戰鬥 JSON 作業分享：[prts.plus](https://prts.plus)  
-Bilibili 直播間：[直播間](https://live.bilibili.com/2808861) 每晚直播敲代碼，近期很長一段時間應該都是在寫本軟體~  
-  
-技術交流群(舟無關)：[內捲地獄！(QQ 群)](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)  
-開發者群：[QQ 群](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)  
+用戶交流QQ群：[MAA使用 & 舟遊交流群](https://ota.maa.plus/MaaAssistantArknights/api/qqgroup/index.html)<br>
+用戶交流TG群：[Telegram 群](https://t.me/+Mgc2Zngr-hs3ZjU1)<br>
+自動戰鬥 JSON 作業分享：[prts.plus](https://prts.plus)<br>
+Bilibili 直播間：[直播間](https://live.bilibili.com/2808861) 每晚直播敲代碼，近期很長一段時間應該都是在寫本軟體~<br>
+
+技術交流群(舟無關)：[內捲地獄！(QQ 群)](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)<br>
+開發者群：[QQ 群](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)<br>
 
 如果覺得軟體對你有幫助，幫忙點個 Star 吧！~（網頁最上方右上角的小星星），這就是對我們最大的支持了！
