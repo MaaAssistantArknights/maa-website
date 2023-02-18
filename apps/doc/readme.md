@@ -144,13 +144,13 @@ MAA 的意思是 MAA Assistant Arknights
 
 ### API
 
-- [C 接口](include/AsstCaller.h)：[集成示例](src/CppSample/main.cpp)
-- [Python 接口](src/Python/asst.py)：[集成示例](src/Python/sample.py)
-- [Golang 接口](src/Golang/)：[集成示例](src/Golang/maa/maa.go)
-- [Dart 接口](src/dart/)
-- [Java 接口](src/Java/src/main/java/com/iguigui/maaj/easySample/MaaCore.java)：[集成示例](src/Java/src/main/java/com/iguigui/maaj/easySample/MaaJavaSample.java)
-- [Java HTTP 接口](src/Java/Readme.md)
-- [Rust 接口](src/Rust/src/maa_sys/)：[HTTP 接口](src/Rust)
+- [C 接口](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/include/AsstCaller.h)：[集成示例](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Cpp/main.cpp)
+- [Python 接口](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Python/asst/asst.py)：[集成示例](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Python/sample.py)
+- [Golang 接口](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/master/src/Golang/)：[集成示例](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Golang/maa/maa.go)
+- [Dart 接口](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/master/src/Dart)
+- [Java 接口](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Java/src/main/java/com/iguigui/maaj/easySample/MaaCore.java)：[集成示例](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Java/src/main/java/com/iguigui/maaj/easySample/MaaJavaSample.java)
+- [Java HTTP 接口](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Java/Readme.md)
+- [Rust 接口](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/master/src/Rust/src/maa_sys)：[HTTP 接口](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/master/src/Rust)
 - [TypeScript 接口](https://github.com/MaaAssistantArknights/MaaAsstElectronUI/tree/main/packages/main/coreLoader)
 - [集成文档](https://maa.plus/docs/3.1-集成文档.html)
 - [回调消息协议](https://maa.plus/docs/3.2-回调消息协议.html)

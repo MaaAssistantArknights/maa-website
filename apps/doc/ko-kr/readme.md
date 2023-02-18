@@ -26,7 +26,7 @@ MAA는 MAA Assistant Arknights의 약자입니다
 
 이미지 인식을 기반으로, 한 번의 클릭만으로 그날의 모든 작업을 끝내드립니다!
 
-개발 진행 중입니다  ✿✿ヽ(°▽°)ノ✿  
+개발 진행 중입니다  ✿✿ヽ(°▽°)ノ✿<br>
 
 </div>
 
@@ -47,7 +47,7 @@ MAA는 MAA Assistant Arknights의 약자입니다
 
 ## 다운로드
 
-[안정 버전](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/latest)  
+[안정 버전](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/latest)<br>
 [베타 버전](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)
 
 ## 사용 방법
@@ -73,27 +73,27 @@ MAA는 MAA Assistant Arknights의 약자입니다
 
 ## 해외 서버 지원
 
-- 글로벌 서버  
-  작전, 크레딧 상점, 친구 방문, 임무 보상 수령, 자동 통합전략(베타), 공개모집 계산 등을 지원합니다.  
+- 글로벌 서버<br>
+  작전, 크레딧 상점, 친구 방문, 임무 보상 수령, 자동 통합전략(베타), 공개모집 계산 등을 지원합니다.<br>
   자세한 내용은 [문서](resource/global/YoStarEN/readme.md)를 참조해 주세요.
-- 일본 서버  
-  작전, 기반시설 관리, 크레딧 상점, 친구 방문, 임무 보상 수령, 자동 통합전략(베타), 공개모집 계산 등을 지원합니다.  
+- 일본 서버<br>
+  작전, 기반시설 관리, 크레딧 상점, 친구 방문, 임무 보상 수령, 자동 통합전략(베타), 공개모집 계산 등을 지원합니다.<br>
   자세한 내용은 [문서](resource/global/YoStarJP/readme.md)를 참조해 주세요.
-- 한국 서버  
-  작전, 크레딧 상점, 친구 방문, 임무 보상 수령, 자동 통합전략(베타), 공개모집 계산 등을 지원합니다.  
+- 한국 서버<br>
+  작전, 크레딧 상점, 친구 방문, 임무 보상 수령, 자동 통합전략(베타), 공개모집 계산 등을 지원합니다.<br>
   자세한 내용은 [문서](resource/global/YoStarKR/readme.md)를 참조해 주세요.
-- 중국어 번체 서버  
-  작전, 공개모집, 자동 통합전략(베타), 공개모집 계산 등을 지원합니다.  
+- 중국어 번체 서버<br>
+  작전, 공개모집, 자동 통합전략(베타), 공개모집 계산 등을 지원합니다.<br>
   자세한 내용은 [문서](resource/global/txwy/readme.md)를 참조해 주세요.
 
 해외 서버의 플레이어가 적고 프로젝트의 인력이 부족하기 때문에 해외 서버들의 경우에는 기본적인 기능만이 갖추어져 있습니다. 필요한 것이 있다면 [토의](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions)에 참가하거나 직접 MAA의 개선에 함께해주세요! [해외 클라이언트 현지화](https://maa.plus/docs/ko-kr/2.5-해외_클라이언트_현지화.html) 문서도 참고해 주세요.
 
 ## 관련 프로젝트
 
-- 새 GUI：[MaaAsstElectronUI](https://github.com/MaaAssistantArknights/MaaAsstElectronUI) (현재 개발 중입니다. 도움은 환영합니다!)
+- 새 GUI: [MaaAsstElectronUI](https://github.com/MaaAssistantArknights/MaaAsstElectronUI) (현재 개발 중입니다. 도움은 환영합니다!)
 - 백엔드: [MaaBackendCenter](https://github.com/MaaAssistantArknights/MaaBackendCenter) (현재 개발 중입니다. 도움은 환영합니다!)
-- [전략 파일 저장소](https://prts.plus)：[프론트엔드](https://github.com/MaaAssistantArknights/maa-copilot-frontend)
-- [공식 웹사이트](https://maa.plus)：[프론트엔드](https://github.com/MaaAssistantArknights/maa-website)
+- [전략 파일 저장소](https://prts.plus): [프론트엔드](https://github.com/MaaAssistantArknights/maa-copilot-frontend)
+- [공식 웹사이트](https://maa.plus): [프론트엔드](https://github.com/MaaAssistantArknights/maa-website)
 
 ## 감사의 말
 
@@ -145,13 +145,13 @@ MAA의 개선을 위한 개발/테스트에 기여해준 모든 친구들에게 
 
 ### API
 
-- [C 인터페이스](include/AsstCaller.h): [통합 예시](src/Cpp/main.cpp)
-- [Python 인터페이스](src/Python/asst/asst.py): [통합 예시](src/Python/sample.py)
-- [Golang 인터페이스](src/Golang/): [통합 예시](src/Golang/maa/maa.go)
-- [Dart 인터페이스](src/Dart/)
-- [Java 인터페이스](src/Java): [통합 예시](src/Java/src/main/java/com/iguigui/maaj/MaaJavaSample.java)
-- [Rust 인터페이스](src/Rust/src/maa_sys/): [HTTP 인터페이스](src/Rust)
-- [HTTP 인터페이스](src/Java/Readme.md)
+- [C 인터페이스](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/include/AsstCaller.h): [통합 예시](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Cpp/main.cpp)
+- [Python 인터페이스](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Python/asst/asst.py): [통합 예시](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Python/sample.py)
+- [Golang 인터페이스](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/master/src/Golang/): [통합 예시](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Golang/maa/maa.go)
+- [Dart 인터페이스](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/master/src/Dart)
+- [Java 인터페이스](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Java/src/main/java/com/iguigui/maaj/easySample/MaaCore.java): [통합 예시](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Java/src/main/java/com/iguigui/maaj/easySample/MaaJavaSample.java)
+- [Java HTTP 인터페이스](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Java/Readme.md)
+- [Rust 인터페이스](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/master/src/Rust/src/maa_sys): [HTTP 인터페이스](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/master/src/Rust)
 - [TypeScript 인터페이스](https://github.com/MaaAssistantArknights/MaaAsstElectronUI/tree/main/packages/main/coreLoader)
 - [통합](https://maa.plus/docs/ko-kr/3.1-통합.html) <!-- File Required -->
 - [콜백 형식](https://maa.plus/docs/ko-kr/3.2-콜백_형식.html) <!-- File Required -->
@@ -180,10 +180,10 @@ MAA의 개선을 위한 개발/테스트에 기여해준 모든 친구들에게 
 
 ## 광고
 
-사용자 그룹：[Telegram](https://t.me/+Mgc2Zngr-hs3ZjU1), [QQ 그룹](https://ota.maa.plus/MaaAssistantArknights/api/qqgroup/index.html)  
-[전략 JSON 공유](https://prts.plus)  
-[빌리빌리 라이브](https://live.bilibili.com/2808861): 코딩 과정을 밤마다 방송하고 있습니다. 이 프로그램에 대부분의 시간을 할애하고 있습니다.  
-[명일방주 무관 기술 공유 & 만담 (QQ 그룹)](https://jq.qq.com/?_wv=1027&k=ypbzXcA2): 지옥 같아요!  
+사용자 그룹: [Telegram](https://t.me/+Mgc2Zngr-hs3ZjU1), [QQ 그룹](https://ota.maa.plus/MaaAssistantArknights/api/qqgroup/index.html)<br>
+[전략 JSON 공유](https://prts.plus)<br>
+[빌리빌리 라이브](https://live.bilibili.com/2808861): 코딩 과정을 밤마다 방송하고 있습니다. 이 프로그램에 대부분의 시간을 할애하고 있습니다.<br>
+[명일방주 무관 기술 공유 & 만담 (QQ 그룹)](https://jq.qq.com/?_wv=1027&k=ypbzXcA2): 지옥 같아요!<br>
 [개발자 그룹 (QQ 그룹)](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)
 
 프로그램이 도움이 된다고 생각하시면 Star를 눌러주세요! (페이지 우측 상단의 작은 별) 저희에게 가장 큰 도움이 됩니다!
