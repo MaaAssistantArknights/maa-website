@@ -38,7 +38,8 @@ MAAは、MAA Assistant Arknightsです。
 - 戦友訪問、FP収集、買い物、デイリーリワード収集、ワンクリックして全自動操作！
 - 統合戦略自動作戦、オペレーターとレベルの自動認識、源石錐とキャンドルの自動収集！（現在JPはベータ対応）
 - 作業JSONファイルをインポートし、自動操作も可能！ [ビデオデモ](https://www.bilibili.com/video/BV1H841177Fk/)（現在JP未対応/中文）
-- **新機能！倉庫のアイテム認識機能（アルファ）** [Arkplanner](https://penguin-stats.io/planner)/[ARK-NIGHTS.com](https://ark-nights.com/settings)と[アークナイツ ツールボックス](https://arkn.lolicon.app/#/material)へ出力可能！使用方法はツール内文章を参照してください。
+- 倉庫のアイテム認識機能（ベータ） [Arkplanner](https://penguin-stats.io/planner)/[ARK-NIGHTS.com](https://ark-nights.com/settings)と[アークナイツ ツールボックス](https://arkn.lolicon.app/#/material)へ出力可能！使用方法はツール内文章を参照してください。
+- C、Python、Java、Rust、Golang、Java HTTP、Rust HTTPなどの多種多様なインターフェースに対応、統合や呼び出しが簡単で、自分好みにMAAをカスタマイズできます!
 
 UIを見れば使い方もすぐ分かる！<br>
 
@@ -66,7 +67,7 @@ UIを見れば使い方もすぐ分かる！<br>
 - 起動する際にソフトウェアがクラッシュする。
 - 接続エラー、adbパスがわからない場合。
 - 認識エラー、またはオペレーション開始した後に反応がない。
-- カスタムポート設定について。
+- ダウンロードが中途半端になり "ログイン"/"認証 "のプロンプトが出る。
 
 [よくある質問](https://maa.plus/docs/ja-jp/1.2-よくある質問.html)を参照してください。
 
@@ -157,9 +158,9 @@ MAAをより良くするために開発・テストに貢献してくれたす�
 - [タスクAPI](https://maa.plus/docs/ja-jp/3.4-タスクAPI.html)
 - [自動作戦API](https://maa.plus/docs/ja-jp/3.3-自動作戦API.html)
 
-### Overseas Clients Adaptation
+### グローバル版を含む海外クライアントの対応について
 
-Please refer to [Overseas clients Adaptation](https://maa.plus/docs/ja-jp/2.5-OVERSEAS_CLIENTS_ADAPTATION.html). For the functions already supported by the CN client, most of the overseas clients adaptation tasks only need screenshots and simple JSON modification.
+[海外版クライアントの対応について](https://maa.plus/docs/ja-jp/2.5-OVERSEAS_CLIENTS_ADAPTATION.html)をご覧ください。大陸版で既にサポートされている機能を他地域クライアントへ移植するための必要作業の大半は、簡単なJSONの修正と（作業に必要な）スクリーンショットの提出で済みます。。
 
 ### 開発に参加したいがGitHubの使い方がよくわかりません
 
