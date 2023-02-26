@@ -75,16 +75,8 @@ Please refer to: [FAQ](https://maa.plus/docs/en-us/1.2-FAQ.html)
 
 ## Supports for overseas clients
 
-- Global(EN) Client<br>
-  Supports basic features like Combat, Credit Shopping, Visiting, Collecting, Auto Roguelike(beta), Recruitment calculate, etc. See also [README](resource/global/YoStarEN/readme.md)
-- JP Client<br>
-  Supports basic features like Combat, Auto Base shift, Credit Shopping, Auto Recruiting, Visiting, Collecting, Auto Roguelike(beta), Recruitment calculate, etc. See also [README](resource/global/YoStarJP/readme.md)
-- KR Client<br>
-  Supports basic features like Combat, Credit Shopping, Visiting, Collecting, Auto Roguelike(beta), Recruitment calculate, etc. See also [README](resource/global/YoStarKR/readme.md)
-- ZH_CHT Client<br>
-  Supports basic features like Combat, Auto Recruiting, Auto Roguelike(beta), Recruitment calculate, etc. See also [README](resource/global/txwy/readme.md)
-
-Due to the small number of overseas clients users and the lack of project manpower, the overseas clients is currently only adapted to basic functions. If you have strong needs, welcome to ask the progress in the [discussions](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions), or join us to make MAA better! Please refer to [Overseas Clients Adaptation](#overseas-clients-adaptation)
+At present, most of the functions of the International client (US client), Japanese client, Korean client, and traditional Chinese client have been supported. However, due to the small number of overseas users and the shortage of project personnel, many functions have not been fully tested, so please experience it yourself.<br>
+If you encounter a bug, or have a strong demand for a certain function, welcome to [Issues](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues) and [Discussions](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions) to ask questions. And feel free to join us in building the MAA! Please refer to [Overseas Clients Adaptation](#overseas-clients-adaptation)
 
 ## Associated Projects
 

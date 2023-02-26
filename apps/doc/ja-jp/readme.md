@@ -73,20 +73,8 @@ UIを見れば使い方もすぐ分かる！<br>
 
 ## サーバーに応じてサポートされる機能
 
-- アメリカサーバー<br>
-  作戦、戦友訪問、FP交換所、レワード収集、統合戦略（ベータ版）、公開求人認識の機能がサポートされている。
-  サポート内容については[README](resource/global/YoStarEN/readme.md)を参照してください。
-- 日本サーバー<br>
-  作戦、自動基地、自動公開求人、戦友訪問、FP交換所、レワード収集、統合戦略（ベータ版）、公開求人認識の機能がサポートされている。
-  サポート内容については[README](resource/global/YoStarJP/readme.md)を参照してください。
-- 韓国サーバー<br>
-  作戦、戦友訪問、FP交換所、レワード収集、統合戦略（ベータ版）、公開求人認識の機能がサポートされている。<br>
-  サポート内容については[README](resource/global/YoStarKR/readme.md)を参照してください。
-- TXWYサーバー<br>
-  基本的な作戦、自動公開求人、統合戦略（ベータ版）、公開求人認識の機能がサポートされている。<br>
-  サポート内容については[README](resource/global/txwy/readme.md)を参照してください。
-
-海外サーバーのユーザーが不足しており、基本的な機能しかサポートされていません。要件があれば[提案](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions)ページで提案をお願い致します。いっしょにMAAの開発に協力しましょう! Please refer to [Overseas Clients Adaptation](#overseas-clients-adaptation)
+現在、国際クライアント（英語クライアント）、日本語クライアント、韓国語クライアント、繁体字中国語クライアントのほとんどの機能がサポートされています。 ただし、海外ユーザーの少なさとプロジェクト要員不足により、十分に検証できていない機能も多いので、ぜひ体験してみてください。<br>
+バグに遭遇した場合、または特定の機能に対する強い要望がある場合は、[Issues](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues) and [Discussions](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions) で質問してください。 MAA の構築にご参加ください。[海外クライアント対応](#グローバル版を含む海外クライアントの対応について) を参照してください
 
 ## 主な関連プロジェクト
 

@@ -74,16 +74,8 @@ MAA 的意思是 MAA Assistant Arknights
 
 ## 外服支援
 
-- 國際服（美服）<br>
-  支援基本的刷理智、信用購物、訪問好友、領取獎勵、自動肉鴿（測試版本）、公招辨識，請參考 [說明](resource/global/YoStarEN/readme.md)
-- 日服<br>
-  支援基本的刷理智、自動基建、信用購物、自動公招、訪問好友、領取獎勵、自動肉鴿（測試版本）、公招辨識，請參考 [說明](resource/global/YoStarJP/readme.md)
-- 韓服<br>
-  支援基本的刷理智、信用購物、訪問好友、領取獎勵、自動肉鴿（測試版本）、公招辨識，請參考 [說明](resource/global/YoStarKR/readme.md)
-- 繁中服<br>
-  支援基本的刷理智、自動公招、自動肉鴿、領取日常、公招辨識功能，請參考 [說明](resource/global/txwy/readme.md)
-
-由於外服使用者較少及項目人手不足的問題，外服目前都僅適配了基本的功能。若您有強需求，歡迎在 [討論區](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions) 催更，或加入我们一起建设 MAA！请参考 [外服适配教程](#外服適配)
+目前已支持國際客戶端（英文客戶端）、日語客戶端、韓語客戶端、繁體中文客戶端的大部分功能。 但由於海外用戶少，項目人員緊缺，很多功能還沒有完全測試，還請大家自行體驗。<br>
+如果遇到BUG，或者對某個功能有強烈需求，歡迎到 [Issues](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues) 和 [討論](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions) 催更；或加入我們建設 MAA！ 請參考[外服适配教程](#外服適配)
 
 ## 主要關聯項目
 
