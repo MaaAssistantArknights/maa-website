@@ -74,7 +74,7 @@ MAA는 MAA Assistant Arknights의 약자입니다
 ## 해외 서버 지원
 
 현재 인터내셔널 클라이언트(영어 클라이언트), 일본 클라이언트, 한국 클라이언트, 중국어 번체 클라이언트의 대부분의 기능을 지원하고 있습니다. 다만, 해외 사용자 수가 적고 프로젝트 인력이 부족한 관계로 많은 기능이 충분히 테스트되지 않았으니 직접 경험해 보시기 바랍니다.<br>
-버그가 발생하거나 특정 기능에 대한 강력한 수요가 있는 경우 문제 및 토론에 오신 것을 환영합니다. 그리고 MAA를 구축하는 데 자유롭게 참여하십시오! [해외 클라이언트 현지화](https://maa.plus/docs/ko-kr/2.5-해외_클라이언트_현지화.html)을 참조하십시오.
+버그가 발생하거나 특정 기능에 대한 강력한 수요가 있는 경우 문제 및 토론에 오신 것을 환영합니다. 그리고 MAA를 구축하는 데 자유롭게 참여하십시오! [해외클라이언트현지화](#해외클라이언트현지화)을 참조하십시오.
 
 ## 관련 프로젝트
 
@@ -125,11 +125,11 @@ MAA의 개선을 위한 개발/테스트에 기여해준 모든 친구들에게 
 ### Windows
 
 - `MAA.sln`를 Visual Studio 2022로 열어주세요. 모든 설정이 제대로 구성되어 있습니다.
-- clang-format 기능을 활성화해 주세요. 자세한 내용은 [개발](https://maa.plus/docs/ko-kr/2.2-개발.html) 문서의 [Visual Studio에서 clang-format 활성화](https://maa.plus/docs/ko-kr/2.2-개발.html#visual-studio에서-clang-format-활성화) 문단을 참조해 주세요. <!-- File Required -->
+- Switch on the feature of clang-format. Please refer to [Using clang-format in Visual Studio](https://maa.plus/docs/en-us/2.2-DEVELOPMENT.html#using-clang-format-in-visual-studio). <!-- Translation Required -->
 
 ### Linux/MacOS
 
-[Linux_튜토리얼](https://maa.plus/docs/ko-kr/2.1-Linux_튜토리얼.html) 문서를 참조해 주세요. <!-- File Required -->
+[Linux_튜토리얼](https://maa.plus/docs/en-us/2.1-LINUX_TUTORIAL.html) 문서를 참조해 주세요. <!-- Translation Required -->
 
 ### API
 
@@ -141,25 +141,25 @@ MAA의 개선을 위한 개발/테스트에 기여해준 모든 친구들에게 
 - [Java HTTP 인터페이스](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Java/Readme.md)
 - [Rust 인터페이스](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/master/src/Rust/src/maa_sys): [HTTP 인터페이스](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/master/src/Rust)
 - [TypeScript 인터페이스](https://github.com/MaaAssistantArknights/MaaAsstElectronUI/tree/main/packages/main/coreLoader)
-- [통합](https://maa.plus/docs/ko-kr/3.1-통합.html) <!-- File Required -->
-- [콜백 형식](https://maa.plus/docs/ko-kr/3.2-콜백_형식.html) <!-- File Required -->
-- [임무 형식](https://maa.plus/docs/ko-kr/3.4-임무_형식.html) <!-- File Required -->
-- [전략 형식](https://maa.plus/docs/ko-kr/3.3-전략_형식.html) <!-- File Required -->
+- [통합](https://maa.plus/docs/en-us/3.1-INTEGRATION.html) <!-- Translation Required -->
+- [콜백 형식](https://maa.plus/docs/en-us/3.2-CALLBACK_SCHEMA.html) <!-- Translation Required -->
+- [임무 형식](https://maa.plus/docs/en-us/3.4-TASK_SCHEMA.html) <!-- Translation Required -->
+- [전략 형식](https://maa.plus/docs/en-us/3.3-COPILOT_SCHEMA.html) <!-- Translation Required -->
 
-### 해외 클라이언트 현지화
+### 해외클라이언트현지화
 
-[해외 클라이언트 현지화](https://maa.plus/docs/ko-kr/2.5-해외_클라이언트_현지화.html) 문서를 참고하세요. 대부분의 경우 CN 서버에서 이미 지원하는 기능들은 스크린샷과 간단한 JSON 파일 조작만으로도 타 서버에서 사용 가능합니다. <!-- File Required -->
+[해외 클라이언트 현지화](https://maa.plus/docs/en-us/2.5-OVERSEAS_CLIENTS_ADAPTATION.html) 문서를 참고하세요. 대부분의 경우 CN 서버에서 이미 지원하는 기능들은 스크린샷과 간단한 JSON 파일 조작만으로도 타 서버에서 사용 가능합니다. <!-- Translation Required -->
 
 ### GitHub에 익숙치 않은 사용자용 가이드
 
-[개발](https://maa.plus/docs/ko-kr/2.2-개발.html) 문서의 [GitHub Pull Request에 대한 설명](https://maa.plus/docs/ko-kr/2.2-개발.html#github-pull-request에-대한-설명) 문단을 참조해 주세요. <!-- File Required -->
+[Development](https://maa.plus/docs/en-us/2.2-DEVELOPMENT.html#introduction-to-github-pull-request-flow) <!-- Translation Required -->
 
 ### Issue Bot
 
 - `Add {LABEL_NAME}`로 레이블을 추가하고, `Remove {LABEL_NAME}`로 제거하세요.
 - 커밋에서 `close #{ISSUE_NUMBER}` 또는 `fix #{ISSUE_NUMBER}`로 `fixed` 태그를 이슈에 추가하세요.
 
-자세한 내용은 [Issue Bot 사용방법](https://maa.plus/docs/ko-kr/2.3-IssueBot사용방법.html)을 참조해 주세요. <!-- File Required -->
+자세한 내용은 [Issue Bot 사용방법](https://maa.plus/docs/en-us/2.3-ISSUE_BOT_USAGE.html)을 참조해 주세요. <!-- Translation Required -->
 
 ## 주의사항
 
