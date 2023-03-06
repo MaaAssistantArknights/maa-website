@@ -126,8 +126,15 @@ Thanks to all friends who contribute to development/testing for making MAA bette
 
 ### Windows
 
-- Open `MAA.sln` with Visual Studio 2022. All settings have been configured properly.
-- Switch on the feature of clang-format. Please refer to [Using clang-format in Visual Studio](https://maa.plus/docs/en-us/2.2-DEVELOPMENT.html#using-clang-format-in-visual-studio).
+1. Download pre-built third-party libraries.
+
+     ```cmd
+     python maadeps-download.py
+     ```
+
+2. Open `MAA.sln` with Visual Studio 2022, right-click `MaaWpfGui` and set it as the startup project.
+3. Right-click `MaaWpfGui` - Properties - Debugging - Enable Local Debugging (so you can hang the breakpoint on the C++ Core).
+4. (Optional) If you are going to submit a PR, I recommend you enable [clang-format support](https://maa.plus/docs/en-us/2.2-DEVELOPMENT.html#using-clang-format-in-visual-studio).
 
 ### Linux/MacOS
 
@@ -158,10 +165,7 @@ Please refer to [Overseas clients Adaptation](https://maa.plus/docs/en-us/2.5-OV
 
 ### Issue Bot
 
-- Add labels with `Add {LABEL_NAME}`, and remove with `Remove {LABEL_NAME}`.
-- Add `fixed` tag to the issue with `close #{ISSUE_NUMBER}` or `fix #{ISSUE_NUMBER}` in the comments.
-
-Please refer to [Issue Bot Usage](https://maa.plus/docs/en-us/2.3-ISSUE_BOT_USAGE.html) for more details.
+Please refer to [Issue Bot Usage](https://maa.plus/docs/en-us/2.3-ISSUE_BOT_USAGE.html)
 
 ## Disclaimer
 
