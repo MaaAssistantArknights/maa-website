@@ -124,8 +124,15 @@ MAAをより良くするために開発・テストに貢献してくれたす�
 
 ### Windows
 
-- Visual Studio 2022で `MAA.sln` を開きます。環境がすでに構成されています。
-- clang-formatのサポートを有効にすることをお勧めします。詳細については、[Visual Studioでclang-formatを有効にする](https://maa.plus/docs/ja-jp/2.2-プルリクエスト.html)を参照してください。
+1. ビルド済みのサードパーティ ライブラリをダウンロードします。
+
+      ```cmd
+      python maadeps-download.py
+      ```
+
+2. Visual Studio 2022 で `MAA.sln` を開き、`MaaWpfGui` を右クリックして、スタートアップ プロジェクトとして設定します。
+3. `MaaWpfGui` を右クリックし、[プロパティ] - [デバッグ] - [ローカル デバッグを有効にする] を選択します (これにより、C++ コアにブレークポイントを掛けることができます)。
+4. (オプション) PR を送信する場合は、[clang-formatを有効にする](https://maa.plus/docs/ja-jp/2.2-プルリクエスト.html)を有効にすることをお勧めします。
 
 ### Linux | macOS
 
@@ -155,9 +162,6 @@ MAAをより良くするために開発・テストに貢献してくれたす�
 [Githubプルリクエストのプロセス](https://maa.plus/docs/ja-jp/2.2-プルリクエスト.html)
 
 ### Issue bot
-
-- `Add {LABEL_NAME}`を使用してタグを追加し、`Remove {LABEL_NAME}` を使用してタグを削除できます。
-- `close #{ISSUE_NUMBER}` または `fix #{ISSUE_NUMBER}` を使用してissueに `fixed` タグを追加できます。
 
 詳細については[Issue bot 使用方法](https://maa.plus/docs/ja-jp/2.3-IssueBot使う方.html)を参照してください。
 

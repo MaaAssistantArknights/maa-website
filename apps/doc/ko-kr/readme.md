@@ -124,8 +124,15 @@ MAA의 개선을 위한 개발/테스트에 기여해준 모든 친구들에게 
 
 ### Windows
 
-- `MAA.sln`를 Visual Studio 2022로 열어주세요. 모든 설정이 제대로 구성되어 있습니다.
-- Switch on the feature of clang-format. Please refer to [Using clang-format in Visual Studio](https://maa.plus/docs/en-us/2.2-DEVELOPMENT.html#using-clang-format-in-visual-studio). <!-- Translation Required -->
+1. 사전 구축된 타사 라이브러리를 다운로드합니다.
+
+      ```cmd
+      python maadeps-download.py
+      ```
+
+2. Visual Studio 2022로 `MAA.sln`을 열고 `MaaWpfGui`를 마우스 오른쪽 버튼으로 클릭하고 시작 프로젝트로 설정합니다.
+3. `MaaWpfGui` - 속성 - 디버깅 - 로컬 디버깅 활성화를 마우스 오른쪽 버튼으로 클릭합니다(따라서 C++ Core에 중단점을 걸 수 있습니다).
+4. (선택 사항) PR을 제출하려는 경우 [clang-format support](https://maa.plus/docs/en-us/2.2-DEVELOPMENT.html#using-clang-format-in-visual-studio)를 활성화하는 것이 좋습니다.<!-- Translation Required -->
 
 ### Linux/MacOS
 
@@ -155,9 +162,6 @@ MAA의 개선을 위한 개발/테스트에 기여해준 모든 친구들에게 
 [Development](https://maa.plus/docs/en-us/2.2-DEVELOPMENT.html#introduction-to-github-pull-request-flow) <!-- Translation Required -->
 
 ### Issue Bot
-
-- `Add {LABEL_NAME}`로 레이블을 추가하고, `Remove {LABEL_NAME}`로 제거하세요.
-- 커밋에서 `close #{ISSUE_NUMBER}` 또는 `fix #{ISSUE_NUMBER}`로 `fixed` 태그를 이슈에 추가하세요.
 
 자세한 내용은 [Issue Bot 사용방법](https://maa.plus/docs/en-us/2.3-ISSUE_BOT_USAGE.html)을 참조해 주세요. <!-- Translation Required -->
 
