@@ -169,9 +169,9 @@ const predicates: PlatformPredicate[] = [
     id: 'linux-x64',
     icon: mdiLinux,
     title: 'Linux',
-    subtitle: 'x64',
+    subtitle: 'x64 静态库',
     messages: {
-      downloaded: '下载完成，解压后运行即可',
+      downloaded: '静态库下载完成 (Linux 版本暂无 GUI)',
     },
     assetMatcher: (release) => {
       return release.assets.find((el) => /^MAA-v.*-linux\.tar.gz/.test(el.name))
