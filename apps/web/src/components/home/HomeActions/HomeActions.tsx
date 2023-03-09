@@ -14,7 +14,7 @@ import { FC, Suspense } from 'react'
 export const HomeActions: FC = () => {
   return (
     <div className="absolute bottom-0 left-0 right-0 mb-24 md:mb-[7vh] flex flex-col mx-8">
-      <div className="flex-col items-center justify-center hidden gap-2 font-light md:flex md:flex-row md:gap-6">
+      <div className="flex-col items-center justify-center hidden gap-2 font-light md:flex md:flex-row md:gap-x-4 md:gap-y-2 flex-wrap">
         <HomeActionsReleaseErrorBoundary>
           <Suspense
             fallback={
@@ -28,18 +28,6 @@ export const HomeActions: FC = () => {
             <HomeActionsRelease />
           </Suspense>
         </HomeActionsReleaseErrorBoundary>
-
-        <GlowButton bordered href="/docs">
-          <div className="flex flex-col items-start">
-            <div className="flex items-center -ml-1">
-              <Icon icon={mdiDocument} fontSize="28px" />
-              <span className="ml-2">文档与 FAQ</span>
-            </div>
-            <div className="flex mt-1 mb-0.5 ml-8">
-              <span className="text-xs"></span>
-            </div>
-          </div>
-        </GlowButton>
       </div>
 
       <div className="flex flex-row items-center justify-center md:hidden">
@@ -51,17 +39,24 @@ export const HomeActions: FC = () => {
         </GlowButton>
       </div>
 
-      <div className="mt-6 text-xs leading-5 text-center md:mt-8 text-white/70">
-        MAA 以 AGPL-3.0 协议开源；使用即表示您同意并知悉「用户协议」的相关内容。
-      </div>
-
       <div className="flex-row gap-4 items-center justify-center hidden mt-4 md:flex">
+        <GlowButton translucent href="/docs">
+          <div className="flex items-center -ml-1 font-light">
+            <Icon icon={mdiDocument} fontSize="28px" />
+            <span className="ml-2">文档与 FAQ</span>
+          </div>
+        </GlowButton>
+
         <GlowButton translucent href="https://github.com/MaaAssistantArknights">
           <div className="flex items-center -ml-1 text-sm">
             <Icon icon={mdiGitHub} fontSize="20px" />
             <span className="ml-2">GitHub</span>
           </div>
         </GlowButton>
+      </div>
+
+      <div className="mt-6 text-xs leading-5 text-center md:mt-8 text-white/70">
+        MAA 以 AGPL-3.0 协议开源；使用即表示您同意并知悉「用户协议」的相关内容。
       </div>
     </div>
   )

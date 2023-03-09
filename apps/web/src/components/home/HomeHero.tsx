@@ -50,7 +50,7 @@ const HomeIndicator = forwardRef<HTMLDivElement>((_props, ref) => (
     className="fixed right-[2vw] top-[50vh] pointer-events-none select-none hidden md:block"
     ref={ref}
   >
-    <div className="-rotate-90 text-white/10 text-[2rem] font-light">
+    <div className="-rotate-90 text-white/20 text-[2rem] font-light">
       友情链接
     </div>
   </div>
@@ -64,7 +64,7 @@ function ScreenshotsCanvas({
   indicatorRef: React.MutableRefObject<HTMLDivElement | null>
 }) {
   return (
-    <Canvas shadows camera={{ fov: 35, position: [0, -1, 11] }} flat linear>
+    <Canvas shadows camera={{ fov: 35, position: [0, -1, 14] }} flat linear>
       <ambientLight intensity={1} />
       <Screenshots sidebarRef={sidebarRef} indicatorRef={indicatorRef} />
     </Canvas>
