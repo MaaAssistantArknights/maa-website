@@ -40,8 +40,9 @@ export const GlowButton: FCC<GlowButtonProps> = forwardRef<
     },
     transition: {
       type: 'spring',
-      stiffness: 300,
+      stiffness: 400,
       damping: 30,
+      mass: 1.2,
     },
   }
 
