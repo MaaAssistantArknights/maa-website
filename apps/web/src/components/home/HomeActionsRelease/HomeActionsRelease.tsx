@@ -449,7 +449,7 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
       <DownloadButton
         platform={platform}
         releaseName={release.name}
-        key={platform.platform.title}
+        key={platform.platform.id}
       />
     ))
   }, [platforms])
