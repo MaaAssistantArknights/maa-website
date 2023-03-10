@@ -74,9 +74,9 @@ export const PLATFORMS: PlatformPredicate[] = [
     id: 'linux-x64',
     icon: mdiLinux,
     title: 'Linux',
-    subtitle: 'x64 静态库',
+    subtitle: 'x64 动态库 (暂无 GUI)',
     messages: {
-      downloaded: '静态库下载完成 (Linux 版本暂无 GUI)',
+      downloaded: '动态库与资源文件下载完成 (Linux 版本暂无 GUI)',
     },
     assetMatcher: (release) => {
       return release.assets.find((el) => /^MAA-v.*-linux\.tar.gz/.test(el.name))
