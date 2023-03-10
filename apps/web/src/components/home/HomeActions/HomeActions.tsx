@@ -9,12 +9,17 @@ import mdiGitHub from '@iconify/icons-mdi/github'
 import mdiLoading from '@iconify/icons-mdi/loading'
 import { Icon } from '@iconify/react'
 
+import { motion } from 'framer-motion'
 import { FC, Suspense } from 'react'
 
 export const HomeActions: FC = () => {
   return (
     <div className="absolute bottom-0 left-0 right-0 mb-24 md:mb-[7vh] flex flex-col mx-8">
-      <div className="flex-col items-center justify-center hidden gap-2 font-light md:flex md:flex-row md:gap-x-4 md:gap-y-2 flex-wrap">
+      <motion.div
+        className="flex-col items-center justify-center hidden gap-2 font-light md:flex md:flex-row md:gap-x-4 md:gap-y-2 flex-wrap relative"
+        // layout
+        layoutRoot
+      >
         <HomeActionsReleaseErrorBoundary>
           <Suspense
             fallback={
@@ -28,7 +33,7 @@ export const HomeActions: FC = () => {
             <HomeActionsRelease />
           </Suspense>
         </HomeActionsReleaseErrorBoundary>
-      </div>
+      </motion.div>
 
       <div className="flex flex-row items-center justify-center md:hidden">
         <GlowButton bordered href="https://github.com/MaaAssistantArknights">

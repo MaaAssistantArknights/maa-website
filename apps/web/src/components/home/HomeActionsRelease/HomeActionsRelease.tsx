@@ -1,20 +1,19 @@
 import { GlowButton } from '@/components/foundations/GlowButton/GlowButton'
-import { Release, ReleaseAsset, useRelease } from '@/hooks/use-release'
+import { Release, useRelease } from '@/hooks/use-release'
 import mdiAlertCircle from '@iconify/icons-mdi/alert-circle'
-import mdiApple from '@iconify/icons-mdi/apple'
 import mdiCheck from '@iconify/icons-mdi/check'
 import mdiDownload from '@iconify/icons-mdi/download'
-import mdiLinux from '@iconify/icons-mdi/linux'
 import mdiLoading from '@iconify/icons-mdi/loading'
-import mdiWindows from '@iconify/icons-mdi/windows'
 import type { IconifyIcon } from '@iconify/react'
 import { Icon } from '@iconify/react'
 
 import clsx from 'clsx'
+import { AnimatePresence, motion } from 'framer-motion'
 import {
   Component,
   FC,
   ReactNode,
+  forwardRef,
   useCallback,
   useEffect,
   useMemo,
@@ -25,6 +24,12 @@ import { useMount } from 'react-use'
 import { downloadBlob } from '../../../utils/blob'
 import { download } from '../../../utils/fetch'
 import { formatBytes } from '../../../utils/format'
+import {
+  DetectionFailedSymbol,
+  PLATFORMS,
+  ResolvedPlatform,
+  detectPlatform,
+} from './ReleaseModels'
 
 const GITHUB_MIRRORS = [
   // {
@@ -78,174 +83,51 @@ const DataLoadRate: FC<{ loaded: number; total: number }> = ({
   )
 }
 
-export const DownloadState: FC<{
+interface DownloadStateProps {
   icon: IconifyIcon
   iconClassName?: string
   title: ReactNode
   className?: string
-}> = ({ icon, iconClassName, title, className }) => {
+}
+
+export const DownloadState: FC<DownloadStateProps> = forwardRef<
+  HTMLDivElement,
+  DownloadStateProps
+>(({ icon, iconClassName, title, className }, ref) => {
   return (
-    <div
+    <motion.div
       className={clsx(
         'flex py-6 px-3 flex-col items-center justify-center text-white font-normal',
         className,
       )}
+      {...{
+        exit: {
+          scale: 0.9,
+          opacity: 0,
+        },
+        initial: {
+          scale: 0,
+          opacity: 0,
+        },
+        animate: {
+          scale: 1,
+          opacity: 1,
+        },
+        transition: {
+          type: 'spring',
+          stiffness: 500,
+          damping: 30,
+        },
+      }}
+      ref={ref}
     >
       <div className="flex items-center -ml-1">
         <Icon className={iconClassName} icon={icon} fontSize="28px" />
         <span className="ml-2">{title}</span>
       </div>
-    </div>
+    </motion.div>
   )
-}
-
-interface PlatformPredicate {
-  id: string
-  icon: IconifyIcon
-  title: string
-  subtitle: string
-  messages: {
-    downloaded: string
-  }
-  assetMatcher: (release: Release) => ReleaseAsset | undefined
-}
-
-const predicates: PlatformPredicate[] = [
-  {
-    id: 'windows-x64',
-    icon: mdiWindows,
-    title: 'Windows',
-    subtitle: 'x64',
-    messages: {
-      downloaded: '下载完成，解压后运行 MAA.exe 即可',
-    },
-    assetMatcher: (release) => {
-      return release.assets.find((el) => /^MAA-v.*-win-x64\.zip/.test(el.name))
-    },
-  },
-  {
-    id: 'windows-arm64',
-    icon: mdiWindows,
-    title: 'Windows',
-    subtitle: 'arm64',
-    messages: {
-      downloaded: '下载完成，解压后运行 MAA.exe 即可',
-    },
-    assetMatcher: (release) => {
-      return release.assets.find((el) =>
-        /^MAA-v.*-win-arm64\.zip/.test(el.name),
-      )
-    },
-  },
-  {
-    id: 'macos-x64',
-    icon: mdiApple,
-    title: 'macOS',
-    subtitle: 'Intel',
-    messages: {
-      downloaded: '下载完成，打开磁盘映像后将 MAA.app 拖入应用程序文件夹即可',
-    },
-    assetMatcher: (release) => {
-      return release.assets.find((el) =>
-        /^MAA-v.*-macos-x86_64\.dmg/.test(el.name),
-      )
-    },
-  },
-  {
-    id: 'macos-arm64',
-    icon: mdiApple,
-    title: 'macOS',
-    subtitle: 'Apple Silicon',
-    messages: {
-      downloaded: '下载完成，打开磁盘映像后将 MAA.app 拖入应用程序文件夹即可',
-    },
-    assetMatcher: (release) => {
-      return release.assets.find((el) =>
-        /^MAA-v.*-macos-arm64\.dmg/.test(el.name),
-      )
-    },
-  },
-  {
-    id: 'linux-x64',
-    icon: mdiLinux,
-    title: 'Linux',
-    subtitle: 'x64 静态库',
-    messages: {
-      downloaded: '静态库下载完成 (Linux 版本暂无 GUI)',
-    },
-    assetMatcher: (release) => {
-      return release.assets.find((el) => /^MAA-v.*-linux\.tar.gz/.test(el.name))
-    },
-  },
-]
-
-// detectPlatform detects the platform of the current user and returns the
-// corresponding platform ID. The detector should be as accurate as possible,
-// and it should take account the user's architecture and OS.
-// The more modern navigator.userAgentData should be used if available.
-const detectionFailedSymbol = Symbol('detectionFailed')
-const detectPlatform = async (): Promise<
-  string | typeof detectionFailedSymbol
-> => {
-  if (typeof navigator === 'undefined') {
-    return detectionFailedSymbol
-  }
-
-  const userAgentData = await (
-    navigator as any
-  ).userAgentData?.getHighEntropyValues(['platform', 'architecture'])
-
-  if (userAgentData) {
-    const { platform, architecture } = userAgentData
-
-    if (platform === 'macOS') {
-      if (architecture.startsWith('arm')) {
-        return 'macos-arm64'
-      }
-      return 'macos-x64'
-    }
-
-    if (platform === 'Windows') {
-      if (architecture.startsWith('arm')) {
-        return 'windows-arm64'
-      }
-      return 'windows-x64'
-    }
-
-    if (platform === 'Linux') {
-      return 'linux-x64'
-    }
-  }
-
-  const { userAgent } = navigator
-
-  if (userAgent.includes('Windows')) {
-    if (userAgent.includes('ARM')) {
-      return 'windows-arm64'
-    }
-    return 'windows-x64'
-  }
-
-  if (userAgent.includes('Macintosh')) {
-    if (userAgent.includes('Intel')) {
-      return 'macos-x64'
-    }
-    if (userAgent.includes('ARM')) {
-      return 'macos-arm64'
-    }
-  }
-
-  if (userAgent.includes('Linux')) {
-    return 'linux-x64'
-  }
-
-  return detectionFailedSymbol
-}
-
-interface ResolvedPlatform {
-  asset: ReleaseAsset
-  platform: PlatformPredicate
-}
+})
 
 type DownloadDetectionStates =
   | {
@@ -271,8 +153,7 @@ type DownloadDetectionStates =
 const DownloadButton: FC<{
   platform: ResolvedPlatform
   releaseName: string | null
-  children?: ReactNode
-}> = ({ platform, releaseName, children }) => {
+}> = ({ platform, releaseName }) => {
   const href = platform.asset.browser_download_url
 
   const [loadState, setLoadState] = useState<DownloadDetectionStates>({
@@ -423,8 +304,8 @@ const DownloadButton: FC<{
 
 export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
   const [viewAll, setViewAll] = useState(false)
-  const [currentPlatformId, setCurrentPlatformId] = useState<
-    string | typeof detectionFailedSymbol | null
+  const [envPlatformId, setCurrentPlatformId] = useState<
+    string | typeof DetectionFailedSymbol | null
   >(null)
 
   useMount(async () => {
@@ -432,50 +313,52 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
     setCurrentPlatformId(platformId ?? null)
   })
 
-  const platforms = useMemo(() => {
-    return predicates.reduce((acc, platform) => {
-      const asset = platform.assetMatcher(release)
-      if (asset)
-        acc.push({
-          asset,
-          platform,
-        })
-      return acc
-    }, [] as ResolvedPlatform[])
-  }, [release])
+  const validPlatforms = useMemo(
+    () =>
+      PLATFORMS.reduce((acc, platform) => {
+        const asset = platform.assetMatcher(release)
+        if (asset)
+          acc.push({
+            asset,
+            platform,
+          })
+        return acc
+      }, [] as ResolvedPlatform[]),
+    [release],
+  )
 
-  const allPlatforms = useMemo(() => {
-    return platforms.map((platform) => (
-      <DownloadButton
-        platform={platform}
-        releaseName={release.name}
-        key={platform.platform.id}
-      />
-    ))
-  }, [platforms])
+  const allPlatformDownloadBtns = useMemo(
+    () =>
+      validPlatforms.map((platform) => (
+        <DownloadButton
+          platform={platform}
+          releaseName={release.name}
+          key={platform.platform.id}
+        />
+      )),
+    [validPlatforms],
+  )
 
-  const content = useMemo(() => {
-    if (viewAll || currentPlatformId === detectionFailedSymbol) {
-      return allPlatforms
+  const innerContent = useMemo(() => {
+    if (viewAll || envPlatformId === DetectionFailedSymbol) {
+      return allPlatformDownloadBtns
     } else {
-      const platform = platforms.find(
-        (platform) => platform.platform.id === currentPlatformId,
+      const platform = validPlatforms.find(
+        (platform) => platform.platform.id === envPlatformId,
       )
-      if (!platform) return allPlatforms
+      if (!platform) return allPlatformDownloadBtns
 
-      return (
-        <>
-          <DownloadButton platform={platform} releaseName={release.name} />
-
-          <GlowButton bordered onClick={() => setViewAll(true)}>
-            查看全部
-          </GlowButton>
-        </>
-      )
+      return [
+        <DownloadButton
+          platform={platform}
+          releaseName={release.name}
+          key={platform.platform.id}
+        />,
+      ]
     }
-  }, [platforms, viewAll, currentPlatformId])
+  }, [validPlatforms, viewAll, envPlatformId])
 
-  if (!currentPlatformId) {
+  if (!envPlatformId) {
     return (
       <DownloadState
         iconClassName="animate-spin"
@@ -486,13 +369,26 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
   }
 
   return (
-    <>
-      {platforms.length ? (
-        content
+    <AnimatePresence mode="popLayout">
+      {validPlatforms.length ? (
+        innerContent
       ) : (
-        <DownloadState icon={mdiAlertCircle} title="未找到可用的下载链接" />
+        <DownloadState
+          key="unavailable"
+          icon={mdiAlertCircle}
+          title="未找到可用的下载链接"
+        />
       )}
-    </>
+      {!viewAll && (
+        <GlowButton
+          key="view-all-switch"
+          bordered
+          onClick={() => setViewAll(true)}
+        >
+          查看全部
+        </GlowButton>
+      )}
+    </AnimatePresence>
   )
 }
 

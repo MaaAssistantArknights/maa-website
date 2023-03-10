@@ -1,30 +1,67 @@
 import { FCC } from '@/types'
 
 import clsx from 'clsx'
-import { MouseEventHandler, memo } from 'react'
+import { MotionProps, motion } from 'framer-motion'
+import { MouseEventHandler, forwardRef } from 'react'
 
-import styles from './GlowButton.module.css'
+import { WithChildren } from '../../../types'
 
-export const GlowButton: FCC<{
+import moduleStyles from './GlowButton.module.css'
+
+type GlowButtonProps = WithChildren<{
   translucent?: boolean
   bordered?: boolean
   href?: string
   onClick?: MouseEventHandler<HTMLButtonElement>
-}> = memo(({ children, translucent, bordered, href, onClick }) => {
+}>
+
+export const GlowButton: FCC<GlowButtonProps> = forwardRef<
+  HTMLButtonElement,
+  GlowButtonProps
+>(({ children, translucent, bordered, href, onClick }, ref) => {
+  const motionConfig: MotionProps = {
+    whileHover: {
+      scale: 1.03,
+    },
+    whileTap: {
+      scale: 0.97,
+    },
+    exit: {
+      scale: 0.4,
+      opacity: 0,
+    },
+    initial: {
+      scale: 0.4,
+      opacity: 0,
+    },
+    animate: {
+      scale: 1,
+      opacity: 1,
+    },
+    transition: {
+      type: 'spring',
+      stiffness: 300,
+      damping: 30,
+    },
+  }
+
   const inner = (
-    <button
+    <motion.button
+      layout
       type="button"
       className={clsx(
-        styles.root,
+        moduleStyles.root,
         !translucent && 'bg-zinc-900/80',
         translucent && 'bg-zinc-900/80 hover:bg-zinc-700/40',
         !bordered && 'border-none',
         'flex px-6 py-3 active:bg-zinc-800 rounded-lg hover:-translate-y-[1px] active:translate-y-[1px] text-2xl text-white/80',
       )}
       onClick={onClick}
+      {...motionConfig}
+      ref={ref}
     >
       {children}
-    </button>
+    </motion.button>
   )
 
   if (href) {
@@ -33,7 +70,7 @@ export const GlowButton: FCC<{
         href={href}
         target="_blank"
         rel="noreferrer noopener"
-        className={styles.link}
+        className={moduleStyles.link}
       >
         {inner}
       </a>
