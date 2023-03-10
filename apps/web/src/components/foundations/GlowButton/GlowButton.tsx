@@ -54,7 +54,7 @@ export const GlowButton: FCC<GlowButtonProps> = forwardRef<
         !translucent && 'bg-zinc-900/80',
         translucent && 'bg-zinc-900/80 hover:bg-zinc-700/40',
         !bordered && 'border-none',
-        'flex px-6 py-3 active:bg-zinc-800 rounded-lg hover:-translate-y-[1px] active:translate-y-[1px] text-2xl text-white/80',
+        'flex px-6 py-3 active:bg-zinc-800 rounded-lg hover:-translate-y-[1px] active:translate-y-[1px] text-2xl text-white/80 whitespace-nowrap',
       )}
       onClick={onClick}
       {...motionConfig}
