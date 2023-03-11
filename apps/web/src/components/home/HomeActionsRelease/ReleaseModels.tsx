@@ -43,30 +43,16 @@ export const PLATFORMS: PlatformPredicate[] = [
     },
   },
   {
-    id: 'macos-x64',
+    id: 'macos-universal',
     icon: mdiApple,
     title: 'macOS',
-    subtitle: 'Intel',
+    subtitle: '通用',
     messages: {
       downloaded: '下载完成，打开磁盘映像后将 MAA.app 拖入应用程序文件夹即可',
     },
     assetMatcher: (release) => {
       return release.assets.find((el) =>
-        /^MAA-v.*-macos-x86_64\.dmg/.test(el.name),
-      )
-    },
-  },
-  {
-    id: 'macos-arm64',
-    icon: mdiApple,
-    title: 'macOS',
-    subtitle: 'Apple Silicon',
-    messages: {
-      downloaded: '下载完成，打开磁盘映像后将 MAA.app 拖入应用程序文件夹即可',
-    },
-    assetMatcher: (release) => {
-      return release.assets.find((el) =>
-        /^MAA-v.*-macos-arm64\.dmg/.test(el.name),
+        /^MAA-v.*-macos-universal\.dmg/.test(el.name),
       )
     },
   },
@@ -104,10 +90,7 @@ export const detectPlatform = async (): Promise<
     const { platform, architecture } = userAgentData
 
     if (platform === 'macOS') {
-      if (architecture.startsWith('arm')) {
-        return 'macos-arm64'
-      }
-      return 'macos-x64'
+      return 'macos-universal'
     }
 
     if (platform === 'Windows') {
@@ -132,12 +115,7 @@ export const detectPlatform = async (): Promise<
   }
 
   if (userAgent.includes('Macintosh')) {
-    if (userAgent.includes('Intel')) {
-      return 'macos-x64'
-    }
-    if (userAgent.includes('ARM')) {
-      return 'macos-arm64'
-    }
+    return 'macos-universal'
   }
 
   if (userAgent.includes('Linux')) {
