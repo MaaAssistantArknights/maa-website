@@ -60,7 +60,7 @@ export const PLATFORMS: PlatformPredicate[] = [
     id: 'linux-x64',
     icon: mdiLinux,
     title: 'Linux',
-    subtitle: 'x64 动态库 (暂无 GUI)',
+    subtitle: 'x64 动态库',
     messages: {
       downloaded: '动态库与资源文件下载完成 (Linux 版本暂无 GUI)',
     },
@@ -74,7 +74,7 @@ export const PLATFORMS: PlatformPredicate[] = [
     id: 'linux-aarch64',
     icon: mdiLinux,
     title: 'Linux',
-    subtitle: 'aarch64 动态库 (暂无 GUI)',
+    subtitle: 'aarch64 动态库',
     messages: {
       downloaded: '动态库与资源文件下载完成 (Linux 版本暂无 GUI)',
     },

@@ -10,6 +10,10 @@ function lerp(v0: number, v1: number, t: number) {
   return v0 * (1 - t) + v1 * t
 }
 
+function snapTo(num: number, target: number, delta: number) {
+  return Math.abs(num - target) <= delta ? target : num
+}
+
 function absInRange(num: number, center: number, delta: number) {
   const abs = Math.abs(num)
   return abs >= center - delta && abs <= center + delta
@@ -125,10 +129,18 @@ export function Screenshots({
       )
 
       // sidebarExpansion
-      const sidebarExpansionRatio =
-        1 / (1 + Math.exp(-(lerpPositionXTo.current - 0.3) * 30))
-      const sidebarExpansionSlowRatio =
-        1 / (1 + Math.exp(-(lerpPositionXTo.current - 0.3) * 10))
+      const sidebarExpansionRatio = snapTo(
+        1 / (1 + Math.exp(-(lerpPositionXTo.current - 0.3) * 30)),
+        0,
+        1e-2,
+      )
+
+      const sidebarExpansionSlowRatio = snapTo(
+        1 / (1 + Math.exp(-(lerpPositionXTo.current - 0.3) * 10)),
+        0,
+        1e-2,
+      )
+
       sidebarRef.current.style.transform = `translateX(${
         -window.innerWidth * 0.03 * sidebarExpansionRatio
       }px) rotateY(${(1 - sidebarExpansionSlowRatio) * 30}deg)`
@@ -136,9 +148,11 @@ export function Screenshots({
         sidebarExpansionSlowRatio * 0.1 + 0.9
       }`
       sidebarRef.current.style.opacity = `${sidebarExpansionRatio}`
+      sidebarRef.current.style.pointerEvents =
+        sidebarExpansionRatio < 1e-2 ? 'none' : 'unset'
 
-      // indicator
       if (indicatorRef.current) {
+        // indicator
         indicatorRef.current.style.opacity = `${1 - sidebarExpansionRatio}`
         indicatorRef.current.style.transform = `translateX(${
           window.innerWidth * -0.03 * sidebarExpansionRatio
