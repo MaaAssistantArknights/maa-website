@@ -60,12 +60,28 @@ export const PLATFORMS: PlatformPredicate[] = [
     id: 'linux-x64',
     icon: mdiLinux,
     title: 'Linux',
-    subtitle: 'x64 动态库 (暂无 GUI)',
+    subtitle: 'x64 动态库',
     messages: {
       downloaded: '动态库与资源文件下载完成 (Linux 版本暂无 GUI)',
     },
     assetMatcher: (release) => {
-      return release.assets.find((el) => /^MAA-v.*-linux\.tar.gz/.test(el.name))
+      return release.assets.find((el) =>
+        /^MAA-v.*-linux-x86_64\.tar\.gz/.test(el.name),
+      )
+    },
+  },
+  {
+    id: 'linux-aarch64',
+    icon: mdiLinux,
+    title: 'Linux',
+    subtitle: 'aarch64 动态库',
+    messages: {
+      downloaded: '动态库与资源文件下载完成 (Linux 版本暂无 GUI)',
+    },
+    assetMatcher: (release) => {
+      return release.assets.find((el) =>
+        /^MAA-v.*-linux-aarch64\.tar\.gz/.test(el.name),
+      )
     },
   },
 ]
@@ -101,24 +117,32 @@ export const detectPlatform = async (): Promise<
     }
 
     if (platform === 'Linux') {
+      if (architecture.startsWith('arm')) {
+        return 'linux-aarch64'
+      }
       return 'linux-x64'
     }
   }
 
   const { userAgent } = navigator
 
-  if (userAgent.includes('Windows')) {
-    if (userAgent.includes('ARM')) {
+  const lowerCaseUA = userAgent.toLowerCase()
+
+  if (lowerCaseUA.includes('Windows')) {
+    if (lowerCaseUA.includes('ARM')) {
       return 'windows-arm64'
     }
     return 'windows-x64'
   }
 
-  if (userAgent.includes('Macintosh')) {
+  if (lowerCaseUA.includes('Macintosh')) {
     return 'macos-universal'
   }
 
-  if (userAgent.includes('Linux')) {
+  if (lowerCaseUA.includes('Linux')) {
+    if (lowerCaseUA.includes('aarch64') || lowerCaseUA.includes('arm64')) {
+      return 'linux-aarch64'
+    }
     return 'linux-x64'
   }
 
