@@ -79,9 +79,10 @@ UIを見れば使い方もすぐ分かる！<br>
 ## 主な関連プロジェクト
 
 - 新しいGUI：[MaaAsstElectronUI](https://github.com/MaaAssistantArknights/MaaAsstElectronUI) （開発中、貢献歓迎！）
-- バックエンド：[MaaBackendCenter](https://github.com/MaaAssistantArknights/MaaBackendCenter) （開発中、貢献歓迎！）
 - [作業シェアサイト](https://www.prts.plus)：[フロントエンド](https://github.com/MaaAssistantArknights/maa-copilot-frontend)
+- バックエンド：[MaaBackendCenter](https://github.com/MaaAssistantArknights/MaaBackendCenter) （開発中、貢献歓迎！）
 - [公式ウェブサイト](https://www.maa.plus): [フロントエンド](https://github.com/MaaAssistantArknights/maa-website)
+- Deep Learning: [MaaAI](https://github.com/MaaAssistantArknights/MaaAI)
 
 ## 謝辞
 
