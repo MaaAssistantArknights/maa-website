@@ -128,18 +128,18 @@ export const detectPlatform = async (): Promise<
 
   const lowerCaseUA = userAgent.toLowerCase()
 
-  if (lowerCaseUA.includes('Windows')) {
-    if (lowerCaseUA.includes('ARM')) {
+  if (lowerCaseUA.includes('windows')) {
+    if (lowerCaseUA.includes('arm')) {
       return 'windows-arm64'
     }
     return 'windows-x64'
   }
 
-  if (lowerCaseUA.includes('Macintosh')) {
+  if (lowerCaseUA.includes('macintosh')) {
     return 'macos-universal'
   }
 
-  if (lowerCaseUA.includes('Linux')) {
+  if (lowerCaseUA.includes('linux')) {
     if (lowerCaseUA.includes('aarch64') || lowerCaseUA.includes('arm64')) {
       return 'linux-aarch64'
     }
