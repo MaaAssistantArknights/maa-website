@@ -208,30 +208,21 @@ export function Screenshots({
         ref={meshRightRef}
         position={[3, 0.5, -0.5]}
         rotation={[0, -sidePanelRotationOffset, 0]}
-        castShadow
-        receiveShadow
       >
         <boxGeometry args={[3 * imageAspects.right, 3, 0]} />
-        <meshPhysicalMaterial transparent map={textureRight} />
+        <meshBasicMaterial transparent map={textureRight} />
       </mesh>
       <mesh
         ref={meshLeftRef}
         position={[-3, 0.5, -0.5]}
         rotation={[0, sidePanelRotationOffset, 0]}
-        castShadow
-        receiveShadow
       >
         <boxGeometry args={[3 * imageAspects.left, 3, 0]} />
-        <meshPhysicalMaterial transparent map={textureLeft} />
+        <meshBasicMaterial transparent map={textureLeft} />
       </mesh>
-      <mesh
-        ref={meshCenterRef}
-        position={[0, 0.5, 0.5]}
-        castShadow
-        receiveShadow
-      >
+      <mesh ref={meshCenterRef} position={[0, 0.5, 0.5]}>
         <boxGeometry args={[3 * imageAspects.center, 3, 0]} />
-        <meshPhysicalMaterial transparent map={textureCenter} />
+        <meshBasicMaterial transparent map={textureCenter} />
       </mesh>
     </>
   )
