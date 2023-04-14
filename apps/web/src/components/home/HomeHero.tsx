@@ -2,6 +2,7 @@ import { Canvas } from '@react-three/fiber'
 import { ErrorBoundary } from '@sentry/react'
 
 import { FC, forwardRef, useRef } from 'react'
+import { useWindowSize } from 'react-use'
 
 import { AnimatedBlobs } from './AnimatedBlobs/AnimatedBlobs'
 import { HomeActions } from './HomeActions/HomeActions'
@@ -12,29 +13,34 @@ import { Screenshots } from './Screenshots/Screenshots'
 export const HomeHero: FC = () => {
   const linkRef = useRef<HTMLDivElement | null>(null)
   const indicatorRef = useRef<HTMLDivElement | null>(null)
+  const windowDimensions = useWindowSize()
+
   return (
     <>
       <AnimatedBlobs />
       <div className="absolute h-full w-full flex items-center">
         <section className="h-[100vmin] w-full relative">
-          <ErrorBoundary
-            fallback={
-              <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-                <div className="text-white/50 text-sm font-semibold">
-                  MAA 截图渲染失败；是否禁用了 GPU 加速？
+          {windowDimensions.height >= 768 && (
+            <ErrorBoundary
+              fallback={
+                <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+                  <div className="text-white/50 text-sm font-semibold">
+                    MAA 截图渲染失败；是否禁用了 GPU 加速？
+                  </div>
                 </div>
-              </div>
-            }
-            onError={() => {
-              if (linkRef.current) linkRef.current.style.opacity = '1'
-              if (indicatorRef.current) indicatorRef.current.style.opacity = '0'
-            }}
-          >
-            <ScreenshotsCanvas
-              sidebarRef={linkRef}
-              indicatorRef={indicatorRef}
-            />
-          </ErrorBoundary>
+              }
+              onError={() => {
+                if (linkRef.current) linkRef.current.style.opacity = '1'
+                if (indicatorRef.current)
+                  indicatorRef.current.style.opacity = '0'
+              }}
+            >
+              <ScreenshotsCanvas
+                sidebarRef={linkRef}
+                indicatorRef={indicatorRef}
+              />
+            </ErrorBoundary>
+          )}
         </section>
       </div>
       <HomeHeroHeader />
