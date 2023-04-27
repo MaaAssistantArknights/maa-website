@@ -8,7 +8,7 @@ const maaProjectLocationMapping = [
     to: `${bundleBasePath}`,
   },
   {
-    from: './apps/doc/.vuepress/dist',
+    from: './apps/doc/docs/.vuepress/dist',
     to: `${bundleBasePath}/docs`,
   },
 ];

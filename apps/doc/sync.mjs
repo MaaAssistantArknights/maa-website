@@ -5,27 +5,14 @@ import * as url from 'url';
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const filename = path.basename(__filename);
-const maaDocDir = path.dirname(url.fileURLToPath(
-    await import.meta.resolve('MaaAssistantArknights/docs/readme.md')
-));
+const maaDocDir = path.dirname(path.dirname(url.fileURLToPath(
+    await import.meta.resolve('MaaAssistantArknights/docs/.vuepress/config.ts')
+)));
 
-const syncIgnore = [
-    filename,
-    'package.json',
-    'tsconfig.json',
-    '.gitignore',
-];
+console.log(`maaDocDir: ${maaDocDir}`);
 
-fs.readdirSync(__dirname).forEach(f => {
-    if (syncIgnore.includes(f)) return;
-    console.log(`removing ${f}`);
-    fs.rmSync(path.join(__dirname, f), { recursive: true })
-});
+console.log(`removing docs`);
+fs.rmSync(path.join(__dirname, 'docs'), { recursive: true, force: true })
 
-fs.readdirSync(maaDocDir).forEach(f => {
-    console.log(`copying ${f}`);
-    fs.cpSync(path.join(maaDocDir, f), path.join(__dirname, f),
-        { recursive: true, errorOnExist: true }
-    );
-});
+console.log(`copying docs`);
+fs.cpSync(maaDocDir, path.join(__dirname, 'docs'), { recursive: true });

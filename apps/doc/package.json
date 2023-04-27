@@ -17,9 +17,9 @@
   },
   "scripts": {
     "sync": "node --experimental-import-meta-resolve sync.mjs",
-    "dev": "npm run sync && vuepress dev .",
-    "dev:doc": "npm run sync && vuepress dev .",
-    "build": "npm run sync && vuepress build .",
+    "dev": "npm run sync && vuepress dev ./docs",
+    "dev:doc": "npm run sync && vuepress dev ./docs",
+    "build": "npm run sync && vuepress build ./docs",
     "lintfix": "npm run sync && markdownlint \"**/*.md\" --fix"
   }
 }
