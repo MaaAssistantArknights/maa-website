@@ -7,6 +7,7 @@
   "author": "bakashigure <me@shigure.fun>",
   "license": "AGPL-3.0",
   "dependencies": {
+    "MaaAssistantArknights": "MaaAssistantArknights/MaaAssistantArknights",
     "@vuepress/plugin-docsearch": "next",
     "@vuepress/plugin-search": "next"
   },
@@ -15,9 +16,10 @@
     "vuepress": "next"
   },
   "scripts": {
-    "dev": "vuepress dev .",
-    "dev:doc": "vuepress dev .",
-    "build": "vuepress build .",
-    "lintfix": "markdownlint \"**/*.md\" --fix"
+    "sync": "node --experimental-import-meta-resolve sync.mjs",
+    "dev": "npm run sync && vuepress dev .",
+    "dev:doc": "npm run sync && vuepress dev .",
+    "build": "npm run sync && vuepress build .",
+    "lintfix": "npm run sync && markdownlint \"**/*.md\" --fix"
   }
 }
