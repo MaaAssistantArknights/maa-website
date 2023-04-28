@@ -38,13 +38,17 @@ const GITHUB_MIRRORS = [
   //     `https://gh.api.99988866.xyz/${original.toString()}`,
   // },
   {
+    name: 'maa.r2.imgg.dev',
+    transform: (original: URL) => `https://maa.r2.imgg.dev${original.pathname}`,
+  },
+  {
     name: 'agent.imgg.dev',
     transform: (original: URL) => `https://agent.imgg.dev${original.pathname}`,
   },
-  {
-    name: 'maverick',
-    transform: (original: URL) => `https://qz.minasan.xyz${original.pathname}`,
-  },
+  // {
+  //   name: 'maverick',
+  //   transform: (original: URL) => `https://qz.minasan.xyz${original.pathname}`,
+  // },
   {
     name: 'ghproxy',
     transform: (original: URL) => `https://ghproxy.com/${original.toString()}`,
