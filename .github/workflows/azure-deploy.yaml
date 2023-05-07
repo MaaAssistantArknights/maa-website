@@ -9,6 +9,7 @@ on:
     types: [opened, synchronize, reopened, closed]
     branches:
       - dev
+  workflow_dispatch:
 
 jobs:
   deploy:
