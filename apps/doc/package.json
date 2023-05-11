@@ -7,7 +7,7 @@
   "author": "bakashigure <me@shigure.fun>",
   "license": "AGPL-3.0",
   "dependencies": {
-    "MaaAssistantArknights": "MaaAssistantArknights/MaaAssistantArknights",
+    "MaaAssistantArknights": "MaaAssistantArknights/MaaAssistantArknights#master",
     "@vuepress/plugin-docsearch": "next",
     "@vuepress/plugin-search": "next"
   },
