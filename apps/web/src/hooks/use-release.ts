@@ -8,7 +8,12 @@ export type Release =
 export type ReleaseAsset = Release['assets'][number]
 
 export const useRelease = () => {
-  return useSWR<Release>(
-    'https://api.github.com/repos/MaaAssistantArknights/MaaAssistantArknights/releases/latest',
-  )
+  const { data, ...rest } = useSWR<{
+    details: Release
+  }>('https://ota.maa.plus/MaaAssistantArknights/api/version/stable.json')
+
+  return {
+    data: data?.details,
+    ...rest,
+  }
 }

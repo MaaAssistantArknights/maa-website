@@ -248,8 +248,16 @@ const DownloadButton: FC<{
           </div>
           <div className="flex items-center mt-1 mb-0.5 ml-8 text-sm">
             <span>{releaseName}</span>
-            <Icon icon={mdiDownload} className="ml-2 mr-0.5" />
-            <span>{platform.asset.download_count.toLocaleString()}</span>
+            {platform.asset.download_count && (
+              <>
+                <Icon icon={mdiDownload} className="ml-2 mr-0.5" />
+                <span>
+                  {platform.asset.download_count
+                    ? platform.asset.download_count.toLocaleString()
+                    : '—'}
+                </span>
+              </>
+            )}
           </div>
         </div>
       </GlowButton>
