@@ -82,11 +82,10 @@ export async function download(
   })
 }
 
-const internalCheckUrlConnectivity = async (
+export async function checkUrlConnectivity(
   url: string,
-  timeout: number,
-  mode: RequestMode,
-) => {
+  timeout = 5000,
+): Promise<boolean> {
   try {
     const controller = new AbortController()
     const signal = controller.signal
@@ -94,7 +93,6 @@ const internalCheckUrlConnectivity = async (
     const response = await fetch(url, {
       method: 'HEAD',
       signal,
-      mode,
     })
     if (!response.ok) {
       return false
@@ -103,17 +101,4 @@ const internalCheckUrlConnectivity = async (
   } catch {
     return false
   }
-}
-
-export async function checkUrlConnectivity(
-  url: string,
-  timeout = 5000,
-): Promise<boolean> {
-  if (await internalCheckUrlConnectivity(url, timeout, 'cors')) {
-    return true
-  }
-  if (await internalCheckUrlConnectivity(url, timeout, 'no-cors')) {
-    return true
-  }
-  return false
 }
