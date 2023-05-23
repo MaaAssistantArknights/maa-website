@@ -22,8 +22,9 @@ import {
 import { useMount } from 'react-use'
 
 import { downloadBlob } from '../../../utils/blob'
-import { download } from '../../../utils/fetch'
+import { checkUrlConnectivity, download } from '../../../utils/fetch'
 import { formatBytes } from '../../../utils/format'
+import sleep from '../../../utils/sleep'
 import {
   DetectionFailedSymbol,
   PLATFORMS,
@@ -31,20 +32,25 @@ import {
   detectPlatform,
 } from './ReleaseModels'
 
-const GITHUB_MIRRORS = [
+type GITHUB_MIRROR_TYPE = {
+  name: string
+  transform: (original: URL) => string
+}
+
+const GITHUB_MIRRORS: GITHUB_MIRROR_TYPE[] = [
   // {
   //   name: '99988866',
   //   transform: (original: URL) =>
   //     `https://gh.api.99988866.xyz/${original.toString()}`,
   // },
-  {
-    name: 'maa.r2.imgg.dev',
-    transform: (original: URL) => `https://maa.r2.imgg.dev${original.pathname}`,
-  },
-  {
-    name: 'agent.imgg.dev',
-    transform: (original: URL) => `https://agent.imgg.dev${original.pathname}`,
-  },
+  // {
+  //   name: 'maa.r2.imgg.dev',
+  //   transform: (original: URL) => `https://maa.r2.imgg.dev${original.pathname}`,
+  // },
+  // {
+  //   name: 'agent.imgg.dev',
+  //   transform: (original: URL) => `https://agent.imgg.dev${original.pathname}`,
+  // },
   // {
   //   name: 'maverick',
   //   transform: (original: URL) => `https://qz.minasan.xyz${original.pathname}`,
@@ -142,6 +148,10 @@ type DownloadDetectionStates =
       detected: number
     }
   | {
+      state: 'connecting'
+      mirrorIndex: number
+    }
+  | {
       state: 'downloading'
       mirrorIndex: number
       progressDownloaded: number
@@ -163,14 +173,42 @@ const DownloadButton: FC<{
   const [loadState, setLoadState] = useState<DownloadDetectionStates>({
     state: 'idle',
   })
+  const mirrorsTemplate = [
+    ...platform.asset.mirrors.map((url) => ({
+      transform: () => url,
+      name: new URL(url).hostname,
+    })),
+    ...GITHUB_MIRRORS,
+  ]
 
   const detectDownload = useCallback(async () => {
     setLoadState({ state: 'detecting', detected: 0 })
     const original = new URL(href)
-
-    for (const [index, mirror] of GITHUB_MIRRORS.entries()) {
+    const mirrors: [number, string][] = []
+    await Promise.all(
+      mirrorsTemplate.map(async (mirror, index) => {
+        const mirrorUrl = mirror.transform(original)
+        const result = await checkUrlConnectivity(mirrorUrl)
+        if (result) {
+          mirrors.push([index, mirrorUrl])
+        }
+        setLoadState((prev) => {
+          if (prev.state === 'detecting') {
+            return {
+              ...prev,
+              detected: prev.detected + 1,
+            }
+          }
+          return prev
+        })
+      }),
+    )
+    await sleep(300)
+    for (const [index, mirror] of mirrors) {
       try {
-        await download(mirror.transform(original), {
+        setLoadState({ state: 'connecting', mirrorIndex: index + 1 })
+        await sleep(300)
+        await download(mirror, {
           ttfbTimeout: 3500,
           onProgress: (progressEvent) => {
             setLoadState({
@@ -180,23 +218,11 @@ const DownloadButton: FC<{
               progressTotal: progressEvent.total,
             })
           },
-        })
-          .then((blob) => {
-            downloadBlob(blob, href.split('/').pop()!)
+        }).then((blob) => {
+          downloadBlob(blob, href.split('/').pop()!)
 
-            setLoadState({ state: 'downloaded' })
-          })
-          .finally(() => {
-            setLoadState((prev) => {
-              if (prev.state === 'detecting') {
-                return {
-                  ...prev,
-                  detected: index + 1,
-                }
-              }
-              return prev
-            })
-          })
+          setLoadState({ state: 'downloaded' })
+        })
 
         break
       } catch (err) {
@@ -206,16 +232,20 @@ const DownloadButton: FC<{
         )
       }
     }
+    setLoadState((prev) => {
+      if (prev.state !== 'downloaded') {
+        return {
+          state: 'fallback',
+        }
+      }
+      return prev
+    })
   }, [href])
 
   useEffect(() => {
-    if (
-      loadState.state === 'detecting' &&
-      loadState.detected === GITHUB_MIRRORS.length
-    ) {
+    if (loadState.state === 'fallback') {
       console.warn('no mirrors responded correctly; fallback to original URL')
       window.location.href = href
-      setLoadState({ state: 'fallback' })
     }
   }, [loadState])
 
@@ -267,7 +297,15 @@ const DownloadButton: FC<{
       <DownloadState
         iconClassName="animate-spin"
         icon={mdiLoading}
-        title={`正在检测下载镜像 (${loadState.detected}/${GITHUB_MIRRORS.length})...`}
+        title={`正在检测下载镜像 (${loadState.detected}/${mirrorsTemplate.length})……`}
+      />
+    )
+  } else if (loadState.state === 'connecting') {
+    return (
+      <DownloadState
+        iconClassName="animate-spin"
+        icon={mdiLoading}
+        title={`正在尝试从镜像 #${loadState.mirrorIndex} 下载……`}
       />
     )
   } else if (loadState.state === 'downloading') {
@@ -278,7 +316,7 @@ const DownloadButton: FC<{
         title={
           <div className="flex items-center">
             <span className="mr-4">
-              正在从镜像 #{loadState.mirrorIndex} 下载...
+              正在从镜像 #{loadState.mirrorIndex} 下载……
             </span>
             <DataLoadRate
               loaded={loadState.progressDownloaded}
@@ -301,7 +339,7 @@ const DownloadButton: FC<{
       <DownloadState
         iconClassName="animate-spin"
         icon={mdiLoading}
-        title="下载失败，正在尝试直接下载..."
+        title="下载失败，正在尝试直接下载……"
       />
     )
   } else {
@@ -375,7 +413,7 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
       <DownloadState
         iconClassName="animate-spin"
         icon={mdiLoading}
-        title="正在匹配..."
+        title="正在匹配……"
       />
     )
   }

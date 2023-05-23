@@ -81,3 +81,24 @@ export async function download(
     xhr.send()
   })
 }
+
+export async function checkUrlConnectivity(
+  url: string,
+  timeout = 5000,
+): Promise<boolean> {
+  try {
+    const controller = new AbortController()
+    const signal = controller.signal
+    setTimeout(() => controller.abort(), Math.max(timeout, 5000))
+    const response = await fetch(url, {
+      method: 'HEAD',
+      signal,
+    })
+    if (!response.ok) {
+      return false
+    }
+    return true
+  } catch {
+    return false
+  }
+}
