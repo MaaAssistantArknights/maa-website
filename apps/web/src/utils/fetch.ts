@@ -81,3 +81,39 @@ export async function download(
     xhr.send()
   })
 }
+
+const internalCheckUrlConnectivity = async (
+  url: string,
+  timeout: number,
+  mode: RequestMode,
+) => {
+  try {
+    const controller = new AbortController()
+    const signal = controller.signal
+    setTimeout(() => controller.abort(), Math.max(timeout, 5000))
+    const response = await fetch(url, {
+      method: 'HEAD',
+      signal,
+      mode,
+    })
+    if (!response.ok) {
+      return false
+    }
+    return true
+  } catch {
+    return false
+  }
+}
+
+export async function checkUrlConnectivity(
+  url: string,
+  timeout = 5000,
+): Promise<boolean> {
+  if (await internalCheckUrlConnectivity(url, timeout, 'cors')) {
+    return true
+  }
+  if (await internalCheckUrlConnectivity(url, timeout, 'no-cors')) {
+    return true
+  }
+  return false
+}
