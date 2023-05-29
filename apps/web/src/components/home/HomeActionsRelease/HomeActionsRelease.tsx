@@ -148,6 +148,10 @@ type DownloadDetectionStates =
       detected: number
     }
   | {
+      state: 'detected'
+      availableMirror: number
+    }
+  | {
       state: 'connecting'
       mirrorIndex: number
     }
@@ -204,6 +208,8 @@ const DownloadButton: FC<{
       }),
     )
     await sleep(300)
+    setLoadState({ state: 'detected', availableMirror: mirrors.length })
+    await sleep(500)
     for (const [index, mirror] of mirrors) {
       try {
         setLoadState({ state: 'connecting', mirrorIndex: index + 1 })
@@ -298,6 +304,14 @@ const DownloadButton: FC<{
         iconClassName="animate-spin"
         icon={mdiLoading}
         title={`正在检测下载镜像 (${loadState.detected}/${mirrorsTemplate.length})……`}
+      />
+    )
+  } else if (loadState.state === 'detected') {
+    return (
+      <DownloadState
+        iconClassName="animate-spin"
+        icon={mdiLoading}
+        title={`已检测可用下载镜像 ${loadState.availableMirror} 个……`}
       />
     )
   } else if (loadState.state === 'connecting') {
