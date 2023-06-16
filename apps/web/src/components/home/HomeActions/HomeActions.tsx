@@ -35,7 +35,7 @@ export const HomeActions: FC = () => {
         </HomeActionsReleaseErrorBoundary>
       </motion.div>
 
-      <div className="flex-row gap-4 items-center justify-center mt-4 flex">
+      <div className="flex-row gap-4 items-center justify-center mt-4 flex flex-col md:flex-row">
         <GlowButton translucent href="/docs">
           <div className="flex items-center -ml-1 font-light">
             <Icon icon={mdiDocument} fontSize="28px" />
