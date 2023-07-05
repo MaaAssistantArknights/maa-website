@@ -108,18 +108,16 @@ export async function checkUrlConnectivity(
     if (!response.ok) {
       return false
     }
-
-    // 测量两个不同的标志。
     performance.measure(
       measureName,
       `${measureName}-start`,
       `${measureName}-end`,
     )
-
-    // 获取所有的测量输出。
-    // 在这个例子中只有一个。
     var measures = performance.getEntriesByName(measureName)
     var measure = measures[0]
+    performance.clearMarks(`${measureName}-start`)
+    performance.clearMarks(`${measureName}-end`)
+    performance.clearMeasures(measureName)
     return measure.duration
   } catch {
     return false
