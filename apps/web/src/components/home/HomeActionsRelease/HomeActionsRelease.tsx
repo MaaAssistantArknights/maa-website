@@ -154,6 +154,7 @@ type DownloadDetectionStates =
   | {
       state: 'connecting'
       mirrorIndex: number
+      mirrorLatency: number
     }
   | {
       state: 'downloading'
@@ -188,13 +189,13 @@ const DownloadButton: FC<{
   const detectDownload = useCallback(async () => {
     setLoadState({ state: 'detecting', detected: 0 })
     const original = new URL(href)
-    const mirrors: [number, string][] = []
+    const mirrors: [number, string, DOMHighResTimeStamp][] = []
     await Promise.all(
       mirrorsTemplate.map(async (mirror, index) => {
         const mirrorUrl = mirror.transform(original)
         const result = await checkUrlConnectivity(mirrorUrl)
-        if (result) {
-          mirrors.push([index, mirrorUrl])
+        if (typeof result === 'number') {
+          mirrors.push([index, mirrorUrl, result])
         }
         setLoadState((prev) => {
           if (prev.state === 'detecting') {
@@ -207,12 +208,18 @@ const DownloadButton: FC<{
         })
       }),
     )
+    setLoadState({ state: 'detecting', detected: mirrorsTemplate.length })
     await sleep(300)
     setLoadState({ state: 'detected', availableMirror: mirrors.length })
+    mirrors.sort(([, , a], [, , b]) => a - b)
     await sleep(500)
-    for (const [index, mirror] of mirrors) {
+    for (const [index, mirror, mirrorLatency] of mirrors) {
       try {
-        setLoadState({ state: 'connecting', mirrorIndex: index + 1 })
+        setLoadState({
+          state: 'connecting',
+          mirrorIndex: index + 1,
+          mirrorLatency,
+        })
         await sleep(300)
         await download(mirror, {
           ttfbTimeout: 3500,
@@ -319,7 +326,9 @@ const DownloadButton: FC<{
       <DownloadState
         iconClassName="animate-spin"
         icon={mdiLoading}
-        title={`正在尝试从镜像 #${loadState.mirrorIndex} 下载……`}
+        title={`正在尝试从镜像 #${
+          loadState.mirrorIndex
+        }（延迟：${+loadState.mirrorLatency.toFixed(3)} ms）下载……`}
       />
     )
   } else if (loadState.state === 'downloading') {

@@ -82,22 +82,45 @@ export async function download(
   })
 }
 
+function randomSeed() {
+  try {
+    return crypto.randomUUID()
+  } catch {
+    return Math.random().toString(36).substring(2)
+  }
+}
+
 export async function checkUrlConnectivity(
   url: string,
   timeout = 5000,
-): Promise<boolean> {
+): Promise<DOMHighResTimeStamp | false> {
   try {
+    const measureName = `checkUrlConnectivity-${randomSeed()}`
     const controller = new AbortController()
     const signal = controller.signal
     setTimeout(() => controller.abort(), Math.max(timeout, 5000))
+    performance.mark(`${measureName}-start`)
     const response = await fetch(url, {
       method: 'HEAD',
       signal,
     })
+    performance.mark(`${measureName}-end`)
     if (!response.ok) {
       return false
     }
-    return true
+
+    // 测量两个不同的标志。
+    performance.measure(
+      measureName,
+      `${measureName}-start`,
+      `${measureName}-end`,
+    )
+
+    // 获取所有的测量输出。
+    // 在这个例子中只有一个。
+    var measures = performance.getEntriesByName(measureName)
+    var measure = measures[0]
+    return measure.duration
   } catch {
     return false
   }
