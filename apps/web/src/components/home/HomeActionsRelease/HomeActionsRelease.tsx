@@ -220,7 +220,7 @@ const DownloadButton: FC<{
           mirrorIndex: index + 1,
           mirrorLatency,
         })
-        await sleep(300)
+        await sleep(1000)
         await download(mirror, {
           ttfbTimeout: 3500,
           onProgress: (progressEvent) => {
