@@ -252,10 +252,10 @@ const DownloadButton: FC<{
         throw new Error()
       }
     } catch {
-      for (let [i, [, mirror]] of mirrors.entries()) {
+      for (let [i, [index, mirror]] of mirrors.entries()) {
         setLoadState({
           state: 'speedTesting',
-          mirrorIndex: i + 1,
+          mirrorIndex: index + 1,
         })
         const mirrorSpeed = await checkUrlSpeed(mirror)
         mirrors[i][3] = mirrorSpeed
