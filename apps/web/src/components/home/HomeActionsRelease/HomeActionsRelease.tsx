@@ -22,7 +22,11 @@ import {
 import { useMount } from 'react-use'
 
 import { downloadBlob } from '../../../utils/blob'
-import { checkUrlConnectivity, download } from '../../../utils/fetch'
+import {
+  checkUrlConnectivity,
+  checkUrlSpeed,
+  download,
+} from '../../../utils/fetch'
 import { formatBytes } from '../../../utils/format'
 import sleep from '../../../utils/sleep'
 import {
@@ -148,13 +152,20 @@ type DownloadDetectionStates =
       detected: number
     }
   | {
+      state: 'speedTesting'
+      mirrorIndex: number
+    }
+  | {
       state: 'detected'
       availableMirror: number
+      canTestSpeed: boolean
+      cantTestSpeedReason: 'saveData' | 'mobile' | 'ok'
     }
   | {
       state: 'connecting'
       mirrorIndex: number
       mirrorLatency: number
+      mirrorSpeed: number
     }
   | {
       state: 'downloading'
@@ -189,13 +200,13 @@ const DownloadButton: FC<{
   const detectDownload = useCallback(async () => {
     setLoadState({ state: 'detecting', detected: 0 })
     const original = new URL(href)
-    const mirrors: [number, string, DOMHighResTimeStamp][] = []
+    const mirrors: [number, string, DOMHighResTimeStamp, number][] = []
     await Promise.all(
       mirrorsTemplate.map(async (mirror, index) => {
         const mirrorUrl = mirror.transform(original)
         const result = await checkUrlConnectivity(mirrorUrl)
         if (typeof result === 'number') {
-          mirrors.push([index, mirrorUrl, result])
+          mirrors.push([index, mirrorUrl, result, -1])
         }
         setLoadState((prev) => {
           if (prev.state === 'detecting') {
@@ -210,15 +221,57 @@ const DownloadButton: FC<{
     )
     setLoadState({ state: 'detecting', detected: mirrorsTemplate.length })
     await sleep(300)
-    setLoadState({ state: 'detected', availableMirror: mirrors.length })
     mirrors.sort(([, , a], [, , b]) => a - b)
+    try {
+      if (Reflect.has(navigator, 'connection')) {
+        if (navigator.connection?.saveData) {
+          setLoadState({
+            state: 'detected',
+            availableMirror: mirrors.length,
+            canTestSpeed: false,
+            cantTestSpeedReason: 'saveData',
+          })
+        } else if (
+          ['slow-2g', '2g', '3g'].includes(
+            navigator.connection?.effectiveType || '4g',
+          ) ||
+          ['bluetooth', 'cellular', 3, 4].includes(
+            navigator.connection?.type || 'unknown',
+          )
+        ) {
+          setLoadState({
+            state: 'detected',
+            availableMirror: mirrors.length,
+            canTestSpeed: false,
+            cantTestSpeedReason: 'mobile',
+          })
+        } else {
+          throw new Error()
+        }
+      } else {
+        throw new Error()
+      }
+    } catch {
+      for (let [i, [, mirror]] of mirrors.entries()) {
+        const mirrorSpeed = await checkUrlSpeed(mirror)
+        mirrors[i][3] = mirrorSpeed
+      }
+      setLoadState({
+        state: 'detected',
+        availableMirror: mirrors.length,
+        canTestSpeed: true,
+        cantTestSpeedReason: 'ok',
+      })
+    }
+    mirrors.sort(([, , , a], [, , , b]) => b - a)
     await sleep(500)
-    for (const [index, mirror, mirrorLatency] of mirrors) {
+    for (const [index, mirror, mirrorLatency, mirrorSpeed] of mirrors) {
       try {
         setLoadState({
           state: 'connecting',
           mirrorIndex: index + 1,
           mirrorLatency,
+          mirrorSpeed,
         })
         await sleep(1000)
         await download(mirror, {
@@ -310,15 +363,34 @@ const DownloadButton: FC<{
       <DownloadState
         iconClassName="animate-spin"
         icon={mdiLoading}
-        title={`正在检测下载镜像 (${loadState.detected}/${mirrorsTemplate.length})……`}
+        title={`正在检测下载镜像可用性 (${loadState.detected}/${mirrorsTemplate.length})……`}
       />
     )
-  } else if (loadState.state === 'detected') {
+  } else if (loadState.state === 'speedTesting') {
     return (
       <DownloadState
         iconClassName="animate-spin"
         icon={mdiLoading}
-        title={`已检测可用下载镜像 ${loadState.availableMirror} 个……`}
+        title={`正在检测下载镜像 #${loadState.mirrorIndex} 速度……`}
+      />
+    )
+  } else if (loadState.state === 'detected') {
+    const cantTestSpeedReasonsText = {
+      saveData: '用户开启了“节省数据”模式',
+      mobile: '用户正在使用移动网络',
+      ok: '',
+    }
+    return (
+      <DownloadState
+        iconClassName="animate-spin"
+        icon={mdiLoading}
+        title={`已检测可用下载镜像 ${loadState.availableMirror} 个（${
+          loadState.canTestSpeed
+            ? '已按下载速度排序'
+            : `由于${
+                cantTestSpeedReasonsText[loadState.cantTestSpeedReason]
+              }，无法检测镜像下载速度，按镜像延迟排序`
+        }）`}
       />
     )
   } else if (loadState.state === 'connecting') {
@@ -328,7 +400,11 @@ const DownloadButton: FC<{
         icon={mdiLoading}
         title={`正在尝试从镜像 #${
           loadState.mirrorIndex
-        }（延迟：${+loadState.mirrorLatency.toFixed(3)} ms）下载……`}
+        }（延迟：${+loadState.mirrorLatency.toFixed(3)} ms${
+          loadState.mirrorSpeed > 0
+            ? `，测速：${loadState.mirrorSpeed / 1024 / 1024 / 1000} MiB/s`
+            : ''
+        }）下载……`}
       />
     )
   } else if (loadState.state === 'downloading') {
