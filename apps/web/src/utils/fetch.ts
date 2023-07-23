@@ -103,6 +103,7 @@ export async function checkUrlConnectivity(
     const response = await fetch(url, {
       method: 'HEAD',
       signal,
+      redirect: 'follow',
     })
     performance.mark(`${measureName}-end`)
     if (!response.ok) {
@@ -137,6 +138,7 @@ export async function checkUrlSpeed(
     const response = await fetch(url, {
       method: 'GET',
       signal,
+      redirect: 'follow',
       headers: {
         Range: 'bytes=0-524287',
       },
