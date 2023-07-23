@@ -406,7 +406,7 @@ const DownloadButton: FC<{
           loadState.mirrorIndex
         }（延迟：${+loadState.mirrorLatency.toFixed(3)} ms${
           loadState.mirrorSpeed > 0
-            ? `，测速：${+(loadState.mirrorSpeed / 1024 / 1024 / 1000).toFixed(
+            ? `，测速：${+(loadState.mirrorSpeed / 1024 / 1024 * 1000).toFixed(
                 3,
               )} MiB/s`
             : ''
