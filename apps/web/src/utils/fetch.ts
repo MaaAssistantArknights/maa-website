@@ -123,3 +123,53 @@ export async function checkUrlConnectivity(
     return false
   }
 }
+
+// unit: B/ms
+export async function checkUrlSpeed(
+  url: string,
+  timeout = 5000,
+): Promise<number> {
+  try {
+    const measureName = `checkUrlSpeed-${randomSeed()}`
+    const controller = new AbortController()
+    const signal = controller.signal
+    setTimeout(() => controller.abort(), Math.max(timeout, 5000))
+    const response = await fetch(url, {
+      method: 'GET',
+      signal,
+      headers: {
+        Range: 'bytes=0-524287',
+      },
+    })
+    if (!response.ok) {
+      return -1
+    }
+    if (!response.body) {
+      return -1
+    }
+    const reader = response.body.getReader()
+    let totalBytesRead = 0
+    performance.mark(`${measureName}-start`)
+    while (true) {
+      const { done, value } = await reader.read()
+      if (done) {
+        performance.mark(`${measureName}-end`)
+        break
+      }
+      totalBytesRead += value.length
+    }
+    performance.measure(
+      measureName,
+      `${measureName}-start`,
+      `${measureName}-end`,
+    )
+    var measures = performance.getEntriesByName(measureName)
+    var measure = measures[0]
+    performance.clearMarks(`${measureName}-start`)
+    performance.clearMarks(`${measureName}-end`)
+    performance.clearMeasures(measureName)
+    return totalBytesRead / measure.duration
+  } catch {
+    return -1
+  }
+}
