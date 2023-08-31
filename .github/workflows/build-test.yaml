@@ -4,7 +4,9 @@ on:
   push:
     branches-ignore:
       - main
-      - dev
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+  workflow_dispatch: 
 
 jobs:
   build:
@@ -15,6 +17,20 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v3
 
+      - name: Fetch docs
+        uses: actions/checkout@v3
+        with:
+          repository: "MaaAssistantArknights/MaaAssistantArknights"
+          sparse-checkout: "docs"
+          path: "temp"
+          ref: "master"
+          fetch-depth: "1"
+
+      - name: Move and cleanup docs
+        run: |
+          mv ./temp/docs ./apps
+          rm -r ./temp
+
       - name: Setup Node.js environment
         uses: actions/setup-node@v3
         with:
@@ -22,7 +38,7 @@ jobs:
           cache: "yarn"
 
       - name: Install dependencies
-        run: yarn
+        run: yarn install --immutable
 
       - name: Build
         run: yarn build

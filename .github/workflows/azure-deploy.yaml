@@ -4,11 +4,6 @@ on:
   push:
     branches:
       - main
-      - dev
-  pull_request:
-    types: [opened, synchronize, reopened, closed]
-    branches:
-      - dev
   workflow_dispatch:
 
 jobs:
@@ -24,9 +19,14 @@ jobs:
         with:
           repository: "MaaAssistantArknights/MaaAssistantArknights"
           sparse-checkout: "docs"
-          path: "apps/docs"
+          path: "temp"
           ref: "master"
           fetch-depth: "1"
+
+      - name: Move and cleanup docs
+        run: |
+          mv ./temp/docs ./apps
+          rm -r ./temp
 
       - name: Setup Node.js environment
         uses: actions/setup-node@v3
@@ -35,7 +35,7 @@ jobs:
           cache: "yarn"
 
       - name: Install dependencies
-        run: yarn
+        run: yarn install --immutable
 
       - name: Build
         run: yarn build
