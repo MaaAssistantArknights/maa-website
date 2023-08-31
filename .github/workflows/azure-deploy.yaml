@@ -19,6 +19,15 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v3
 
+      - name: Fetch docs
+        uses: actions/checkout@v3
+        with:
+          repository: "MaaAssistantArknights/MaaAssistantArknights"
+          sparse-checkout: "docs"
+          path: "apps/docs"
+          ref: "master"
+          fetch-depth: "1"
+
       - name: Setup Node.js environment
         uses: actions/setup-node@v3
         with:
