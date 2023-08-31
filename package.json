@@ -6,7 +6,7 @@
   "repository": "https://github.com/MaaAssistantArknights/maa-website",
   "license": "AGPL-3.0-or-later",
   "scripts": {
-    "build": "turbo run lint && turbo run build && node bundler.mjs",
+    "build": "turbo run build && node bundler.mjs",
     "dev": "turbo run dev",
     "dev:home": "turbo run dev:home",
     "dev:doc": "turbo run dev:doc",
