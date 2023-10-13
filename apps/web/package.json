@@ -42,7 +42,7 @@
     "eslint-config-maa": "*",
     "maa-react-app": "*",
     "maa-tsconfig": "*",
-    "postcss": "^8.4.14",
+    "postcss": "^8.4.31",
     "prettier": "^2.7.0",
     "rollup-plugin-analyzer": "^4.0.0",
     "tailwindcss": "^3.0.24",
