@@ -58,7 +58,7 @@ const LINKS = [
   />,
   <HomeLink
     key="yituliu"
-    href="https://ytl.viktorlab.cn"
+    href="https://ark.yituliu.cn/"
     title="明日方舟一图流"
     icon={
       <img src={linksIconYituliu} alt="明日方舟一图流" className="h-8 w-8" />
