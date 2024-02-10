@@ -16,6 +16,8 @@ jobs:
   deploy:
     timeout-minutes: 20
     runs-on: ubuntu-latest
+    env:
+      DO_NOT_TRACK: 1
     steps:
       - name: Check out code
         uses: actions/checkout@v3
