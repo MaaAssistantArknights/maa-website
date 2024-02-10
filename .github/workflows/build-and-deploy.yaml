@@ -20,10 +20,10 @@ jobs:
       DO_NOT_TRACK: 1
     steps:
       - name: Check out code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Fetch docs
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: "MaaAssistantArknights/MaaAssistantArknights"
           sparse-checkout: "docs"
@@ -37,7 +37,7 @@ jobs:
           rm -r ./temp
 
       - name: Setup Node.js environment
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: "yarn"
