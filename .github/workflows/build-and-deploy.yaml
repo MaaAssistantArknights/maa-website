@@ -1,21 +1,29 @@
-name: azure-deploy
+name: Build and Deploy
 
 on:
   push:
-    branches:
-      - main
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
   workflow_dispatch:
+    inputs:
+      deploy-to-azure:
+        description: '部署到Azure'
+        default: true
+        required: true
+        type: boolean
 
 jobs:
   deploy:
     timeout-minutes: 20
     runs-on: ubuntu-latest
+    env:
+      DO_NOT_TRACK: 1
     steps:
       - name: Check out code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Fetch docs
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: "MaaAssistantArknights/MaaAssistantArknights"
           sparse-checkout: "docs"
@@ -29,9 +37,9 @@ jobs:
           rm -r ./temp
 
       - name: Setup Node.js environment
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           cache: "yarn"
 
       - name: Install dependencies
@@ -40,8 +48,9 @@ jobs:
       - name: Build
         run: yarn build
 
-      - name: Deploy
+      - name: Deploy to Azure
         id: deploy
+        if: github.repository == 'MaaAssistantArknights/maa-website' && ((github.event_name == 'push' && github.ref == 'refs/heads/main') || (github.event_name == 'workflow_dispatch' && github.event.inputs.deploy-to-azure == 'true'))
         uses: Azure/static-web-apps-deploy@v1
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_KIND_WAVE_001CBA500 }}

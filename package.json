@@ -28,5 +28,5 @@
     "framer-motion": "^10.2.3",
     "react-use": "^17.4.0"
   },
-  "packageManager": "yarn@3.6.3"
+  "packageManager": "yarn@4.1.0"
 }
