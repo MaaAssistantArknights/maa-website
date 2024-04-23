@@ -2484,6 +2484,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@vuepress/plugin-google-analytics@npm:2.0.0-rc.21":
+  version: 2.0.0-rc.21
+  resolution: "@vuepress/plugin-google-analytics@npm:2.0.0-rc.21"
+  peerDependencies:
+    vuepress: 2.0.0-rc.9
+  checksum: 10c0/aa66d10d1af25bb7d3d8ef6dc2a3c2e0e12504f80e1cd9c9d7d2769179c74fe51782e803095215591e2d2585946c6f61f08e4abdcce740cb34c8688b094b77b2
+  languageName: node
+  linkType: hard
+
 "@vuepress/plugin-nprogress@npm:2.0.0-rc.3":
   version: 2.0.0-rc.3
   resolution: "@vuepress/plugin-nprogress@npm:2.0.0-rc.3"
@@ -5406,6 +5415,7 @@ __metadata:
   dependencies:
     "@vuepress/bundler-vite": "npm:2.0.0-rc.2"
     "@vuepress/plugin-docsearch": "npm:2.0.0-rc.3"
+    "@vuepress/plugin-google-analytics": "npm:2.0.0-rc.21"
     markdown-it: "npm:^14.0.0"
     markdown-it-anchor: "npm:^8.6.7"
     markdownlint-cli: "npm:^0.39.0"
