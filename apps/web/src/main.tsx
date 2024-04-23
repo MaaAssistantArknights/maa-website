@@ -3,6 +3,7 @@ import { BrowserTracing } from '@sentry/tracing'
 
 import React from 'react'
 import ReactDOM from 'react-dom/client'
+import ReactGA from 'react-ga-neo'
 import { SWRConfig } from 'swr'
 
 import App from './App'
@@ -15,6 +16,8 @@ Sentry.init({
   integrations: [new BrowserTracing()],
   tracesSampleRate: 0.01,
 })
+
+ReactGA.initialize('G-FJQDKG394Z')
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
