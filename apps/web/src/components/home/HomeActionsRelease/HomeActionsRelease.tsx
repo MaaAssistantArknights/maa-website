@@ -21,14 +21,14 @@ import {
 } from 'react'
 import { useMount } from 'react-use'
 
-import { downloadBlob } from '../../../utils/blob'
+import { downloadBlob } from '@/utils/blob'
 import {
   checkUrlConnectivity,
   checkUrlSpeed,
   download,
-} from '../../../utils/fetch'
-import { formatBytes } from '../../../utils/format'
-import sleep from '../../../utils/sleep'
+} from '@/utils/fetch'
+import { formatBytes } from '@/utils/format'
+import sleep from '@/utils/sleep'
 import {
   DetectionFailedSymbol,
   PLATFORMS,
@@ -60,17 +60,17 @@ const DataLoadRate: FC<{ loaded: number; total: number }> = ({
   return (
     <div className="flex flex-row items-center justify-center gap-2 font-mono">
       <div className="flex flex-col items-start justify-center gap-1">
-        <div className="text-sm">{percentage.toFixed(0)}%</div>
-        <div className="w-12 h-1 bg-white/10 rounded-full">
+        <div className="text-sm transition-colors duration-300">{percentage.toFixed(0)}%</div>
+        <div className={clsx("w-12 h-1 rounded-full", "dark:bg-white/10" , "bg-stone-800/10")}>
           <div
-            className="h-full rounded-full bg-white"
+            className={clsx("h-full rounded-full", 'dark:text-white', 'text-stone-800')}
             style={{ width: `${percentage}%` }}
           />
         </div>
       </div>
       <div className="flex flex-col items-end justify-center">
-        <div className="text-sm">{formatBytes(loaded, 1)}</div>
-        <div className="text-sm">{formatBytes(total, 1)}</div>
+        <div className="text-sm transition-colors duration-300">{formatBytes(loaded, 1)}</div>
+        <div className="text-sm transition-colors duration-300">{formatBytes(total, 1)}</div>
       </div>
     </div>
   )
@@ -90,7 +90,8 @@ export const DownloadState: FC<DownloadStateProps> = forwardRef<
   return (
     <motion.div
       className={clsx(
-        'flex py-6 px-3 flex-col items-center justify-center text-white font-normal',
+        'flex py-6 px-3 flex-col items-center justify-center font-normal transition-colors duration-300',
+        'dark:text-white', 'text-stone-800',
         className,
       )}
       {...{
@@ -115,8 +116,8 @@ export const DownloadState: FC<DownloadStateProps> = forwardRef<
       ref={ref}
     >
       <div className="flex items-center -ml-1">
-        <Icon className={iconClassName} icon={icon} fontSize="28px" />
-        <span className="ml-2">{title}</span>
+        <Icon className={clsx(iconClassName, "transition-colors duration-300")} icon={icon} fontSize="28px" />
+        <span className="ml-2 transition-colors duration-300">{title}</span>
       </div>
     </motion.div>
   )
@@ -159,10 +160,13 @@ type DownloadDetectionStates =
       state: 'fallback'
     }
 
-const DownloadButton: FC<{
-  platform: ResolvedPlatform
-  releaseName: string | null
-}> = ({ platform, releaseName }) => {
+const DownloadButton = forwardRef<
+  HTMLDivElement,
+  {
+    platform: ResolvedPlatform
+    releaseName: string | null
+  }
+>(({ platform, releaseName }, ref) => {
   const href = platform.asset.browser_download_url
 
   const [loadState, setLoadState] = useState<DownloadDetectionStates>({
@@ -424,7 +428,7 @@ const DownloadButton: FC<{
       <DownloadState
         iconClassName="animate-spin"
         icon={mdiLoading}
-        title="下载失败，正在尝试直接下载……"
+        title="正在尝试从海外源(Github)下载……"
       />
     )
   } else {
@@ -435,7 +439,7 @@ const DownloadButton: FC<{
       />
     )
   }
-}
+})
 
 export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
   const [viewAll, setViewAll] = useState(false)
@@ -464,14 +468,34 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
 
   const allPlatformDownloadBtns = useMemo(
     () =>
-      validPlatforms.map((platform) => (
-        <DownloadButton
-          platform={platform}
-          releaseName={release.name}
-          key={platform.platform.id}
-        />
-      )),
-    [validPlatforms],
+      validPlatforms.map((platform) => {
+        const isCurrentPlatform = platform.platform.id === envPlatformId
+        return (
+          <motion.div layout key={platform.platform.id}>
+            <div className="flex flex-col items-center gap-1">
+              <DownloadButton platform={platform} releaseName={release.name} />
+              <div className="min-h-[1.25rem] mt-1 text-xs">
+                {!isCurrentPlatform ? (
+                  <motion.span
+                    className="inline-flex items-center whitespace-nowrap text-red-500 dark:text-red-400"
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.4, ease: 'easeOut', delay: 0.6 }}
+                    style={{ display: 'inline-flex' }}
+                  >
+                    <Icon icon={mdiAlertCircle} className="mr-1 flex-shrink-0" width="14" height="14" />
+                    不支持您当前的系统构架
+                  </motion.span>
+                ) : (
+                  // 占位保持高度一致
+                  <span className="opacity-0">不支持您当前的系统构架</span>
+                )}
+              </div>
+            </div>
+          </motion.div>
+        )
+      }),
+    [validPlatforms, release.name, envPlatformId]
   )
 
   const innerContent = useMemo(() => {
@@ -484,14 +508,26 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
       if (!platform) return allPlatformDownloadBtns
 
       return [
-        <DownloadButton
-          platform={platform}
-          releaseName={release.name}
-          key={platform.platform.id}
-        />,
+        <motion.div layout key={platform.platform.id}>
+          <DownloadButton
+            platform={platform}
+            releaseName={release.name}
+          />
+        </motion.div>,
       ]
     }
   }, [validPlatforms, viewAll, envPlatformId])
+
+  const [os, arch] = useMemo(() => {
+    if (!envPlatformId) return ['unknown', 'unknown']
+    return envPlatformId.toString()
+      .replace(/macos-universal/i, 'macos-arm64')
+      .split('-')
+  }, [envPlatformId])
+
+  const mirrorchyanAvailable = useMemo(() => {
+    return os === 'windows' || os === 'macos'
+  }, [os, arch])
 
   if (!envPlatformId) {
     return (
@@ -515,13 +551,42 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
         />
       )}
       {!viewAll && (
-        <GlowButton
+        <motion.div
+          layout
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: 'auto' }}
+          exit={{ opacity: 0, height: 0 }}
           key="view-all-switch"
-          bordered
-          onClick={() => setViewAll(true)}
+          className="gap-4 items-center flex flex-col md:flex-row"
         >
-          查看全部
-        </GlowButton>
+          <GlowButton
+            bordered
+            onClick={() => setViewAll(true)}
+          >
+            <div className="text-base">
+                查看全部
+            </div>
+          </GlowButton>
+        </motion.div>
+      )}
+      {!viewAll && mirrorchyanAvailable && (
+        <motion.div
+          layout
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: 'auto' }}
+          exit={{ opacity: 0, height: 0 }}
+          key="mirrorchyan"
+        >
+          <GlowButton
+            bordered
+            href={`https://mirrorchyan.com/zh/projects?rid=MAA&os=${os}&arch=${arch}&channel=stable&source=maaplus-download`}
+          >
+            <div className="text-sm">
+              <p><i>已有 Mirror酱 CDK？</i></p>
+              <p><i>前往 Mirror酱 高速下载</i></p>
+            </div>
+          </GlowButton>
+        </motion.div>
       )}
     </AnimatePresence>
   )

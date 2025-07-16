@@ -1,21 +1,18 @@
 {
   "$schema": "https://turborepo.org/schema.json",
-  "pipeline": {
+  "tasks": {
     "build": {
-      "dependsOn": [
-        "^build"
-      ],
-      "outputs": [
-        "dist/**"
-      ]
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**", ".vuepress/dist/**"]
     },
     "dev": {
-      "cache": false
+      "cache": false,
+      "persistent": true
     },
     "dev:home": {
       "cache": false
     },
-    "dev:doc": {
+    "dev:docs": {
       "cache": false
     },
     "lint": {
