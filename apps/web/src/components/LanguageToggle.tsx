@@ -9,7 +9,7 @@ export const LanguageToggle: React.FC = () => {
   const [open, setOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
 
-  const toggleDropdown = () => setOpen((prev) => !prev)
+  const toggleDropdown = () => setOpen(!open)
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng)
     setOpen(false)
