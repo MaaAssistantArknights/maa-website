@@ -1,10 +1,5 @@
 {
-    "include": [
-        "src",
-        "eslint.config.js",
-        "postcss.config.js",
-        "vite.config.ts"
-    ],
+    "include": ["src", "vite.config.ts"],
     "compilerOptions": {
         "baseUrl": ".",
         "paths": {

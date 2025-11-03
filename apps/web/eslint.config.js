@@ -9,9 +9,9 @@ import { defineConfig, globalIgnores } from 'eslint/config'
 export default defineConfig([
   globalIgnores(['**/dist/', '**/node_modules/', '**/build/']),
 
-  // React + TypeScript + JavaScript
+  // React + TypeScript
   {
-    files: ['**/*.{,m,c}{t,j}s{,x}'],
+    files: ['**/*.{,m,c}ts{,x}'],
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
