@@ -1,5 +1,5 @@
 {
-    "include": ["src", "src/types.ts", "vite.config.mts"],
+    "include": ["src", "src/types.ts", "vite.config.ts"],
     "compilerOptions": {
         "baseUrl": ".",
         "paths": {

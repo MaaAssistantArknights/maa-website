@@ -3,11 +3,12 @@
     "version": "1.0.0",
     "description": "Maa website monorepo",
     "main": "index.js",
+    "type": "module",
     "repository": "https://github.com/MaaAssistantArknights/maa-website",
     "license": "AGPL-3.0-or-later",
     "scripts": {
         "dev": "turbo run dev",
-        "build": "turbo run build && node bundler.mjs",
+        "build": "turbo run build && node bundler.js",
         "lint": "pnpm run lint:format && pnpm run lint:code",
         "lint:code": "turbo run lint:code",
         "lint:format": "prettier --check .",
