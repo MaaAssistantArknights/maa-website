@@ -34,16 +34,16 @@ const HomeLink: FC<{
       rel="noopener noreferrer"
       className={`flex items-center p-2 rounded-md transition-all duration-300 ${
         theme === 'dark'
-          ? 'text-white/80 bg-black hover:text-black/100 hover:bg-white active:bg-white/60'
-          : 'text-black/80 bg-white hover:text-white/100 hover:bg-black active:bg-black/60'
+          ? 'text-white/80 bg-black hover:text-black hover:bg-white active:bg-white/60'
+          : 'text-black/80 bg-white hover:text-white hover:bg-black active:bg-black/60'
       }`}
     >
-      <div className="text-lg h-6 w-6 rounded-sm overflow-hidden flex-shrink-0 mr-2">
+      <div className="text-lg h-6 w-6 rounded-xs overflow-hidden shrink-0 mr-2">
         {icon}
       </div>
       <span className="text-base whitespace-nowrap">{title}</span>
       <div className="flex-1 min-w-[10px]" />
-      <Icon icon={chevronRight} className="text-lg flex-shrink-0" />
+      <Icon icon={chevronRight} className="text-lg shrink-0" />
     </a>
   )
 }
@@ -290,12 +290,12 @@ export const HomeLinks = forwardRef<HTMLDivElement, HomeLinksProps>(
       <div
         ref={ref}
         className={clsx(
-          'fixed min-w-[15rem] rounded-xl transition-all duration-300 z-50',
+          'fixed min-w-60 rounded-xl transition-all duration-300 z-50',
           theme === 'dark'
             ? 'text-[#eee] bg-black/80'
             : 'text-gray-800 bg-white/90',
           styles.root,
-          showLinks ? 'visible' : 'invisible', // 使用 CSS 类来控制可见性，作为 JS 控制的备份
+          // showLinks ? 'visible' : 'invisible', // 使用 CSS 类来控制可见性，作为 JS 控制的备份
         )}
         style={{ opacity: 0 }} // 初始状态为隐藏
       >

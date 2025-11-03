@@ -8,7 +8,7 @@ export const ThemeToggle: React.FC = () => {
 
   return (
     <motion.button
-      className="p-2 rounded-full bg-opacity-20 backdrop-blur-sm
+      className="p-2 rounded-full bg-opacity-20 backdrop-blur-xs
                 dark:bg-gray-800 dark:bg-opacity-30 
                 bg-white border border-gray-200 dark:border-gray-700
                 text-gray-800 dark:text-white

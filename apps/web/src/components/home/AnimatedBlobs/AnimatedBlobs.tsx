@@ -10,7 +10,7 @@ const blobs = [
 
 export function AnimatedBlobs() {
   return (
-    <div className="absolute h-full w-full overflow-hidden transform-gpu blur-[9rem] left-[-10rem] top-[-10rem]">
+    <div className="absolute h-full w-full overflow-hidden transform-gpu blur-[9rem] -left-40 -top-40">
       {blobs.map((blob, i) => (
         <div key={i} className={clsx('absolute top-[50vh]', blob[1])}>
           <motion.div
@@ -18,9 +18,7 @@ export function AnimatedBlobs() {
             animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
             transition={{ duration: 0.8, ease: 'easeOut', delay: 0.1 }}
           >
-            <div
-              className={clsx('h-[20rem] w-[20rem] rounded-full', blob[0])}
-            ></div>
+            <div className={clsx('h-80 w-[20rem] rounded-full', blob[0])}></div>
           </motion.div>
         </div>
       ))}

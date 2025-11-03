@@ -38,7 +38,7 @@ function App() {
             <LanguageToggle />
             <ThemeToggle />
           </motion.div>
-          <section className="h-screen min-h-[20rem] w-full relative">
+          <section className="h-screen min-h-80 w-full relative">
             <HomeHero />
           </section>
         </main>

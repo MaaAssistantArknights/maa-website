@@ -35,13 +35,13 @@ export const LanguageToggle: React.FC = () => {
       <motion.button
         lang={getLanguageOption(i18n.language).htmlLang}
         onClick={toggleDropdown}
-        className="px-4 py-2 rounded-lg border backdrop-blur-sm shadow-lg
+        className="px-4 py-2 rounded-lg border backdrop-blur-xs shadow-lg
                    dark:bg-slate-900/90 bg-stone-100/90
                    text-gray-800 dark:text-white/90
                    border-white/20 dark:border-white/20
                    hover:bg-stone-200/90 dark:hover:bg-slate-800/90
                    active:bg-stone-300/90 dark:active:bg-slate-700/90
-                   hover:-translate-y-[1px] active:translate-y-[1px]
+                   hover:-translate-y-px active:translate-y-px
                    transition-all duration-200"
         whileTap={{ scale: 0.95 }}
         whileHover={{
@@ -64,7 +64,7 @@ export const LanguageToggle: React.FC = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -10, scale: 0.95 }}
             transition={{ duration: 0.2, ease: 'easeOut' }}
-            className="absolute right-0 mt-2 min-w-[140px] rounded-lg border backdrop-blur-sm shadow-xl z-50
+            className="absolute right-0 mt-2 min-w-[140px] rounded-lg border backdrop-blur-xs shadow-xl z-50
                        dark:bg-slate-900/95 bg-stone-100/95
                        border-white/20 dark:border-white/20
                        text-gray-800 dark:text-white/90"

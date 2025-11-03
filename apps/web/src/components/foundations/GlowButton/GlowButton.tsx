@@ -75,7 +75,7 @@ export const GlowButton: FCC<GlowButtonProps> = forwardRef<
         !translucent && 'dark:bg-slate-900/90 bg-stone-100/90',
         translucent && 'dark:bg-slate-900/90 bg-stone-100/90',
         !bordered && 'border-none',
-        'flex px-6 py-3 dark:active:bg-slate-800 active:bg-stone-200 rounded-lg hover:-translate-y-[1px] active:translate-y-[1px] text-2xl dark:text-white/90 text-stone-800 whitespace-nowrap transition-colors transition-transform transition-all duration-200',
+        'flex px-6 py-3 dark:active:bg-slate-800 active:bg-stone-200 rounded-lg hover:-translate-y-px active:translate-y-px text-2xl dark:text-white/90 text-stone-800 whitespace-nowrap transition-colors transition-transform transition-all duration-200',
         className,
       )}
       onClick={onClick}

@@ -512,7 +512,7 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
         <motion.div layout key={platform.platform.id}>
           <div className="flex flex-col items-center gap-1">
             <DownloadButton platform={platform} releaseName={release.name} />
-            <div className="min-h-[1.25rem] mt-1 text-xs">
+            <div className="min-h-5 mt-1 text-xs">
               {!isCurrentPlatform ? (
                 <motion.span
                   className="inline-flex items-center whitespace-nowrap text-red-500 dark:text-red-400"
@@ -523,7 +523,7 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
                 >
                   <Icon
                     icon={mdiAlertCircle}
-                    className="mr-1 flex-shrink-0"
+                    className="mr-1 shrink-0"
                     width="14"
                     height="14"
                   />
