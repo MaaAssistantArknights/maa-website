@@ -1,12 +1,9 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/javascript-node
 {
-    "name": "Node.js",
+    "name": "MAA Website Env",
     // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-    // "image": "mcr.microsoft.com/devcontainers/javascript-node:24",
-    "build": {
-        "dockerfile": "Dockerfile"
-    },
+    "image": "mcr.microsoft.com/devcontainers/javascript-node:24",
 
     // Features to add to the dev container. More info: https://containers.dev/features.
     // "features": {},
@@ -15,7 +12,7 @@
     "forwardPorts": [3000],
 
     // Use 'postCreateCommand' to run commands after the container is created.
-    "postCreateCommand": "pnpm install --recursive --frozen-lockfile",
+    "postCreateCommand": "bash .devcontainer/post-create.sh",
 
     // Configure tool-specific properties.
     "customizations": {
@@ -28,11 +25,20 @@
                 "bradlc.vscode-tailwindcss"
             ],
             "settings": {
-                "editor.defaultFormatter": "esbenp.prettier-vscode",
+                // Color theme
+                "workbench.colorTheme": "Default Dark Modern",
+
+                // Editor formatting
                 "editor.formatOnSave": true,
+                "editor.defaultFormatter": "esbenp.prettier-vscode",
                 "prettier.configPath": "./.prettierrc",
                 "eslint.format.enable": true,
-                "css.lint.unknownAtRules": "ignore"
+                "css.lint.unknownAtRules": "ignore",
+
+                // Performance optimizations
+                "search.exclude": {
+                    "**/node_modules": true
+                }
             }
         }
     }
