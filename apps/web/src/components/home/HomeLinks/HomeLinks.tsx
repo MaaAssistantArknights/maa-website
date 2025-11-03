@@ -295,7 +295,6 @@ export const HomeLinks = forwardRef<HTMLDivElement, HomeLinksProps>(
             ? 'text-[#eee] bg-black/80'
             : 'text-gray-800 bg-white/90',
           styles.root,
-          // showLinks ? 'visible' : 'invisible', // 使用 CSS 类来控制可见性，作为 JS 控制的备份
         )}
         style={{ opacity: 0 }} // 初始状态为隐藏
       >
