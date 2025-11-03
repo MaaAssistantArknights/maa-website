@@ -7,12 +7,11 @@ import reactHooksPlugin from 'eslint-plugin-react-hooks'
 import { defineConfig, globalIgnores } from 'eslint/config'
 
 export default defineConfig([
-  // 忽略目录
   globalIgnores(['**/dist/', '**/node_modules/', '**/build/']),
 
-  // React + TypeScript 文件
+  // React + TypeScript + JavaScript
   {
-    files: ['**/*.{ts,tsx,mts,cts,mtsx,ctsx}'],
+    files: ['**/*.{,m,c}{t,j}s{,x}'],
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
@@ -45,7 +44,6 @@ export default defineConfig([
       'prettier/prettier': ['warn'],
 
       /** 自定义项目偏好 */
-      // 'react/jsx-key': 'off',
       'react/react-in-jsx-scope': 'off', // React 17+ 不需要
     },
 
@@ -53,21 +51,6 @@ export default defineConfig([
       react: {
         version: 'detect',
       },
-    },
-  },
-
-  // JS 文件
-  {
-    files: ['**/*.js'],
-    languageOptions: {
-      ecmaVersion: 'latest',
-      sourceType: 'module',
-    },
-    plugins: {
-      prettier: prettierPlugin,
-    },
-    rules: {
-      'prettier/prettier': ['warn'],
     },
   },
 ])
