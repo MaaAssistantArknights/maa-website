@@ -1,9 +1,9 @@
 name: CI
 
 on:
-  push:
-  merge_group:
-  pull_request:
+  # push:
+  # merge_group:
+  # pull_request:
   workflow_dispatch:
 
 env:

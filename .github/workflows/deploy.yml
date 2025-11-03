@@ -2,6 +2,7 @@ name: Website Workflow
 
 on:
   push:
+  pull_request:
   workflow_dispatch:
     inputs:
       deploy-to-prod:
@@ -19,6 +20,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v5
         with:
+          fetch-depth: 0
           show-progress: false
 
       - name: Install pnpm
@@ -27,15 +29,15 @@ jobs:
           # version: 10  # Already specified in package.json
           run_install: false
 
-      - name: Setup Node.js environment
+      - name: Setup node.js environment
         uses: actions/setup-node@v5
         with:
           node-version: 24
           cache: pnpm
           cache-dependency-path: "./pnpm-lock.yaml"
 
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+      - name: Install node modules
+        run: pnpm install --recursive --frozen-lockfile
 
       - name: Build
         run: pnpm run build
