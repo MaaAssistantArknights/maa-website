@@ -39,6 +39,12 @@ jobs:
       - name: Install node modules
         run: pnpm install --recursive --frozen-lockfile
 
+      - name: Lint check
+        if: ${{ inputs.deploy-to-prod != true }}
+        continue-on-error: true
+        run: |
+          pnpm lint
+
       - name: Build
         run: pnpm run build
 
