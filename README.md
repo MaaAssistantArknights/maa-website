@@ -3,24 +3,27 @@
 - 官网首页: [maa-website（本仓库）](https://github.com/MaaAssistantArknights/maa-website) -> <https://maa.plus>
 - 文档站: [MAA主仓库/docs](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/dev/docs) -> <https://docs.maa.plus>
 
-> 注意：文档站的评论区使用此仓库的 Discussions
+> 注意：文档站的评论区使用此仓库的 [Discussions](https://github.com/MaaAssistantArknights/maa-website/discussions)
 
 ## Project Overview
+
 ### Project Components
 
 - `apps/web` MAA official website, build with `React`, host path `/`
 
 ### Prerequisites
 
-- Node.js `^24.4.1`
-- pnpm `^10.17.0`
+- Node.js `24`
+- pnpm
 
 ## Development
+
 ### 1. Set Up the Environment
 
 Choose *ONE* of the following methods to set up your environment:
 
 #### Local Clone
+
 Please [Install Node.js](https://nodejs.org/en/download) first, then install dependencies using `pnpm` in the *ROOT* directory:
 
 ```shell
@@ -32,7 +35,7 @@ pnpm install --frozen-lockfile --recursive
 
 Open this repository in GitHub Codespaces. Once it's ready, the environment will be set up automatically.
 
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg?color=green)](https://codespaces.new/MaaAssistantArknights/maa-website)
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/MaaAssistantArknights/maa-website)
 
 ### 2. Run the Development Server
 
@@ -45,6 +48,7 @@ pnpm dev
 - `apps/web` will be hosted on `http://localhost:3000`
 
 ### 3. Lint Code
+
 #### General Overview
 
 1. Prettier (global)
