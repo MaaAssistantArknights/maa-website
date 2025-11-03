@@ -1,10 +1,16 @@
 {
-    "include": ["src", "src/types.ts", "vite.config.ts"],
+    "include": [
+        "src",
+        "eslint.config.js",
+        "postcss.config.js",
+        "vite.config.ts"
+    ],
     "compilerOptions": {
         "baseUrl": ".",
         "paths": {
             "@/*": ["src/*"]
         },
+        "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo/web.tsbuildinfo",
         "lib": ["DOM", "DOM.Iterable", "ESNext"],
         "module": "ESNext",
         "target": "ESNext",
