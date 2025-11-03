@@ -20,6 +20,7 @@
         "resolveJsonModule": true,
         "isolatedModules": true,
         "noEmit": true,
-        "composite": true
+        "composite": true,
+        "types": ["vite/client", "node"]
     }
 }
