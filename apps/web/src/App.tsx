@@ -24,7 +24,7 @@ function App() {
         t('meta.description', { interpolation: { escapeValue: false } }),
       )
     }
-  }, [t])
+  }, [t, i18n.language])
   return (
     <ThemeProvider>
       <LayoutStateProvider>

@@ -199,13 +199,16 @@ const DownloadButton = forwardRef<
   const [loadState, setLoadState] = useState<DownloadDetectionStates>({
     state: 'idle',
   })
-  const mirrorsTemplate = [
-    ...platform.asset.mirrors.map((url) => ({
-      transform: () => url,
-      name: new URL(url).hostname,
-    })),
-    ...GITHUB_MIRRORS,
-  ]
+  const mirrorsTemplate = useMemo(
+    () => [
+      ...platform.asset.mirrors.map((url) => ({
+        transform: () => url,
+        name: new URL(url).hostname,
+      })),
+      ...GITHUB_MIRRORS,
+    ],
+    [platform.asset.mirrors],
+  )
 
   const detectDownload = useCallback(async () => {
     setLoadState({ state: 'detecting', detected: 0 })
@@ -320,14 +323,14 @@ const DownloadButton = forwardRef<
       }
       return prev
     })
-  }, [href])
+  }, [href, mirrorsTemplate])
 
   useEffect(() => {
     if (loadState.state === 'fallback') {
       console.warn('no mirrors responded correctly; fallback to original URL')
       window.location.href = href
     }
-  }, [loadState])
+  }, [loadState, href])
 
   useEffect(() => {
     if (loadState.state === 'downloading') {
@@ -601,7 +604,7 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
 
   const mirrorchyanAvailable = useMemo(() => {
     return os === 'windows' || os === 'macos'
-  }, [os, arch])
+  }, [os])
 
   if (!envPlatformId) {
     return (

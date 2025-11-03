@@ -34,7 +34,7 @@ export const HomeActions: FC<HomeActionsProps> = ({
 
   useEffect(() => {
     registerWidthCheck(containerRef, 'gap-4 items-center mt-4 flex flex-row') // 测量用的 class
-  }, [])
+  }, [registerWidthCheck])
 
   const docsLinkMapping: Record<string, string> = {
     'zh-CN': 'https://docs.maa.plus/zh-cn/',
