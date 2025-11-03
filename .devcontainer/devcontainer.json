@@ -23,13 +23,16 @@
             "extensions": [
                 "mkxml.vscode-filesize",
                 "esbenp.prettier-vscode",
-                "dbaeumer.vscode-eslint"
+                "dbaeumer.vscode-eslint",
+                "dsznajder.es7-react-js-snippets",
+                "bradlc.vscode-tailwindcss"
             ],
             "settings": {
                 "editor.defaultFormatter": "esbenp.prettier-vscode",
                 "editor.formatOnSave": true,
+                "prettier.configPath": "./.prettierrc",
                 "eslint.format.enable": true,
-                "prettier.configPath": "./.prettierrc"
+                "css.lint.unknownAtRules": "ignore"
             }
         }
     }
