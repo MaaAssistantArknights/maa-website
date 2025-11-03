@@ -59,7 +59,9 @@ export const LayoutStateProvider: React.FC<{ children: React.ReactNode }> = ({
     }, 0) // 异步开启布局动画
 
     contentWidthRef.current = totalWidth
-    setIsWidthOverflow(window.innerWidth < totalWidth)
+    setTimeout(() => {
+      setIsWidthOverflow(window.innerWidth < totalWidth)
+    }, 0) // 异步测量窗口宽度
   }
 
   const registerWidthCheck = (
@@ -74,7 +76,7 @@ export const LayoutStateProvider: React.FC<{ children: React.ReactNode }> = ({
   // 初始加载和切换语言时，更新宽度
   useEffect(() => {
     if (document.readyState === 'complete') {
-      measure()
+      setTimeout(() => measure(), 0)
     } else {
       const handleLoad = () => measure()
       window.addEventListener('load', handleLoad)
