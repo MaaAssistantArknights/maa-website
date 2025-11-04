@@ -43,9 +43,10 @@ jobs:
 
       - name: Lint check
         if: ${{ inputs.deploy-to-prod != true }}
-        continue-on-error: true
         run: |
-          pnpm lint
+          pnpm lint:code || {
+            echo "::warning title=Lint Check::ESLint reported issues. Please fix them before deploying to production."
+          }
 
       - name: Build
         run: pnpm run build
