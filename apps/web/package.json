@@ -1,11 +1,9 @@
 {
     "name": "website",
     "version": "1.0.0",
-    "description": "Maa website - main website",
+    "description": "MAA official website",
     "type": "module",
-    "main": "index.js",
-    "repository": "https://github.com/MaaAssistantArknights/maa-website",
-    "license": "AGPL-3.0-or-later",
+    "private": true,
     "scripts": {
         "dev": "vite",
         "build": "tsc && vite build",

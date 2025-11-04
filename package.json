@@ -1,11 +1,11 @@
 {
     "name": "maa-website",
     "version": "1.0.0",
-    "description": "Maa website monorepo",
-    "main": "index.js",
+    "description": "MAA website project",
     "type": "module",
     "repository": "https://github.com/MaaAssistantArknights/maa-website",
     "license": "AGPL-3.0-or-later",
+    "private": true,
     "scripts": {
         "dev": "turbo run dev",
         "build": "turbo run build && node bundler.js",
@@ -16,7 +16,6 @@
         "lintfix:code": "turbo run lintfix",
         "lintfix:format": "prettier --write --list-different ."
     },
-    "private": true,
     "devDependencies": {
         "@trivago/prettier-plugin-sort-imports": "^5.2.2",
         "prettier": "^3.6.2",
