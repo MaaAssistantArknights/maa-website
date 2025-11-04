@@ -7,7 +7,7 @@ repos:
     hooks:
       - id: prettier
         name: prettier
-        entry: npx prettier --config ./.pre-commit.prettierrc.js --write --ignore-unknown .
+        entry: npx prettier --config ./.pre-commit.prettierrc.cjs --write --ignore-unknown .
         language: node
         additional_dependencies:
           - prettier@3.6.2
