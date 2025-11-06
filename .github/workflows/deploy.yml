@@ -29,7 +29,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v5
         with:
-          fetch-depth: 0
           show-progress: false
 
       - name: Install pnpm
