@@ -13,6 +13,9 @@ on:
         required: true
         type: boolean
 
+permissions:
+  contents: write
+
 jobs:
   build:
     name: Build and Deploy
@@ -28,7 +31,6 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
-          # version: 10  # Already specified in package.json
           run_install: false
 
       - name: Setup node.js environment
