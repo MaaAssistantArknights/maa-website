@@ -561,10 +561,7 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
   )
 
   const innerContent = useMemo<React.ReactNode>(() => {
-    if (viewAll) {
-      // 用户主动展开 -> 显示所有
-      return allPlatformDownloadBtns
-    }
+
 
     if (!envPlatformId || envPlatformId === DetectionFailedSymbol) {
       // 检测失败
@@ -627,57 +624,53 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
 
   const mirrorchyanLang = getLanguageOption(i18n.language).mirrorchyanLang
 
-  return (
-    <motion.div
-      layout
-      className={`w-full flex flex-wrap justify-center items-center gap-4 max-h-[50vh]`}
-    >
-      <AnimatePresence mode="popLayout">
-        {innerContent}
+    return (
+        <motion.div className="w-full flex flex-col items-center gap-4">
 
-        {!viewAll && (
-          <motion.div
-            layout
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            key="view-all-switch"
-            className={`gap-4 items-center flex ${isWidthOverflow ? 'flex-col' : 'flex-row'}`}
-          >
-            <GlowButton bordered onClick={() => setViewAll(true)}>
-              <div className="text-base">
-                {t('release.buttonLabels.viewAll')}
-              </div>
-            </GlowButton>
-          </motion.div>
-        )}
+            {/* ✅ 第一行 */}
+            <div className="flex flex-wrap justify-center items-center gap-4 w-full">
+                {innerContent}
 
-        {!viewAll && mirrorchyanAvailable && (
-          <motion.div
-            layout
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            key="mirrorchyan"
-          >
-            <GlowButton
-              bordered
-              href={`https://mirrorchyan.com/${mirrorchyanLang}/projects?rid=MAA&os=${os}&arch=${arch}&channel=stable&source=maaplus-download`}
-            >
-              <div className="text-sm">
-                <p>
-                  <i>{t('release.buttonLabels.mirrorchyanCDKPrompt')}</i>
-                </p>
-                <p>
-                  <i>{t('release.buttonLabels.mirrorchyanDownload')}</i>
-                </p>
-              </div>
-            </GlowButton>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.div>
-  )
+                <GlowButton bordered onClick={() => setViewAll(prev => !prev)}>
+                    <div className="text-base">
+                        {viewAll
+                            ? t('release.buttonLabels.collapse')
+                            : t('release.buttonLabels.viewAll')}
+                    </div>
+                </GlowButton>
+
+                {mirrorchyanAvailable && (
+                    <GlowButton
+                        bordered
+                        href={`https://mirrorchyan.com/${mirrorchyanLang}/projects?...`}
+                    >
+                        <div className="text-sm">
+                            <p><i>{t('release.buttonLabels.mirrorchyanCDKPrompt')}</i></p>
+                            <p><i>{t('release.buttonLabels.mirrorchyanDownload')}</i></p>
+                        </div>
+                    </GlowButton>
+                )}
+            </div>
+
+            {/* ✅ 第二行（展开内容） */}
+            {viewAll && (
+                <motion.div
+                    layout
+                    className="flex flex-wrap justify-center gap-4 w-full"
+                >
+                    {validPlatforms
+                        .filter((p) => p.platform.id !== envPlatformId)
+                        .map(renderPlatformButton)}
+                </motion.div>
+            )}
+
+            {/* ✅ 第三行（友情链接） */}
+            <div className="flex flex-wrap justify-center gap-4 w-full">
+                {/* 这里是你原来的 qq / github / 文档 等 */}
+            </div>
+
+        </motion.div>
+    )
 }
 
 interface Props extends WithTranslation {
