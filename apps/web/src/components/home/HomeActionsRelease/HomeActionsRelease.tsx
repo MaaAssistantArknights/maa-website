@@ -625,6 +625,7 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
 
   // 原来的逻辑是 当`ViewAll=true`时使用`allPlatformDownloadBtns`进行替换，把整个第一行（下载，查看全部，mirror酱）替换为全部平台的下载渠道
   // 下面的按钮因为`!viewAll`便不再渲染。我将渲染逻辑进行了修改，`ViewAll=true`时不再进行替换，而是根据其值展示不兼容平台和收起不兼容平台。
+  // 对原来的进行排版，原来只用一个`motion.div`将所有按钮放在了一起，现在将组件使用`AnimatePresence`进行分组并设置对应的动画。
   return (
     // 外层容器：改为纵向排列 (flex-col)，负责控制上下两排的整体高度和间距
     <motion.div
@@ -687,7 +688,7 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
         {viewAll && (
           <motion.div
             key="view-all-content"
-            // 核心修复点：明确高度从 0 到 auto，Y轴从 30 像素到 0，实现真正的“从下方顶出来”
+            // 核心修复点：明确高度从 0 到 auto，Y轴从 30 像素到 0，实现“从下方顶出来”
             initial={{ opacity: 0, height: 0, y: 30 }}
             animate={{ opacity: 1, height: 'auto', y: 0 }}
             exit={{ opacity: 0, height: 0, y: 30 }}
