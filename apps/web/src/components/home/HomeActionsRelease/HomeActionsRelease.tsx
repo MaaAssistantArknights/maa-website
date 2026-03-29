@@ -624,7 +624,7 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
     // 外层容器：改为纵向排列 (flex-col)，负责控制上下两排的整体高度和间距
     <motion.div
       layout="position" // ✅ 防止高度参与 layout 计算
-      className="w-full flex flex-col justify-center items-center gap-4 max-h-[50vh]"
+      className="w-full flex flex-col justify-center items-center gap-x-4 max-h-[50vh]"
     >
       {/* 第一排 */}
       <motion.div
