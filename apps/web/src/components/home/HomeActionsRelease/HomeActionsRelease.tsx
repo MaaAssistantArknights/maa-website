@@ -529,9 +529,14 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
                 <motion.span
                   className="inline-flex items-center whitespace-nowrap text-red-500 dark:text-red-400"
                   initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.4, ease: 'easeOut' }}
+                  animate={
+                    viewAll ? { opacity: 1, y: 0 } : { opacity: 0, y: -10 }
+                  }
+                  transition={{
+                    duration: 0.4,
+                    ease: 'easeOut',
+                    delay: viewAll ? 0.3 : 0,
+                  }}
                   style={{ display: 'inline-flex' }}
                 >
                   <Icon
@@ -553,12 +558,7 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
         </motion.div>
       )
     },
-    [envPlatformId, release.name, t],
-  )
-
-  const allPlatformDownloadBtns = useMemo(
-    () => validPlatforms.map(renderPlatformButton),
-    [validPlatforms, renderPlatformButton],
+    [envPlatformId, release.name, viewAll, t],
   )
 
   const innerContent = useMemo<React.ReactNode>(() => {
@@ -590,14 +590,7 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
 
     // 检测成功且支持
     return renderPlatformButton(platform)
-  }, [
-    validPlatforms,
-    viewAll,
-    envPlatformId,
-    renderPlatformButton,
-    allPlatformDownloadBtns,
-    t,
-  ])
+  }, [validPlatforms, envPlatformId, renderPlatformButton, t])
 
   const [os, arch] = useMemo(() => {
     if (!envPlatformId) return ['unknown', 'unknown']
@@ -691,11 +684,11 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
         initial={false} // ✅ 防止首次动画
         animate={
           viewAll
-            ? { opacity: 1, height: 'auto', y: 0 }
-            : { opacity: 0, height: 0, y: 30 }
+            ? { opacity: 1, height: 'auto', overflow: 'visible' }
+            : { opacity: 0, height: 0, overflow: 'hidden' }
         }
         transition={{ duration: 0.3, ease: 'easeInOut' }}
-        className="overflow-hidden w-full flex flex-wrap justify-center gap-4"
+        className="w-full flex flex-wrap justify-center gap-4"
       >
         {validPlatforms
           .filter((p) => p.platform.id !== envPlatformId)
