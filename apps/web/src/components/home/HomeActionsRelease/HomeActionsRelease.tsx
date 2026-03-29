@@ -678,7 +678,7 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
         </AnimatePresence>
       </motion.div>
       {/* 原先的条件渲染会导致dom出现和消失，因此父容器在做layout动画的同时，子元素在做height动画。动画结束后，dom消失，layout再次计算位置进行跳跃。*/}
-      {/*这里便把条件渲染给去掉了，改成根据`viewALl`的值使用不同的动画。*/}
+      {/*这里便把条件渲染给去掉了，改成根据`viewAll`的值使用不同的动画。*/}
       <motion.div
         key="view-all-content"
         initial={false} // ✅ 防止首次动画
