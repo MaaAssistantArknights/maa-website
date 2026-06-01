@@ -53,10 +53,10 @@ html:not(.dark) {
 
 @keyframes allin-download-button-gradient {
   from {
-    transform: rotate(0deg);
+    transform: translate(-50%, -50%) scale(1.15) rotate(0deg);
   }
   to {
-    transform: rotate(360deg);
+    transform: translate(-50%, -50%) scale(1.15) rotate(360deg);
   }
 }
 
@@ -113,23 +113,16 @@ html:not(.dark) {
 .allin-download-button::before {
   content: '';
   position: absolute;
-  top: auto;
-  left: auto;
-  bottom: -100%;
-  right: -100%;
-  width: 400%;
+  left: 50%;
+  top: 50%;
+  width: 100%;
   aspect-ratio: 1;
   z-index: 0;
   pointer-events: none;
   background: conic-gradient(
-    red,
-    orange,
-    gold,
-    green,
-    dodgerblue,
-    blueviolet,
-    magenta,
-    red
+    from 0deg in hsl longer hue,
+    hsl(0, 100%, 66%),
+    hsl(360, 100%, 66%)
   );
   animation: allin-download-button-gradient var(--allin-download-duration) linear infinite reverse !important;
 }
@@ -160,6 +153,6 @@ html:not(.dark) {
 @media (prefers-reduced-motion: reduce) {
   .allin-download-button::before {
     animation: none;
-    transform: rotate(180deg);
+    transform: translate(-50%, -50%) scale(1.15) rotate(180deg);
   }
 }
