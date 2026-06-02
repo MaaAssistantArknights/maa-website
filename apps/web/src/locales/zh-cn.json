@@ -71,12 +71,7 @@
         },
         "speedTest": {
             "testing": "正在检测下载镜像 #{{index}} 速度...",
-            "success": "检测到 {{count}} 个可用镜像（已按下载速度排序）",
-            "failure": "检测到 {{count}} 个可用镜像（由于{{reason}}，无法检测镜像下载速度，按镜像延迟排序）",
-            "reasons": {
-                "saveData": "已启用“流量节省”模式",
-                "mobile": "正在使用移动网络"
-            }
+            "complete": "检测到 {{count}} 个可用镜像（已按下载速度排序）"
         },
         "download": {
             "connectingWithSpeed": "正在尝试从镜像 #{{index}}（延迟：{{latency}} ms，测速：{{speed}} MiB/s）下载...",

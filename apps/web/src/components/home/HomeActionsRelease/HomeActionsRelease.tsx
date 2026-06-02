@@ -173,8 +173,6 @@ type DownloadDetectionStates =
   | {
       state: 'detected'
       availableMirror: number
-      canTestSpeed: boolean
-      cantTestSpeedReason: 'saveData' | 'mobile' | 'ok'
     }
   | {
       state: 'connecting'
@@ -561,51 +559,19 @@ const DownloadButton: FC<{
     setLoadState({ state: 'detecting', detected: mirrorsTemplate.length })
     await sleep(300)
     mirrors.sort(([, , a], [, , b]) => a - b)
-    try {
-      if (Reflect.has(navigator, 'connection')) {
-        if (navigator.connection?.saveData) {
-          setLoadState({
-            state: 'detected',
-            availableMirror: mirrors.length,
-            canTestSpeed: false,
-            cantTestSpeedReason: 'saveData',
-          })
-        } else if (
-          ['slow-2g', '2g', '3g'].includes(
-            navigator.connection?.effectiveType || '4g',
-          ) ||
-          ['bluetooth', 'cellular', 3, 4].includes(
-            navigator.connection?.type || 'unknown',
-          )
-        ) {
-          setLoadState({
-            state: 'detected',
-            availableMirror: mirrors.length,
-            canTestSpeed: false,
-            cantTestSpeedReason: 'mobile',
-          })
-        } else {
-          throw new Error()
-        }
-      } else {
-        throw new Error()
-      }
-    } catch {
-      for (const [i, [index, mirror]] of mirrors.entries()) {
-        setLoadState({
-          state: 'speedTesting',
-          mirrorIndex: index + 1,
-        })
-        const mirrorSpeed = await checkUrlSpeed(mirror)
-        mirrors[i][3] = mirrorSpeed
-      }
+    for (const [i, [index, mirror]] of mirrors.entries()) {
       setLoadState({
-        state: 'detected',
-        availableMirror: mirrors.length,
-        canTestSpeed: true,
-        cantTestSpeedReason: 'ok',
+        state: 'speedTesting',
+        mirrorIndex: index + 1,
       })
+      const mirrorSpeed = await checkUrlSpeed(mirror)
+      mirrors[i][3] = mirrorSpeed
     }
+    setLoadState({
+      state: 'detected',
+      availableMirror: mirrors.length,
+    })
+
     mirrors.sort(([, , , a], [, , , b]) => b - a)
     await sleep(500)
     for (const [index, mirror, mirrorLatency, mirrorSpeed] of mirrors) {
@@ -870,15 +836,7 @@ const DownloadButton: FC<{
       />
     )
   } else if (loadState.state === 'detected') {
-    const title = loadState.canTestSpeed
-      ? t('release.speedTest.success', { count: loadState.availableMirror })
-      : t('release.speedTest.failure', {
-          count: loadState.availableMirror,
-          reason: t(
-            `release.speedTest.reasons.${loadState.cantTestSpeedReason}`,
-          ),
-        })
-
+    const title = t('release.speedTest.complete', { count: loadState.availableMirror })
     return (
       <DownloadState
         iconClassName="animate-spin"

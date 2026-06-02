@@ -71,12 +71,7 @@
         },
         "speedTest": {
             "testing": "正在測試鏡像 #{{index}} 的下載速度...",
-            "success": "已偵測到 {{count}} 個可用鏡像（已依下載速度排序）",
-            "failure": "已偵測到 {{count}} 個可用鏡像（由於{{reason}}，無法測試下載速度，已依鏡像延遲排序）",
-            "reasons": {
-                "saveData": "使用者已開啟節省流量模式",
-                "mobile": "使用者目前使用行動網路"
-            }
+            "complete": "已偵測到 {{count}} 個可用鏡像（已依下載速度排序）"
         },
         "download": {
             "connectingWithSpeed": "正在嘗試從鏡像 #{{index}}（延遲：{{latency}} ms，速度：{{speed}} MiB/s）下載...",

@@ -71,12 +71,7 @@
         },
         "speedTest": {
             "testing": "Testing download speed for mirror #{{index}}...",
-            "success": "Found {{count}} available mirrors (sorted by download speed)",
-            "failure": "Found {{count}} available mirrors (unable to test download speeds due to {{reason}}, sorted by latency)",
-            "reasons": {
-                "saveData": "data-saving mode enabled",
-                "mobile": "mobile network detected"
-            }
+            "complete": "Found {{count}} available mirrors (sorted by download speed)"
         },
         "download": {
             "connectingWithSpeed": "Attempting download from mirror #{{index}} (latency: {{latency}} ms, speed test: {{speed}} MiB/s)...",
