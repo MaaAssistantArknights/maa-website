@@ -2,12 +2,13 @@ import { GlowButton } from '@/components/foundations/GlowButton/GlowButton'
 import { useLayoutState } from '@/contexts/LayoutStateContext'
 import { Release, useRelease } from '@/hooks/use-release'
 import i18n, { getLanguageOption } from '@/i18n'
-import { downloadBlob } from '@/utils/blob'
-import { checkUrlConnectivity, checkUrlSpeed, download } from '@/utils/fetch'
-import { formatBytes } from '@/utils/format'
-import sleep from '@/utils/sleep'
+import {
+  DetectionFailedSymbol,
+  PLATFORMS,
+  ResolvedPlatform,
+  detectPlatform,
+} from '@/utils/detect'
 import mdiAlertCircle from '@iconify/icons-mdi/alert-circle'
-import mdiCheck from '@iconify/icons-mdi/check'
 import mdiDownload from '@iconify/icons-mdi/download'
 import mdiLoading from '@iconify/icons-mdi/loading'
 import type { IconifyIcon } from '@iconify/react'
@@ -34,69 +35,6 @@ import {
 } from 'react-i18next'
 import { useMount } from 'react-use'
 
-import {
-  DetectionFailedSymbol,
-  PLATFORMS,
-  ResolvedPlatform,
-  detectPlatform,
-} from './ReleaseModels'
-
-type GITHUB_MIRROR_TYPE = {
-  name: string
-  transform: (original: URL) => string
-}
-
-const GITHUB_MIRRORS: GITHUB_MIRROR_TYPE[] = [
-  {
-    name: 'origin',
-    transform: (original: URL) => original.toString(),
-  },
-]
-
-const DataLoadRate: FC<{ loaded: number; total: number }> = ({
-  loaded,
-  total,
-}) => {
-  const percentage = useMemo(() => {
-    const percentage = (loaded / total) * 100
-    return percentage > 100 ? 100 : percentage
-  }, [loaded, total])
-
-  return (
-    <div className="flex flex-row items-center justify-center gap-2 font-mono">
-      <div className="flex flex-col items-start justify-center gap-1">
-        <div className="text-sm transition-colors duration-300">
-          {percentage.toFixed(0)}%
-        </div>
-        <div
-          className={clsx(
-            'w-12 h-1 rounded-full',
-            'dark:bg-white/10',
-            'bg-stone-800/10',
-          )}
-        >
-          <div
-            className={clsx(
-              'h-full rounded-full',
-              'dark:bg-white',
-              'bg-stone-800',
-            )}
-            style={{ width: `${percentage}%` }}
-          />
-        </div>
-      </div>
-      <div className="flex flex-col items-end justify-center">
-        <div className="text-sm transition-colors duration-300">
-          {formatBytes(loaded, 1)}
-        </div>
-        <div className="text-sm transition-colors duration-300">
-          {formatBytes(total, 1)}
-        </div>
-      </div>
-    </div>
-  )
-}
-
 interface DownloadStateProps {
   icon: IconifyIcon
   iconClassName?: string
@@ -116,7 +54,7 @@ export const DownloadState: FC<DownloadStateProps> = forwardRef<
     return (
       <motion.div
         className={clsx(
-          'flex py-6 px-3 flex-col items-center justify-center font-normal transition-colors duration-300',
+          'flex py-6 px-5 flex-col items-center justify-center font-normal transition-colors duration-300',
           'dark:text-white',
           'text-stone-800',
           className,
@@ -163,36 +101,7 @@ type DownloadDetectionStates =
       state: 'idle'
     }
   | {
-      state: 'detecting'
-      detected: number
-    }
-  | {
-      state: 'speedTesting'
-      mirrorIndex: number
-    }
-  | {
-      state: 'detected'
-      availableMirror: number
-      canTestSpeed: boolean
-      cantTestSpeedReason: 'saveData' | 'mobile' | 'ok'
-    }
-  | {
-      state: 'connecting'
-      mirrorIndex: number
-      mirrorLatency: number
-      mirrorSpeed: number
-    }
-  | {
       state: 'downloading'
-      mirrorIndex: number
-      progressDownloaded: number
-      progressTotal: number
-    }
-  | {
-      state: 'downloaded'
-    }
-  | {
-      state: 'fallback'
     }
 
 type CompatibilityConfirmReason = 'detectWrong' | 'otherDevice'
@@ -386,7 +295,7 @@ const CompatibilityFinalConfirmModal: FC<{
                 translucent
                 bordered
                 onClick={onClose}
-                className="allin-download-button relative text-white isolate overflow-hidden *:relative *:z-10"
+                className="allin-download-button relative isolate overflow-hidden *:relative *:z-10"
               >
                 <span className="px-2 py-0.5 text-sm font-semibold">
                   {cancelText}
@@ -408,7 +317,15 @@ const AllPlatformsModal: FC<{
   currentPlatformId: string | null | typeof DetectionFailedSymbol
   onClose: () => void
   onConfirm: () => void
-}> = ({ open, title, warning, platforms, currentPlatformId, onClose, onConfirm }) => {
+}> = ({
+  open,
+  title,
+  warning,
+  platforms,
+  currentPlatformId,
+  onClose,
+  onConfirm,
+}) => {
   const { t } = useTranslation()
 
   return (
@@ -446,7 +363,12 @@ const AllPlatformsModal: FC<{
                 onClick={onClose}
                 className="p-1 rounded-lg hover:bg-stone-200/60 dark:hover:bg-zinc-700/60 transition-colors"
               >
-                <Icon icon={mdiAlertCircle} width="18" height="18" className="opacity-50" />
+                <Icon
+                  icon={mdiAlertCircle}
+                  width="18"
+                  height="18"
+                  className="opacity-50"
+                />
               </button>
             </div>
 
@@ -512,156 +434,22 @@ const DownloadButton: FC<{
     () => detectedPlatformLabel || t('release.platformDetect.failure'),
     [detectedPlatformLabel, t],
   )
-  const mirrorsTemplate = useMemo(() => {
-    const baseMirrors = [
-      ...platform.asset.mirrors.map((url) => ({
-        transform: () => url,
-        name: new URL(url).hostname,
-      })),
-      ...GITHUB_MIRRORS,
-    ]
+  const downloadMAA = () => {
+    setLoadState({ state: 'downloading' })
+    window.location.href = href
+  }
 
-    // Windows x64 优先使用国内镜像
-    if (platform.platform.id === 'windows-x64' && releaseName) {
-      return [
-        {
-          name: 'download.maa.plus',
-          transform: () =>
-            `https://download.maa.plus/MAA/MAA-${releaseName}-win-x64.zip`,
-        },
-        ...baseMirrors,
-      ]
-    }
-
-    return baseMirrors
-  }, [platform.asset.mirrors, platform.platform.id, releaseName])
-
-  const detectDownload = useCallback(async () => {
-    setLoadState({ state: 'detecting', detected: 0 })
-    const original = new URL(href)
-    const mirrors: [number, string, DOMHighResTimeStamp, number][] = []
-    await Promise.all(
-      mirrorsTemplate.map(async (mirror, index) => {
-        const mirrorUrl = mirror.transform(original)
-        const result = await checkUrlConnectivity(mirrorUrl)
-        if (typeof result === 'number') {
-          mirrors.push([index, mirrorUrl, result, -1])
-        }
-        setLoadState((prev) => {
-          if (prev.state === 'detecting') {
-            return {
-              ...prev,
-              detected: prev.detected + 1,
-            }
-          }
-          return prev
-        })
-      }),
-    )
-    setLoadState({ state: 'detecting', detected: mirrorsTemplate.length })
-    await sleep(300)
-    mirrors.sort(([, , a], [, , b]) => a - b)
-    try {
-      if (Reflect.has(navigator, 'connection')) {
-        if (navigator.connection?.saveData) {
-          setLoadState({
-            state: 'detected',
-            availableMirror: mirrors.length,
-            canTestSpeed: false,
-            cantTestSpeedReason: 'saveData',
-          })
-        } else if (
-          ['slow-2g', '2g', '3g'].includes(
-            navigator.connection?.effectiveType || '4g',
-          ) ||
-          ['bluetooth', 'cellular', 3, 4].includes(
-            navigator.connection?.type || 'unknown',
-          )
-        ) {
-          setLoadState({
-            state: 'detected',
-            availableMirror: mirrors.length,
-            canTestSpeed: false,
-            cantTestSpeedReason: 'mobile',
-          })
-        } else {
-          throw new Error()
-        }
-      } else {
-        throw new Error()
-      }
-    } catch {
-      for (const [i, [index, mirror]] of mirrors.entries()) {
-        setLoadState({
-          state: 'speedTesting',
-          mirrorIndex: index + 1,
-        })
-        const mirrorSpeed = await checkUrlSpeed(mirror)
-        mirrors[i][3] = mirrorSpeed
-      }
-      setLoadState({
-        state: 'detected',
-        availableMirror: mirrors.length,
-        canTestSpeed: true,
-        cantTestSpeedReason: 'ok',
-      })
-    }
-    mirrors.sort(([, , , a], [, , , b]) => b - a)
-    await sleep(500)
-    for (const [index, mirror, mirrorLatency, mirrorSpeed] of mirrors) {
-      try {
-        setLoadState({
-          state: 'connecting',
-          mirrorIndex: index + 1,
-          mirrorLatency,
-          mirrorSpeed,
-        })
-        await sleep(1000)
-        await download(mirror, {
-          ttfbTimeout: 3500,
-          onProgress: (progressEvent) => {
-            setLoadState({
-              state: 'downloading',
-              mirrorIndex: index + 1,
-              progressDownloaded: progressEvent.loaded,
-              progressTotal: progressEvent.total,
-            })
-          },
-        }).then((blob) => {
-          downloadBlob(blob, href.split('/').pop()!)
-
-          setLoadState({ state: 'downloaded' })
-        })
-
-        break
-      } catch (err) {
-        console.warn(
-          'download mirror detection: unable to detect download to mirror',
-          err,
-        )
-      }
-    }
-    setLoadState((prev) => {
-      if (prev.state !== 'downloaded') {
-        return {
-          state: 'fallback',
-        }
-      }
-      return prev
-    })
-  }, [href, mirrorsTemplate])
-
-  const handleDownloadClick = useCallback(() => {
+  const handleDownloadClick = () => {
     if (requiresCompatibilityConfirm) {
       setFinalConfirmReason(null)
       setCompatibilityModalOpen(true)
       return
     }
 
-    void detectDownload()
-  }, [detectDownload, requiresCompatibilityConfirm])
+    downloadMAA()
+  }
 
-  const handleCompatibilityConfirm = useCallback(() => {
+  const handleCompatibilityConfirm = () => {
     if (!finalConfirmReason) {
       return
     }
@@ -672,25 +460,19 @@ const DownloadButton: FC<{
     })
     setFinalConfirmReason(null)
     setCompatibilityModalOpen(false)
-    void detectDownload()
-  }, [
-    detectDownload,
-    finalConfirmReason,
-    recommendedPlatformLabel,
-    selectedPlatformLabel,
-  ])
+    downloadMAA()
+  }
 
-  const handleSelectCompatibilityReason = useCallback(
-    (reason: CompatibilityConfirmReason) => {
-      setFinalConfirmReason(reason)
-    },
-    [],
-  )
+  const handleSelectCompatibilityReason = (
+    reason: CompatibilityConfirmReason,
+  ) => {
+    setFinalConfirmReason(reason)
+  }
 
-  const handleCloseCompatibilityFlow = useCallback(() => {
+  const handleCloseCompatibilityFlow = () => {
     setFinalConfirmReason(null)
     setCompatibilityModalOpen(false)
-  }, [])
+  }
 
   useEffect(() => {
     if (!compatibilityModalOpen && !finalConfirmReason) {
@@ -709,28 +491,6 @@ const DownloadButton: FC<{
       window.removeEventListener('keydown', onKeyDown)
     }
   }, [compatibilityModalOpen, finalConfirmReason])
-
-  useEffect(() => {
-    if (loadState.state === 'fallback') {
-      console.warn('no mirrors responded correctly; fallback to original URL')
-      window.location.href = href
-    }
-  }, [loadState, href])
-
-  useEffect(() => {
-    if (loadState.state === 'downloading') {
-      window.onbeforeunload = () => {
-        // this is basically useless lol. all you need is a non-null value to the window.onbeforeunload property
-        return 'Please do not close this window until the download is complete.'
-      }
-    } else {
-      window.onbeforeunload = null
-    }
-
-    return () => {
-      window.onbeforeunload = null
-    }
-  }, [loadState])
 
   if (loadState.state === 'idle') {
     return (
@@ -848,102 +608,17 @@ const DownloadButton: FC<{
         />
       </>
     )
-  } else if (loadState.state === 'detecting') {
-    return (
-      <DownloadState
-        iconClassName="animate-spin"
-        icon={mdiLoading}
-        title={t('release.mirrorDetect.detecting', {
-          current: loadState.detected,
-          total: mirrorsTemplate.length,
-        })}
-        isCurrentPlatform={isCurrentPlatform}
-      />
-    )
-  } else if (loadState.state === 'speedTesting') {
-    return (
-      <DownloadState
-        iconClassName="animate-spin"
-        icon={mdiLoading}
-        title={t('release.speedTest.testing', { index: loadState.mirrorIndex })}
-        isCurrentPlatform={isCurrentPlatform}
-      />
-    )
-  } else if (loadState.state === 'detected') {
-    const title = loadState.canTestSpeed
-      ? t('release.speedTest.success', { count: loadState.availableMirror })
-      : t('release.speedTest.failure', {
-          count: loadState.availableMirror,
-          reason: t(
-            `release.speedTest.reasons.${loadState.cantTestSpeedReason}`,
-          ),
-        })
-
-    return (
-      <DownloadState
-        iconClassName="animate-spin"
-        icon={mdiLoading}
-        title={title}
-        isCurrentPlatform={isCurrentPlatform}
-      />
-    )
-  } else if (loadState.state === 'connecting') {
-    const title =
-      loadState.mirrorSpeed > 0
-        ? t('release.download.connectingWithSpeed', {
-            index: loadState.mirrorIndex,
-            latency: loadState.mirrorLatency.toFixed(3),
-            speed: ((loadState.mirrorSpeed / 1024 / 1024) * 1000).toFixed(3),
-          })
-        : t('release.download.connectingWithoutSpeed', {
-            index: loadState.mirrorIndex,
-            latency: loadState.mirrorLatency.toFixed(3),
-          })
-
-    return (
-      <DownloadState
-        iconClassName="animate-spin"
-        icon={mdiLoading}
-        title={title}
-        isCurrentPlatform={isCurrentPlatform}
-      />
-    )
   } else if (loadState.state === 'downloading') {
     return (
       <DownloadState
         iconClassName="animate-spin"
         icon={mdiLoading}
         title={
-          <div className="flex items-center">
-            <span className="mr-4">
-              {t('release.download.downloadingFromMirror', {
-                index: loadState.mirrorIndex,
-              })}
-            </span>
-            <DataLoadRate
-              loaded={loadState.progressDownloaded}
-              total={loadState.progressTotal}
-            />
+          <div className="flex items-center gap-4">
+            <span>{t('release.download.downloadingFromGithub')}</span>
           </div>
         }
         className="tabular-nums"
-        isCurrentPlatform={isCurrentPlatform}
-      />
-    )
-  } else if (loadState.state === 'downloaded') {
-    return (
-      <DownloadState
-        icon={mdiCheck}
-        title={t(platform.platform.messages.downloaded)}
-        isCurrentPlatform={isCurrentPlatform}
-      />
-    )
-  } else if (loadState.state === 'fallback') {
-    return (
-      <DownloadState
-        iconClassName="animate-spin"
-        icon={mdiLoading}
-        title={t('release.download.downloadingFallback')}
         isCurrentPlatform={isCurrentPlatform}
       />
     )
@@ -1143,13 +818,16 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
             exit={{ opacity: 0, scale: 0.8 }}
             className={`flex items-center gap-4 ${isWidthOverflow ? 'flex-col w-full' : ''}`}
           >
-            <GlowButton bordered onClick={() => {
-              if (viewAll) {
-                setViewAll(false)
-              } else {
-                setAllPlatformsModalOpen(true)
-              }
-            }}>
+            <GlowButton
+              bordered
+              onClick={() => {
+                if (viewAll) {
+                  setViewAll(false)
+                } else {
+                  setAllPlatformsModalOpen(true)
+                }
+              }}
+            >
               <div className="text-base">
                 {viewAll
                   ? t('release.buttonLabels.collapse')

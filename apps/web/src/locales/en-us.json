@@ -2,38 +2,23 @@
     "platforms": {
         "windows-x64": {
             "title": "Windows",
-            "subtitle": "x64",
-            "messages": {
-                "downloaded": "Download completed. Extract the files and run MAA.exe"
-            }
+            "subtitle": "x64"
         },
         "windows-arm64": {
             "title": "Windows",
-            "subtitle": "arm64",
-            "messages": {
-                "downloaded": "Download completed. Extract the files and run MAA.exe"
-            }
+            "subtitle": "arm64"
         },
         "macos-universal": {
             "title": "macOS",
-            "subtitle": "Universal",
-            "messages": {
-                "downloaded": "Download completed. Open the disk image and drag MAA.app to your Applications folder"
-            }
+            "subtitle": "Universal"
         },
         "linux-x64": {
             "title": "Linux",
-            "subtitle": "x64 Dynamic Library",
-            "messages": {
-                "downloaded": "Dynamic libraries and resource files downloaded. (Linux version has no GUI yet)"
-            }
+            "subtitle": "x64 Dynamic Library"
         },
         "linux-aarch64": {
             "title": "Linux",
-            "subtitle": "aarch64 Dynamic Library",
-            "messages": {
-                "downloaded": "Dynamic libraries and resource files downloaded. (Linux version has no GUI yet)"
-            }
+            "subtitle": "aarch64 Dynamic Library"
         }
     },
     "release": {
@@ -66,23 +51,8 @@
                 }
             }
         },
-        "mirrorDetect": {
-            "detecting": "Checking download mirror availability ({{current}}/{{total}})..."
-        },
-        "speedTest": {
-            "testing": "Testing download speed for mirror #{{index}}...",
-            "success": "Found {{count}} available mirrors (sorted by download speed)",
-            "failure": "Found {{count}} available mirrors (unable to test download speeds due to {{reason}}, sorted by latency)",
-            "reasons": {
-                "saveData": "data-saving mode enabled",
-                "mobile": "mobile network detected"
-            }
-        },
         "download": {
-            "connectingWithSpeed": "Attempting download from mirror #{{index}} (latency: {{latency}} ms, speed test: {{speed}} MiB/s)...",
-            "connectingWithoutSpeed": "Attempting download from mirror #{{index}} (latency: {{latency}} ms)...",
-            "downloadingFromMirror": "Downloading from mirror #{{index}}...",
-            "downloadingFallback": "Downloading from GitHub...",
+            "downloadingFromGithub": "Downloading from GitHub...",
             "invalidState": "Invalid download state. Please refresh the page and try again."
         }
     },

@@ -2,38 +2,23 @@
     "platforms": {
         "windows-x64": {
             "title": "Windows",
-            "subtitle": "x64",
-            "messages": {
-                "downloaded": "下載完成，解壓縮後執行 MAA.exe 即可"
-            }
+            "subtitle": "x64"
         },
         "windows-arm64": {
             "title": "Windows",
-            "subtitle": "arm64",
-            "messages": {
-                "downloaded": "下載完成，解壓縮後執行 MAA.exe 即可"
-            }
+            "subtitle": "arm64"
         },
         "macos-universal": {
             "title": "macOS",
-            "subtitle": "通用版本",
-            "messages": {
-                "downloaded": "下載完成後，打開磁碟映像檔，將 MAA.app 拖曳到應用程式資料夾即可"
-            }
+            "subtitle": "通用版本"
         },
         "linux-x64": {
             "title": "Linux",
-            "subtitle": "x64 動態函式庫",
-            "messages": {
-                "downloaded": "動態函式庫與資源檔案下載完成（Linux 版本暫無 GUI）"
-            }
+            "subtitle": "x64 動態函式庫"
         },
         "linux-aarch64": {
             "title": "Linux",
-            "subtitle": "aarch64 動態函式庫",
-            "messages": {
-                "downloaded": "動態函式庫與資源檔案下載完成（Linux 版本暫無 GUI）"
-            }
+            "subtitle": "aarch64 動態函式庫"
         }
     },
     "release": {
@@ -66,23 +51,8 @@
                 }
             }
         },
-        "mirrorDetect": {
-            "detecting": "正在檢測下載鏡像可用性（{{current}}/{{total}}）..."
-        },
-        "speedTest": {
-            "testing": "正在測試鏡像 #{{index}} 的下載速度...",
-            "success": "已偵測到 {{count}} 個可用鏡像（已依下載速度排序）",
-            "failure": "已偵測到 {{count}} 個可用鏡像（由於{{reason}}，無法測試下載速度，已依鏡像延遲排序）",
-            "reasons": {
-                "saveData": "使用者已開啟節省流量模式",
-                "mobile": "使用者目前使用行動網路"
-            }
-        },
         "download": {
-            "connectingWithSpeed": "正在嘗試從鏡像 #{{index}}（延遲：{{latency}} ms，速度：{{speed}} MiB/s）下載...",
-            "connectingWithoutSpeed": "正在嘗試從鏡像 #{{index}}（延遲：{{latency}} ms）下載...",
-            "downloadingFromMirror": "正在從鏡像 #{{index}} 下載...",
-            "downloadingFallback": "正在從 GitHub 下載...",
+            "downloadingFromGithub": "正在透過 GitHub 下載...",
             "invalidState": "無效的下載狀態，請重新整理頁面後再試一次。"
         }
     },
