@@ -35,13 +35,6 @@ import {
 } from 'react-i18next'
 import { useMount } from 'react-use'
 
-import {
-  DetectionFailedSymbol,
-  PLATFORMS,
-  ResolvedPlatform,
-  detectPlatform,
-} from './ReleaseModels'
-
 type GITHUB_MIRROR_TYPE = {
   name: string
   transform: (original: URL) => string
