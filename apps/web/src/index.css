@@ -51,6 +51,33 @@ html:not(.dark) {
   font-family: 'Saira Condensed', sans-serif;
 }
 
+/* 文档按钮的醒目强调：天蓝描边 + 柔光，引导用户快速找到文档入口 */
+.docs-highlight {
+  border-color: rgba(56, 189, 248, 0.6) !important; /* sky-400 */
+  box-shadow:
+    0 0 0 1px rgba(56, 189, 248, 0.25),
+    0 0 18px rgba(56, 189, 248, 0.35) !important;
+}
+
+.docs-highlight:hover {
+  box-shadow:
+    0 0 0 1px rgba(56, 189, 248, 0.35),
+    0 5px 26px rgba(56, 189, 248, 0.5) !important;
+}
+
+.dark .docs-highlight {
+  border-color: rgba(125, 211, 252, 0.5) !important; /* sky-300 */
+  box-shadow:
+    0 0 0 1px rgba(125, 211, 252, 0.22),
+    0 0 18px rgba(125, 211, 252, 0.3) !important;
+}
+
+.dark .docs-highlight:hover {
+  box-shadow:
+    0 0 0 1px rgba(125, 211, 252, 0.32),
+    0 5px 26px rgba(125, 211, 252, 0.45) !important;
+}
+
 @keyframes allin-download-button-gradient {
   from {
     transform: translate(-50%, -50%) scale(1.15) rotate(0deg);
