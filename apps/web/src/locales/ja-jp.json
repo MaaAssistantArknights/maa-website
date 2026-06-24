@@ -2,38 +2,23 @@
     "platforms": {
         "windows-x64": {
             "title": "Windows",
-            "subtitle": "x64",
-            "messages": {
-                "downloaded": "ダウンロードが完了しました。解凍後、MAA.exe を実行してください"
-            }
+            "subtitle": "x64"
         },
         "windows-arm64": {
             "title": "Windows",
-            "subtitle": "arm64",
-            "messages": {
-                "downloaded": "ダウンロードが完了しました。解凍後、MAA.exe を実行してください"
-            }
+            "subtitle": "arm64"
         },
         "macos-universal": {
             "title": "macOS",
-            "subtitle": "ユニバーサル",
-            "messages": {
-                "downloaded": "ダウンロードが完了しました。ディスクイメージを開き、MAA.app をアプリケーションフォルダにドラッグしてください"
-            }
+            "subtitle": "ユニバーサル"
         },
         "linux-x64": {
             "title": "Linux",
-            "subtitle": "x64 ダイナミックライブラリ",
-            "messages": {
-                "downloaded": "ダイナミックライブラリとリソースファイルがダウンロード完了しました（Linux 版には GUI はありません）"
-            }
+            "subtitle": "x64 ダイナミックライブラリ"
         },
         "linux-aarch64": {
             "title": "Linux",
-            "subtitle": "aarch64 ダイナミックライブラリ",
-            "messages": {
-                "downloaded": "ダイナミックライブラリとリソースファイルがダウンロード完了しました（Linux 版には GUI はありません）"
-            }
+            "subtitle": "aarch64 ダイナミックライブラリ"
         }
     },
     "release": {
@@ -66,23 +51,8 @@
                 }
             }
         },
-        "mirrorDetect": {
-            "detecting": "ダウンロードミラーの有効性を検出中（{{current}}/{{total}}）..."
-        },
-        "speedTest": {
-            "testing": "ダウンロードミラー #{{index}} の速度を検出中...",
-            "success": "{{count}} 個の有効なミラーが検出されました（ダウンロード速度順に並べ替えています）",
-            "failure": "{{count}} 個の有効なミラーが検出されました（{{reason}}のため、ミラーのダウンロード速度を検出できませんでした。ミラーの遅延順に並べ替えています）",
-            "reasons": {
-                "saveData": "ユーザーが「データ節約」モードを有効にしています",
-                "mobile": "ユーザーがモバイルネットワークを使用しています"
-            }
-        },
         "download": {
-            "connectingWithSpeed": "ミラー #{{index}}（遅延：{{latency}} ms、速度：{{speed}} MiB/s）からダウンロードを試みています...",
-            "connectingWithoutSpeed": "ミラー #{{index}}（遅延：{{latency}} ms）からダウンロードを試みています...",
-            "downloadingFromMirror": "ミラー #{{index}} からダウンロード中...",
-            "downloadingFallback": "GitHub からダウンロード中...",
+            "downloadingFromGithub": "GitHub からダウンロード中...",
             "invalidState": "無効なダウンロード状態です。ページをリフレッシュして再試行してください。"
         }
     },

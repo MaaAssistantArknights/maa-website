@@ -9,9 +9,6 @@ export interface PlatformPredicate {
   icon: IconifyIcon
   title: string
   subtitle: string
-  messages: {
-    downloaded: string
-  }
   assetMatcher: (release: Release) => ReleaseAsset | undefined
 }
 
@@ -21,9 +18,6 @@ export const PLATFORMS: PlatformPredicate[] = [
     icon: mdiWindows,
     title: 'platforms.windows-x64.title',
     subtitle: 'platforms.windows-x64.subtitle',
-    messages: {
-      downloaded: 'platforms.windows-x64.messages.downloaded',
-    },
     assetMatcher: (release) => {
       return release.assets.find((el) => /^MAA-v.*-win-x64\.zip/.test(el.name))
     },
@@ -33,9 +27,6 @@ export const PLATFORMS: PlatformPredicate[] = [
     icon: mdiWindows,
     title: 'platforms.windows-arm64.title',
     subtitle: 'platforms.windows-arm64.subtitle',
-    messages: {
-      downloaded: 'platforms.windows-arm64.messages.downloaded',
-    },
     assetMatcher: (release) => {
       return release.assets.find((el) =>
         /^MAA-v.*-win-arm64\.zip/.test(el.name),
@@ -47,9 +38,6 @@ export const PLATFORMS: PlatformPredicate[] = [
     icon: mdiApple,
     title: 'platforms.macos-universal.title',
     subtitle: 'platforms.macos-universal.subtitle',
-    messages: {
-      downloaded: 'platforms.macos-universal.messages.downloaded',
-    },
     assetMatcher: (release) => {
       return release.assets.find((el) =>
         /^MAA-v.*-macos-universal\.dmg/.test(el.name),
@@ -61,9 +49,6 @@ export const PLATFORMS: PlatformPredicate[] = [
     icon: mdiLinux,
     title: 'platforms.linux-x64.title',
     subtitle: 'platforms.linux-x64.subtitle',
-    messages: {
-      downloaded: 'platforms.linux-x64.messages.downloaded',
-    },
     assetMatcher: (release) => {
       return release.assets.find((el) =>
         /^MAA-v.*-linux-x86_64\.tar\.gz/.test(el.name),
@@ -75,9 +60,6 @@ export const PLATFORMS: PlatformPredicate[] = [
     icon: mdiLinux,
     title: 'platforms.linux-aarch64.title',
     subtitle: 'platforms.linux-aarch64.subtitle',
-    messages: {
-      downloaded: 'platforms.linux-aarch64.messages.downloaded',
-    },
     assetMatcher: (release) => {
       return release.assets.find((el) =>
         /^MAA-v.*-linux-aarch64\.tar\.gz/.test(el.name),
