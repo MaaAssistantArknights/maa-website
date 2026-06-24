@@ -53,10 +53,10 @@ html:not(.dark) {
 
 @keyframes allin-download-button-gradient {
   from {
-    transform: translate(-50%, -50%) scale(1.15) rotate(0deg);
+    transform: translate(-50%, -50%) scale(1.5) rotate(0deg);
   }
   to {
-    transform: translate(-50%, -50%) scale(1.15) rotate(360deg);
+    transform: translate(-50%, -50%) scale(1.5) rotate(360deg);
   }
 }
 
