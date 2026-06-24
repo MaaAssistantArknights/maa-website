@@ -408,7 +408,15 @@ const AllPlatformsModal: FC<{
   currentPlatformId: string | null | typeof DetectionFailedSymbol
   onClose: () => void
   onConfirm: () => void
-}> = ({ open, title, warning, platforms, currentPlatformId, onClose, onConfirm }) => {
+}> = ({
+  open,
+  title,
+  warning,
+  platforms,
+  currentPlatformId,
+  onClose,
+  onConfirm,
+}) => {
   const { t } = useTranslation()
 
   return (
@@ -446,7 +454,12 @@ const AllPlatformsModal: FC<{
                 onClick={onClose}
                 className="p-1 rounded-lg hover:bg-stone-200/60 dark:hover:bg-zinc-700/60 transition-colors"
               >
-                <Icon icon={mdiAlertCircle} width="18" height="18" className="opacity-50" />
+                <Icon
+                  icon={mdiAlertCircle}
+                  width="18"
+                  height="18"
+                  className="opacity-50"
+                />
               </button>
             </div>
 
@@ -465,12 +478,16 @@ const AllPlatformsModal: FC<{
             <div className="mt-4 flex justify-end gap-2">
               <GlowButton translucent bordered onClick={onClose}>
                 <span className="px-3 py-1 text-sm">
-                  {t('release.platformDetect.archIncompatibleConfirm.actions.cancel')}
+                  {t(
+                    'release.platformDetect.archIncompatibleConfirm.actions.cancel',
+                  )}
                 </span>
               </GlowButton>
               <GlowButton bordered onClick={onConfirm}>
                 <span className="px-3 py-1 text-sm">
-                  {t('release.platformDetect.archIncompatibleConfirm.actions.confirm')}
+                  {t(
+                    'release.platformDetect.archIncompatibleConfirm.actions.confirm',
+                  )}
                 </span>
               </GlowButton>
             </div>
@@ -738,11 +755,11 @@ const DownloadButton: FC<{
         <GlowButton
           bordered
           onClick={handleDownloadClick}
-          className={
-            isCurrentPlatform
-              ? 'allin-download-button relative isolate overflow-hidden dark:text-white text-stone-800 *:relative *:z-10'
-              : undefined
-          }
+          className={clsx(
+            'min-h-[4.75rem] items-center',
+            isCurrentPlatform &&
+              'allin-download-button relative isolate overflow-hidden dark:text-white text-stone-800 *:relative *:z-10',
+          )}
         >
           <div className="flex flex-col items-start whitespace-nowrap">
             <div className="flex items-center -ml-1">
@@ -1143,19 +1160,26 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
             exit={{ opacity: 0, scale: 0.8 }}
             className={`flex items-center gap-4 ${isWidthOverflow ? 'flex-col w-full' : ''}`}
           >
-            <GlowButton bordered onClick={() => {
-              if (viewAll) {
-                setViewAll(false)
-              } else {
-                setAllPlatformsModalOpen(true)
-              }
-            }}>
-              <div className="text-base">
-                {viewAll
-                  ? t('release.buttonLabels.collapse')
-                  : t('release.buttonLabels.viewAll')}
-              </div>
-            </GlowButton>
+            <div className="flex flex-col items-center gap-1">
+              <GlowButton
+                bordered
+                className="min-h-[4.75rem] items-center"
+                onClick={() => {
+                  if (viewAll) {
+                    setViewAll(false)
+                  } else {
+                    setAllPlatformsModalOpen(true)
+                  }
+                }}
+              >
+                <div className="text-base">
+                  {viewAll
+                    ? t('release.buttonLabels.collapse')
+                    : t('release.buttonLabels.viewAll')}
+                </div>
+              </GlowButton>
+              <div className="min-h-5 mt-1" />
+            </div>
             <AllPlatformsModal
               open={allPlatformsModalOpen}
               title={t('release.buttonLabels.viewAllPlatforms')}
@@ -1178,19 +1202,23 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.8 }}
             >
-              <GlowButton
-                bordered
-                href={`https://mirrorchyan.com/${mirrorchyanLang}/projects?rid=MAA&os=${os}&arch=${arch}&channel=stable&source=maaplus-download`}
-              >
-                <div className="text-sm">
-                  <p>
-                    <i>{t('release.buttonLabels.mirrorchyanCDKPrompt')}</i>
-                  </p>
-                  <p>
-                    <i>{t('release.buttonLabels.mirrorchyanDownload')}</i>
-                  </p>
-                </div>
-              </GlowButton>
+              <div className="flex flex-col items-center gap-1">
+                <GlowButton
+                  bordered
+                  className="min-h-[4.75rem] items-center"
+                  href={`https://mirrorchyan.com/${mirrorchyanLang}/projects?rid=MAA&os=${os}&arch=${arch}&channel=stable&source=maaplus-download`}
+                >
+                  <div className="text-sm">
+                    <p>
+                      <i>{t('release.buttonLabels.mirrorchyanCDKPrompt')}</i>
+                    </p>
+                    <p>
+                      <i>{t('release.buttonLabels.mirrorchyanDownload')}</i>
+                    </p>
+                  </div>
+                </GlowButton>
+                <div className="min-h-5 mt-1" />
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
