@@ -53,6 +53,21 @@ const GITHUB_MIRRORS: GITHUB_MIRROR_TYPE[] = [
   },
 ]
 
+// 下载区各按钮统一的最小高度类，保证一排按钮高度一致
+const downloadButtonClassName = 'min-h-[4.75rem] items-center'
+
+// 下载区按钮的列容器：按钮 + 底部等高文字槽位（架构提示或占位），
+// 保证各列高度、对齐一致
+const DownloadButtonColumn: FC<{
+  footer?: ReactNode
+  children: ReactNode
+}> = ({ footer, children }) => (
+  <div className="flex flex-col items-center gap-1">
+    {children}
+    <div className="min-h-5 mt-1 text-xs">{footer}</div>
+  </div>
+)
+
 const DataLoadRate: FC<{ loaded: number; total: number }> = ({
   loaded,
   total,
@@ -404,19 +419,9 @@ const AllPlatformsModal: FC<{
   open: boolean
   title: string
   warning: string
-  platforms: ResolvedPlatform[]
-  currentPlatformId: string | null | typeof DetectionFailedSymbol
   onClose: () => void
   onConfirm: () => void
-}> = ({
-  open,
-  title,
-  warning,
-  platforms,
-  currentPlatformId,
-  onClose,
-  onConfirm,
-}) => {
+}> = ({ open, title, warning, onClose, onConfirm }) => {
   const { t } = useTranslation()
 
   return (
@@ -756,7 +761,7 @@ const DownloadButton: FC<{
           bordered
           onClick={handleDownloadClick}
           className={clsx(
-            'min-h-[4.75rem] items-center',
+            downloadButtonClassName,
             isCurrentPlatform &&
               'allin-download-button relative isolate overflow-hidden dark:text-white text-stone-800 *:relative *:z-10',
           )}
@@ -1033,16 +1038,9 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
 
       return (
         <motion.div layout key={platform.platform.id}>
-          <div className="flex flex-col items-center gap-1">
-            <DownloadButton
-              platform={platform}
-              releaseName={release.name}
-              requiresCompatibilityConfirm={shouldConfirmIncompatibleDownload}
-              detectedPlatformLabel={detectedPlatformLabel}
-              isCurrentPlatform={isCurrentPlatform}
-            />
-            <div className="min-h-5 mt-1 text-xs">
-              {!isCurrentPlatform ? (
+          <DownloadButtonColumn
+            footer={
+              !isCurrentPlatform ? (
                 <motion.span
                   className="inline-flex items-center whitespace-nowrap text-red-500 dark:text-red-400"
                   initial={{ opacity: 0, y: -10 }}
@@ -1064,14 +1062,17 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
                   />
                   {t('release.platformDetect.archIncompatible')}
                 </motion.span>
-              ) : (
-                // 占位保持高度一致
-                <span className="opacity-0">
-                  {t('release.platformDetect.archIncompatible')}
-                </span>
-              )}
-            </div>
-          </div>
+              ) : null
+            }
+          >
+            <DownloadButton
+              platform={platform}
+              releaseName={release.name}
+              requiresCompatibilityConfirm={shouldConfirmIncompatibleDownload}
+              detectedPlatformLabel={detectedPlatformLabel}
+              isCurrentPlatform={isCurrentPlatform}
+            />
+          </DownloadButtonColumn>
         </motion.div>
       )
     },
@@ -1160,10 +1161,10 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
             exit={{ opacity: 0, scale: 0.8 }}
             className={`flex items-center gap-4 ${isWidthOverflow ? 'flex-col w-full' : ''}`}
           >
-            <div className="flex flex-col items-center gap-1">
+            <DownloadButtonColumn>
               <GlowButton
                 bordered
-                className="min-h-[4.75rem] items-center"
+                className={downloadButtonClassName}
                 onClick={() => {
                   if (viewAll) {
                     setViewAll(false)
@@ -1178,14 +1179,11 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
                     : t('release.buttonLabels.viewAll')}
                 </div>
               </GlowButton>
-              <div className="min-h-5 mt-1" />
-            </div>
+            </DownloadButtonColumn>
             <AllPlatformsModal
               open={allPlatformsModalOpen}
               title={t('release.buttonLabels.viewAllPlatforms')}
               warning={t('release.buttonLabels.viewAllWarning')}
-              platforms={validPlatforms}
-              currentPlatformId={envPlatformId}
               onClose={() => setAllPlatformsModalOpen(false)}
               onConfirm={() => {
                 setAllPlatformsModalOpen(false)
@@ -1202,10 +1200,10 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.8 }}
             >
-              <div className="flex flex-col items-center gap-1">
+              <DownloadButtonColumn>
                 <GlowButton
                   bordered
-                  className="min-h-[4.75rem] items-center"
+                  className={downloadButtonClassName}
                   href={`https://mirrorchyan.com/${mirrorchyanLang}/projects?rid=MAA&os=${os}&arch=${arch}&channel=stable&source=maaplus-download`}
                 >
                   <div className="text-sm">
@@ -1217,8 +1215,7 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
                     </p>
                   </div>
                 </GlowButton>
-                <div className="min-h-5 mt-1" />
-              </div>
+              </DownloadButtonColumn>
             </motion.div>
           )}
         </AnimatePresence>
