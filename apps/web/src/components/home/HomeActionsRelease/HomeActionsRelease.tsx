@@ -8,6 +8,7 @@ import {
   ResolvedPlatform,
   detectPlatform,
 } from '@/utils/detect'
+import { formatBytes } from '@/utils/format'
 import mdiAlertCircle from '@iconify/icons-mdi/alert-circle'
 import mdiDownload from '@iconify/icons-mdi/download'
 import mdiLoading from '@iconify/icons-mdi/loading'
