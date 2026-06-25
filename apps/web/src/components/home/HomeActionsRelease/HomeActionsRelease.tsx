@@ -883,7 +883,7 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
             <DownloadButtonColumn>
               <GlowButton
                 bordered
-                className={downloadButtonClassName}
+                className="items-center"
                 onClick={() => {
                   if (viewAll) {
                     setViewAll(false)
