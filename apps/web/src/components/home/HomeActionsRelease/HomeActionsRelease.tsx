@@ -871,6 +871,33 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
         <AnimatePresence mode="popLayout">
           {innerContent}
 
+          {mirrorchyanAvailable && (
+            <motion.div
+              layout
+              key="mirrorchyan"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+            >
+              <DownloadButtonColumn>
+                <GlowButton
+                  bordered
+                  className={downloadButtonClassName}
+                  href={`https://mirrorchyan.com/${mirrorchyanLang}/projects?rid=MAA&os=${os}&arch=${arch}&channel=stable&source=maaplus-download`}
+                >
+                  <div className="text-sm">
+                    <p>
+                      <i>{t('release.buttonLabels.mirrorchyanCDKPrompt')}</i>
+                    </p>
+                    <p>
+                      <i>{t('release.buttonLabels.mirrorchyanDownload')}</i>
+                    </p>
+                  </div>
+                </GlowButton>
+              </DownloadButtonColumn>
+            </motion.div>
+          )}
+          
           {/* view all 按钮 */}
           <motion.div
             layout
@@ -910,33 +937,6 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
               }}
             />
           </motion.div>
-
-          {mirrorchyanAvailable && (
-            <motion.div
-              layout
-              key="mirrorchyan"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.8 }}
-            >
-              <DownloadButtonColumn>
-                <GlowButton
-                  bordered
-                  className={downloadButtonClassName}
-                  href={`https://mirrorchyan.com/${mirrorchyanLang}/projects?rid=MAA&os=${os}&arch=${arch}&channel=stable&source=maaplus-download`}
-                >
-                  <div className="text-sm">
-                    <p>
-                      <i>{t('release.buttonLabels.mirrorchyanCDKPrompt')}</i>
-                    </p>
-                    <p>
-                      <i>{t('release.buttonLabels.mirrorchyanDownload')}</i>
-                    </p>
-                  </div>
-                </GlowButton>
-              </DownloadButtonColumn>
-            </motion.div>
-          )}
         </AnimatePresence>
       </motion.div>
       {/* 原先的条件渲染会导致dom出现和消失，因此父容器在做layout动画的同时，子元素在做height动画。动画结束后，dom消失，layout再次计算位置进行跳跃。*/}
