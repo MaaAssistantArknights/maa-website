@@ -22,10 +22,12 @@ import {
   type ComponentType,
   FC,
   ReactNode,
+  RefObject,
   forwardRef,
   useCallback,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from 'react'
 import {
@@ -381,6 +383,140 @@ const CompatibilityFinalConfirmModal: FC<{
   )
 }
 
+const FLEE_CLICK_LIMIT = 3
+const FLEE_MIN_DISTANCE_RATIO = 0.3
+
+function pickFleePosition(
+  rect: DOMRect,
+  minDistanceRatio: number,
+): { x: number; y: number } {
+  const margin = 20
+  const startX = rect.left
+  const startY = rect.top
+  const maxX = Math.max(margin, window.innerWidth - rect.width - margin)
+  const maxY = Math.max(margin, window.innerHeight - rect.height - margin)
+  const minDistance =
+    minDistanceRatio * Math.hypot(window.innerWidth, window.innerHeight)
+
+  for (let i = 0; i < 32; i++) {
+    const x = margin + Math.random() * (maxX - margin)
+    const y = margin + Math.random() * (maxY - margin)
+    if (Math.hypot(x - startX, y - startY) >= minDistance) {
+      return { x: Math.floor(x), y: Math.floor(y) }
+    }
+  }
+
+  const corners: [number, number][] = [
+    [margin, margin],
+    [maxX, margin],
+    [margin, maxY],
+    [maxX, maxY],
+  ]
+  let best = corners[0]
+  let bestDist = Math.hypot(best[0] - startX, best[1] - startY)
+  for (const corner of corners.slice(1)) {
+    const dist = Math.hypot(corner[0] - startX, corner[1] - startY)
+    if (dist > bestDist) {
+      bestDist = dist
+      best = corner
+    }
+  }
+  return { x: Math.floor(best[0]), y: Math.floor(best[1]) }
+}
+
+function useFleeOnClick() {
+  const flyRef = useRef<HTMLDivElement>(null)
+  const placeholderRef = useRef<HTMLDivElement>(null)
+  const runCountRef = useRef(0)
+
+  const resetFlyStyles = useCallback(() => {
+    const fly = flyRef.current
+    const placeholder = placeholderRef.current
+    if (fly) {
+      fly.style.position = ''
+      fly.style.left = ''
+      fly.style.top = ''
+      fly.style.zIndex = ''
+      fly.style.transition = ''
+    }
+    if (placeholder) {
+      placeholder.style.width = ''
+      placeholder.style.height = ''
+    }
+  }, [])
+
+  const resetFlee = useCallback(() => {
+    resetFlyStyles()
+    runCountRef.current = 0
+  }, [resetFlyStyles])
+
+  const runAway = useCallback(() => {
+    const fly = flyRef.current
+    if (!fly || runCountRef.current >= FLEE_CLICK_LIMIT) {
+      return
+    }
+    runCountRef.current += 1
+
+    const rect = fly.getBoundingClientRect()
+    const placeholder = placeholderRef.current
+    if (placeholder) {
+      placeholder.style.width = `${rect.width}px`
+      placeholder.style.height = `${rect.height}px`
+    }
+
+    const { x: randX, y: randY } = pickFleePosition(
+      rect,
+      FLEE_MIN_DISTANCE_RATIO,
+    )
+
+    fly.style.position = 'fixed'
+    fly.style.left = `${rect.left}px`
+    fly.style.top = `${rect.top}px`
+    fly.style.zIndex = '9999'
+    fly.style.transition = 'none'
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        fly.style.transition = 'left 0.3s ease, top 0.3s ease'
+        fly.style.left = `${randX}px`
+        fly.style.top = `${randY}px`
+      })
+    })
+  }, [])
+
+  const handleFleeClick = useCallback(
+    (onSuccess: () => void) => {
+      if (runCountRef.current < FLEE_CLICK_LIMIT) {
+        runAway()
+        return
+      }
+      onSuccess()
+    },
+    [runAway],
+  )
+
+  return {
+    flyRef,
+    placeholderRef,
+    resetFlyStyles,
+    resetFlee,
+    handleFleeClick,
+  }
+}
+
+const FleeButtonShell: FC<{
+  flyRef: RefObject<HTMLDivElement | null>
+  placeholderRef: RefObject<HTMLDivElement | null>
+  className?: string
+  children: ReactNode
+}> = ({ flyRef, placeholderRef, className, children }) => (
+  <div ref={placeholderRef} className={clsx('inline-flex', className)}>
+    <div ref={flyRef} className="inline-flex">
+      {children}
+    </div>
+  </div>
+)
+
 const AllPlatformsModal: FC<{
   open: boolean
   title: string
@@ -389,6 +525,14 @@ const AllPlatformsModal: FC<{
   onConfirm: () => void
 }> = ({ open, title, warning, onClose, onConfirm }) => {
   const { t } = useTranslation()
+  const { flyRef, placeholderRef, resetFlee, handleFleeClick } =
+    useFleeOnClick()
+
+  useEffect(() => {
+    if (!open) {
+      resetFlee()
+    }
+  }, [open, resetFlee])
 
   return (
     <AnimatePresence>
@@ -454,13 +598,15 @@ const AllPlatformsModal: FC<{
                   )}
                 </span>
               </GlowButton>
-              <GlowButton bordered onClick={onConfirm}>
-                <span className="px-3 py-1 text-sm">
-                  {t(
-                    'release.platformDetect.archIncompatibleConfirm.actions.confirm',
-                  )}
-                </span>
-              </GlowButton>
+              <FleeButtonShell flyRef={flyRef} placeholderRef={placeholderRef}>
+                <GlowButton bordered onClick={() => handleFleeClick(onConfirm)}>
+                  <span className="px-3 py-1 text-sm">
+                    {t(
+                      'release.platformDetect.archIncompatibleConfirm.actions.confirm',
+                    )}
+                  </span>
+                </GlowButton>
+              </FleeButtonShell>
             </div>
           </motion.div>
         </motion.div>
@@ -699,6 +845,42 @@ const DownloadButton: FC<{
   }
 }
 
+const ViewAllButton: FC<{
+  viewAll: boolean
+  label: string
+  collapseLabel: string
+  onExpand: () => void
+  onCollapse: () => void
+}> = ({ viewAll, label, collapseLabel, onExpand, onCollapse }) => {
+  const { flyRef, placeholderRef, resetFlyStyles, handleFleeClick } =
+    useFleeOnClick()
+
+  useEffect(() => {
+    if (viewAll) {
+      resetFlyStyles()
+    }
+  }, [viewAll, resetFlyStyles])
+
+  const handleClick = () => {
+    if (viewAll) {
+      onCollapse()
+      return
+    }
+
+    handleFleeClick(onExpand)
+  }
+
+  return (
+    <DownloadButtonColumn>
+      <FleeButtonShell flyRef={flyRef} placeholderRef={placeholderRef}>
+        <GlowButton bordered className="items-center" onClick={handleClick}>
+          <div className="text-base">{viewAll ? collapseLabel : label}</div>
+        </GlowButton>
+      </FleeButtonShell>
+    </DownloadButtonColumn>
+  )
+}
+
 export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
   const { t } = useTranslation()
   const { isWidthOverflow } = useLayoutState()
@@ -897,7 +1079,7 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
               </DownloadButtonColumn>
             </motion.div>
           )}
-          
+
           {/* view all 按钮 */}
           <motion.div
             layout
@@ -907,25 +1089,13 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
             exit={{ opacity: 0, scale: 0.8 }}
             className={`flex items-center gap-4 ${isWidthOverflow ? 'flex-col w-full' : ''}`}
           >
-            <DownloadButtonColumn>
-              <GlowButton
-                bordered
-                className="items-center"
-                onClick={() => {
-                  if (viewAll) {
-                    setViewAll(false)
-                  } else {
-                    setAllPlatformsModalOpen(true)
-                  }
-                }}
-              >
-                <div className="text-base">
-                  {viewAll
-                    ? t('release.buttonLabels.collapse')
-                    : t('release.buttonLabels.viewAll')}
-                </div>
-              </GlowButton>
-            </DownloadButtonColumn>
+            <ViewAllButton
+              viewAll={viewAll}
+              label={t('release.buttonLabels.viewAll')}
+              collapseLabel={t('release.buttonLabels.collapse')}
+              onExpand={() => setAllPlatformsModalOpen(true)}
+              onCollapse={() => setViewAll(false)}
+            />
             <AllPlatformsModal
               open={allPlatformsModalOpen}
               title={t('release.buttonLabels.viewAllPlatforms')}
