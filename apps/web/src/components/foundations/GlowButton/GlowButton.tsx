@@ -30,10 +30,10 @@ export const GlowButton: FCC<GlowButtonProps> = forwardRef<
       backgroundColor:
         theme === 'dark'
           ? translucent
-            ? 'rgba(39, 39, 42, 0.6)'
+            ? 'rgba(39, 39, 42, 0.45)'
             : 'rgba(39, 39, 42, 0.8)'
           : translucent
-            ? 'rgba(229, 229, 229, 0.6)'
+            ? 'rgba(229, 229, 229, 0.45)'
             : 'rgba(229, 229, 229, 0.8)',
     },
     whileTap: {
@@ -73,7 +73,8 @@ export const GlowButton: FCC<GlowButtonProps> = forwardRef<
       className={clsx(
         moduleStyles.root,
         !translucent && 'dark:bg-slate-900/90 bg-stone-100/90',
-        translucent && 'dark:bg-slate-900/90 bg-stone-100/90',
+        translucent &&
+          'dark:bg-slate-900/40 bg-stone-50/40 backdrop-blur-xl backdrop-saturate-150',
         !bordered && 'border-none',
         'flex px-6 py-3 dark:active:bg-slate-800 active:bg-stone-200 rounded-lg hover:-translate-y-px active:translate-y-px text-2xl dark:text-white/90 text-stone-800 whitespace-nowrap transition-transform duration-200',
         className,
