@@ -298,9 +298,7 @@ export const HomeLinks = forwardRef<HTMLDivElement, HomeLinksProps>(
         ref={ref}
         className={clsx(
           'fixed min-w-60 rounded-xl transition-all duration-300 z-50',
-          theme === 'dark'
-            ? 'text-[#eee] bg-black'
-            : 'text-gray-800 bg-white',
+          theme === 'dark' ? 'text-[#eee] bg-black' : 'text-gray-800 bg-white',
           styles.root,
         )}
         style={{ opacity: 0 }} // 初始状态为隐藏
