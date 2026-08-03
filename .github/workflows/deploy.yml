@@ -35,7 +35,14 @@ jobs:
         with:
           cache: true
 
-      - name: Lint check
+      - name: Lint check (format)
+        if: ${{ inputs.deploy-to-prod != true }}
+        run: |
+          pnpm lint:format || {
+            echo "::warning title=Lint Check::Prettier reported issues. Please fix them before deploying to production."
+          }
+
+      - name: Lint check (code)
         if: ${{ inputs.deploy-to-prod != true }}
         run: |
           pnpm lint:code || {
