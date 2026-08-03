@@ -27,24 +27,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
         with:
           show-progress: false
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
+      - uses: pnpm/setup@v1
         with:
-          run_install: false
-
-      - name: Setup node.js environment
-        uses: actions/setup-node@v5
-        with:
-          node-version: 24
-          cache: pnpm
-          cache-dependency-path: "./pnpm-lock.yaml"
-
-      - name: Install node modules
-        run: pnpm install --recursive --frozen-lockfile
+          cache: true
 
       - name: Lint check
         if: ${{ inputs.deploy-to-prod != true }}
