@@ -163,7 +163,7 @@ export const HomeActions: FC<HomeActionsProps> = ({
             ),
             4: (
               <a
-                href="https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/terms-of-service.md"
+                href="https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/terms-of-service.md"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="underline"
