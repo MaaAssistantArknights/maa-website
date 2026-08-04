@@ -27,26 +27,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
         with:
           show-progress: false
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
+      - uses: pnpm/setup@v1
         with:
-          run_install: false
+          cache: true
 
-      - name: Setup node.js environment
-        uses: actions/setup-node@v5
-        with:
-          node-version: 24
-          cache: pnpm
-          cache-dependency-path: "./pnpm-lock.yaml"
+      - name: Lint check (format)
+        if: ${{ inputs.deploy-to-prod != true }}
+        run: |
+          pnpm lint:format || {
+            echo "::warning title=Lint Check::Prettier reported issues. Please fix them before deploying to production."
+          }
 
-      - name: Install node modules
-        run: pnpm install --recursive --frozen-lockfile
-
-      - name: Lint check
+      - name: Lint check (code)
         if: ${{ inputs.deploy-to-prod != true }}
         run: |
           pnpm lint:code || {

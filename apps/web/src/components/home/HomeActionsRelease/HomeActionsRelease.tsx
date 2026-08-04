@@ -8,7 +8,6 @@ import {
   ResolvedPlatform,
   detectPlatform,
 } from '@/utils/detect'
-import { formatBytes } from '@/utils/format'
 import mdiAlertCircle from '@iconify/icons-mdi/alert-circle'
 import mdiDownload from '@iconify/icons-mdi/download'
 import mdiLoading from '@iconify/icons-mdi/loading'
@@ -38,18 +37,6 @@ import {
 } from 'react-i18next'
 import { useMount } from 'react-use'
 
-type GITHUB_MIRROR_TYPE = {
-  name: string
-  transform: (original: URL) => string
-}
-
-const GITHUB_MIRRORS: GITHUB_MIRROR_TYPE[] = [
-  {
-    name: 'origin',
-    transform: (original: URL) => original.toString(),
-  },
-]
-
 // 下载区各按钮统一的最小高度类，保证一排按钮高度一致
 const downloadButtonClassName = 'min-h-[4.75rem] items-center'
 
@@ -64,50 +51,6 @@ const DownloadButtonColumn: FC<{
     <div className="min-h-5 mt-1 text-xs">{footer}</div>
   </div>
 )
-
-const DataLoadRate: FC<{ loaded: number; total: number }> = ({
-  loaded,
-  total,
-}) => {
-  const percentage = useMemo(() => {
-    const percentage = (loaded / total) * 100
-    return percentage > 100 ? 100 : percentage
-  }, [loaded, total])
-
-  return (
-    <div className="flex flex-row items-center justify-center gap-2 font-mono">
-      <div className="flex flex-col items-start justify-center gap-1">
-        <div className="text-sm transition-colors duration-300">
-          {percentage.toFixed(0)}%
-        </div>
-        <div
-          className={clsx(
-            'w-12 h-1 rounded-full',
-            'dark:bg-white/10',
-            'bg-stone-800/10',
-          )}
-        >
-          <div
-            className={clsx(
-              'h-full rounded-full',
-              'dark:bg-white',
-              'bg-stone-800',
-            )}
-            style={{ width: `${percentage}%` }}
-          />
-        </div>
-      </div>
-      <div className="flex flex-col items-end justify-center">
-        <div className="text-sm transition-colors duration-300">
-          {formatBytes(loaded, 1)}
-        </div>
-        <div className="text-sm transition-colors duration-300">
-          {formatBytes(total, 1)}
-        </div>
-      </div>
-    </div>
-  )
-}
 
 interface DownloadStateProps {
   icon: IconifyIcon
