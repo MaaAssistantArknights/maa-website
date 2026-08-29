@@ -13,16 +13,24 @@ type GlowButtonProps = WithChildren<{
   translucent?: boolean
   bordered?: boolean
   href?: string
-  onClick?: MouseEventHandler<HTMLButtonElement>
+  onClick?: MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>
   className?: string
 }>
 
 export const GlowButton: FCC<GlowButtonProps> = forwardRef<
-  HTMLButtonElement,
+  HTMLButtonElement | HTMLAnchorElement,
   GlowButtonProps
 >(({ children, translucent, bordered, href, onClick, className }, ref) => {
   const { theme } = useTheme()
   const { disableLayoutMotion } = useLayoutState()
+
+  const setRef = (element: HTMLButtonElement | HTMLAnchorElement | null) => {
+    if (typeof ref === 'function') {
+      ref(element)
+    } else if (ref) {
+      ref.current = element
+    }
+  }
 
   const motionConfig: MotionProps = {
     whileHover: {
@@ -85,6 +93,8 @@ export const GlowButton: FCC<GlowButtonProps> = forwardRef<
         )}
         {...motionConfig}
         key={theme}
+        onClick={onClick}
+        ref={setRef}
       >
         {children}
       </motion.a>
@@ -107,7 +117,7 @@ export const GlowButton: FCC<GlowButtonProps> = forwardRef<
       onClick={onClick}
       {...motionConfig}
       key={theme}
-      ref={ref}
+      ref={setRef}
     >
       {children}
     </motion.button>
