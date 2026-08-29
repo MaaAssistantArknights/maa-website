@@ -9,6 +9,7 @@ import {
   detectPlatform,
 } from '@/utils/detect'
 import mdiAlertCircle from '@iconify/icons-mdi/alert-circle'
+import mdiClose from '@iconify/icons-mdi/close'
 import mdiDownload from '@iconify/icons-mdi/download'
 import mdiLoading from '@iconify/icons-mdi/loading'
 import type { IconifyIcon } from '@iconify/react'
@@ -509,11 +510,14 @@ const AllPlatformsModal: FC<{
               </h3>
               <button
                 type="button"
+                aria-label={t(
+                  'release.platformDetect.archIncompatibleConfirm.actions.cancel',
+                )}
                 onClick={onClose}
                 className="p-1 rounded-lg hover:bg-stone-200/60 dark:hover:bg-zinc-700/60 transition-colors"
               >
                 <Icon
-                  icon={mdiAlertCircle}
+                  icon={mdiClose}
                   width="18"
                   height="18"
                   className="opacity-50"
