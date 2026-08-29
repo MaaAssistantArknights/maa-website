@@ -74,7 +74,7 @@ export const GlowButton: FCC<GlowButtonProps> = forwardRef<
     },
   }
 
-  if (href) {
+  if (href !== undefined) {
     return (
       <motion.a
         href={href}
