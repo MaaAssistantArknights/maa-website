@@ -51,7 +51,6 @@ export const LanguageToggle: React.FC = () => {
         lang={getLanguageOption(i18n.language).htmlLang}
         aria-controls="language-menu"
         aria-expanded={open}
-        aria-haspopup="menu"
         onClick={toggleDropdown}
         className="px-4 py-2 rounded-lg border backdrop-blur-xs shadow-lg
                    dark:bg-slate-900/90 bg-stone-100/90
@@ -78,8 +77,6 @@ export const LanguageToggle: React.FC = () => {
         {open && (
           <motion.div
             id="language-menu"
-            role="menu"
-            aria-labelledby="language-toggle"
             key="dropdown"
             initial={{ opacity: 0, y: -10, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -97,7 +94,6 @@ export const LanguageToggle: React.FC = () => {
             {languages.map((lang) => (
               <motion.button
                 type="button"
-                role="menuitem"
                 lang={lang.htmlLang}
                 key={lang.code}
                 onClick={() => changeLanguage(lang.code)}
