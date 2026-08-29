@@ -469,6 +469,9 @@ const AllPlatformsModal: FC<{
   onConfirm: () => void
 }> = ({ open, title, warning, onClose, onConfirm }) => {
   const { t } = useTranslation()
+  const closeLabel = t(
+    'release.platformDetect.archIncompatibleConfirm.actions.cancel',
+  )
   const { flyRef, placeholderRef, resetFlee, handleFleeClick } =
     useFleeOnClick()
 
@@ -489,7 +492,7 @@ const AllPlatformsModal: FC<{
         >
           <motion.button
             type="button"
-            aria-label="Close"
+            aria-label={closeLabel}
             className="absolute inset-0 bg-black/45"
             onClick={onClose}
           />
@@ -510,9 +513,7 @@ const AllPlatformsModal: FC<{
               </h3>
               <button
                 type="button"
-                aria-label={t(
-                  'release.platformDetect.archIncompatibleConfirm.actions.cancel',
-                )}
+                aria-label={closeLabel}
                 onClick={onClose}
                 className="p-1 rounded-lg hover:bg-stone-200/60 dark:hover:bg-zinc-700/60 transition-colors"
               >
