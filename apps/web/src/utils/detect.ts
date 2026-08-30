@@ -80,10 +80,23 @@ export const detectPlatform = async (): Promise<
     return DetectionFailedSymbol
   }
 
-  const userAgentData = await navigator.userAgentData?.getHighEntropyValues([
-    'platform',
-    'architecture',
-  ])
+  let userAgentData:
+    | {
+        platform: string
+        architecture: string
+      }
+    | undefined
+
+  try {
+    userAgentData = await navigator.userAgentData?.getHighEntropyValues([
+      'platform',
+      'architecture',
+    ])
+  } catch {
+    // Some browsers expose userAgentData but reject high-entropy hints.
+    // Continue with the User-Agent fallback below instead of leaving the
+    // download area stuck in the detecting state.
+  }
 
   if (userAgentData) {
     const { platform, architecture } = userAgentData
