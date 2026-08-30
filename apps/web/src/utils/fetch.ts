@@ -13,12 +13,21 @@ export async function fetchWithTimeout(
   const { timeout, ...options } = init || {}
 
   const controller = new AbortController()
-  const id = setTimeout(() => controller.abort(), timeout)
-  const response = await fetch(input, {
-    ...options,
-    signal: controller.signal,
-  }).finally(() => clearTimeout(id))
-  return response
+  const id =
+    timeout === undefined
+      ? undefined
+      : setTimeout(() => controller.abort(), timeout)
+
+  try {
+    return await fetch(input, {
+      ...options,
+      signal: controller.signal,
+    })
+  } finally {
+    if (id !== undefined) {
+      clearTimeout(id)
+    }
+  }
 }
 
 // yes i know, download uses XHR, but only XHR provides onprogress callbacks...
