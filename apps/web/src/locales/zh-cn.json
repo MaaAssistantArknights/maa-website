@@ -63,6 +63,10 @@
         "github": "GitHub",
         "friendLinks": "友情链接"
     },
+    "themeToggle": {
+        "switchToLight": "切换到浅色主题",
+        "switchToDark": "切换到深色主题"
+    },
     "friendLinks": {
         "prts-plus": "PRTS 作业站",
         "status": "MAA 状态监测",

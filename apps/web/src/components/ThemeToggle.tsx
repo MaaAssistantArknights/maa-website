@@ -2,12 +2,16 @@ import { useTheme } from '@/contexts/ThemeContext'
 
 import { AnimatePresence, motion } from 'framer-motion'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 
 export const ThemeToggle: React.FC = () => {
   const { theme, toggleTheme } = useTheme()
+  const { t } = useTranslation()
+  const nextTheme = theme === 'dark' ? 'light' : 'dark'
 
   return (
     <motion.button
+      type="button"
       className="p-2 rounded-full bg-opacity-20 backdrop-blur-xs
                 dark:bg-gray-800 dark:bg-opacity-30
                 bg-white border border-gray-200 dark:border-gray-700
@@ -16,7 +20,10 @@ export const ThemeToggle: React.FC = () => {
       onClick={toggleTheme}
       whileTap={{ scale: 0.95 }}
       whileHover={{ scale: 1.05 }}
-      aria-label="change theme"
+      aria-label={t(
+        `themeToggle.switchTo${nextTheme === 'dark' ? 'Dark' : 'Light'}`,
+      )}
+      aria-pressed={theme === 'dark'}
     >
       <AnimatePresence mode="wait" initial={false}>
         <motion.span

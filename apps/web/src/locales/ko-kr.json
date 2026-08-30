@@ -63,6 +63,10 @@
         "github": "GitHub",
         "friendLinks": "관련 링크"
     },
+    "themeToggle": {
+        "switchToLight": "라이트 테마로 전환",
+        "switchToDark": "다크 테마로 전환"
+    },
     "friendLinks": {
         "prts-plus": "PRTS Plus",
         "status": "MAA 상태 모니터링",

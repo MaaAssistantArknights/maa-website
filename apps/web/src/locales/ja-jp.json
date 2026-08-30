@@ -63,6 +63,10 @@
         "github": "GitHub",
         "friendLinks": "リンク集"
     },
+    "themeToggle": {
+        "switchToLight": "ライトテーマに切り替え",
+        "switchToDark": "ダークテーマに切り替え"
+    },
     "friendLinks": {
         "prts-plus": "PRTS 作業ステーション",
         "status": "MAA ステータス監視",
