@@ -13,16 +13,24 @@ type GlowButtonProps = WithChildren<{
   translucent?: boolean
   bordered?: boolean
   href?: string
-  onClick?: MouseEventHandler<HTMLButtonElement>
+  onClick?: MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>
   className?: string
 }>
 
 export const GlowButton: FCC<GlowButtonProps> = forwardRef<
-  HTMLButtonElement,
+  HTMLButtonElement | HTMLAnchorElement,
   GlowButtonProps
 >(({ children, translucent, bordered, href, onClick, className }, ref) => {
   const { theme } = useTheme()
   const { disableLayoutMotion } = useLayoutState()
+
+  const setRef = (element: HTMLButtonElement | HTMLAnchorElement | null) => {
+    if (typeof ref === 'function') {
+      ref(element)
+    } else if (ref) {
+      ref.current = element
+    }
+  }
 
   const motionConfig: MotionProps = {
     whileHover: {
@@ -66,9 +74,36 @@ export const GlowButton: FCC<GlowButtonProps> = forwardRef<
     },
   }
 
-  const inner = (
+  if (href !== undefined) {
+    return (
+      <motion.a
+        href={href}
+        target="_blank"
+        rel="noreferrer noopener"
+        layout={!disableLayoutMotion}
+        className={clsx(
+          moduleStyles.root,
+          moduleStyles.link,
+          !translucent && 'dark:bg-slate-900/90 bg-stone-100/90',
+          translucent &&
+            'dark:bg-slate-900/40 bg-stone-50/40 backdrop-blur-xl backdrop-saturate-150',
+          !bordered && 'border-none',
+          'flex px-6 py-3 dark:active:bg-slate-800 active:bg-stone-200 rounded-lg hover:-translate-y-px active:translate-y-px text-2xl dark:text-white/90 text-stone-800 whitespace-nowrap transition-transform duration-200',
+          className,
+        )}
+        {...motionConfig}
+        key={theme}
+        onClick={onClick}
+        ref={setRef}
+      >
+        {children}
+      </motion.a>
+    )
+  }
+
+  return (
     <motion.button
-      layout={!disableLayoutMotion} //根据状态决定是否启用布局动画
+      layout={!disableLayoutMotion}
       type="button"
       className={clsx(
         moduleStyles.root,
@@ -82,24 +117,10 @@ export const GlowButton: FCC<GlowButtonProps> = forwardRef<
       onClick={onClick}
       {...motionConfig}
       key={theme}
-      ref={ref}
+      ref={setRef}
     >
       {children}
     </motion.button>
   )
-
-  if (href) {
-    return (
-      <a
-        href={href}
-        target="_blank"
-        rel="noreferrer noopener"
-        className={moduleStyles.link}
-      >
-        {inner}
-      </a>
-    )
-  }
-  return inner
 })
 GlowButton.displayName = 'GlowButton'
