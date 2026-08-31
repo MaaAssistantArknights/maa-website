@@ -8,6 +8,7 @@ export const LanguageToggle: React.FC = () => {
   const { i18n } = useTranslation()
   const [open, setOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
+  const buttonRef = useRef<HTMLButtonElement>(null)
 
   const toggleDropdown = () => setOpen((prev) => !prev)
   const changeLanguage = (lng: string) => {
@@ -26,14 +27,32 @@ export const LanguageToggle: React.FC = () => {
       }
     }
     document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
   }, [])
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === 'Escape' && open) {
+      setOpen(false)
+      buttonRef.current?.focus()
+    }
+  }
+
   return (
-    <motion.div ref={dropdownRef} className="relative">
+    <motion.div
+      ref={dropdownRef}
+      className="relative"
+      onKeyDown={handleKeyDown}
+    >
       {/* 按钮 */}
       <motion.button
+        ref={buttonRef}
+        id="language-toggle"
+        type="button"
         lang={getLanguageOption(i18n.language).htmlLang}
+        aria-controls="language-menu"
+        aria-expanded={open}
         onClick={toggleDropdown}
         className="px-4 py-2 rounded-lg border backdrop-blur-xs shadow-lg
                    dark:bg-slate-900/90 bg-stone-100/90
@@ -59,6 +78,7 @@ export const LanguageToggle: React.FC = () => {
       <AnimatePresence>
         {open && (
           <motion.div
+            id="language-menu"
             key="dropdown"
             initial={{ opacity: 0, y: -10, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -75,6 +95,7 @@ export const LanguageToggle: React.FC = () => {
           >
             {languages.map((lang) => (
               <motion.button
+                type="button"
                 lang={lang.htmlLang}
                 key={lang.code}
                 onClick={() => changeLanguage(lang.code)}
