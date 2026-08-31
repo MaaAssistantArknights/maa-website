@@ -7,7 +7,7 @@ import { SWRConfig } from 'swr'
 
 import App from './App'
 import './i18n'
-import { fetch } from './utils/fetch'
+import { fetchWithTimeout } from './utils/fetch'
 
 import './index.css'
 
@@ -19,11 +19,19 @@ Sentry.init({
 
 ReactGA.initialize('G-FJQDKG394Z')
 
+const fetcher = async (url: string) => {
+  const response = await fetchWithTimeout(url, { timeout: 10000 })
+  if (!response.ok) {
+    throw new Error(`Request failed with status ${response.status}`)
+  }
+  return response.json()
+}
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <SWRConfig
       value={{
-        fetcher: (url: string) => fetch(url).then((r) => r.json()),
+        fetcher,
         focusThrottleInterval: 1000 * 60 * 10,
         suspense: true,
       }}
