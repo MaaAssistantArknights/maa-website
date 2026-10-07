@@ -19,6 +19,10 @@
         "linux-aarch64": {
             "title": "Linux",
             "subtitle": "aarch64 动态库"
+        },
+        "android-universal": {
+            "title": "Android",
+            "subtitle": "通用"
         }
     },
     "release": {

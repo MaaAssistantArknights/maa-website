@@ -1,15 +1,22 @@
+import { MEOW_RELEASES_PAGE } from '@/hooks/use-meow-release'
 import { Release, ReleaseAsset } from '@/hooks/use-release'
+import mdiAndroid from '@iconify/icons-mdi/android'
 import mdiApple from '@iconify/icons-mdi/apple'
 import mdiLinux from '@iconify/icons-mdi/linux'
 import mdiWindows from '@iconify/icons-mdi/windows'
 import type { IconifyIcon } from '@iconify/react'
 
+export type ReleaseSource = 'maa' | 'meow'
+
 export interface PlatformPredicate {
   id: string
+  // 未指定时为 MAA 本体
+  source?: ReleaseSource
   icon: IconifyIcon
   title: string
   subtitle: string
   assetMatcher: (release: Release) => ReleaseAsset | undefined
+  fallbackHref?: string
 }
 
 export const PLATFORMS: PlatformPredicate[] = [
@@ -66,6 +73,19 @@ export const PLATFORMS: PlatformPredicate[] = [
       )
     },
   },
+  {
+    id: 'android-universal',
+    source: 'meow',
+    icon: mdiAndroid,
+    title: 'platforms.android-universal.title',
+    subtitle: 'platforms.android-universal.subtitle',
+    assetMatcher: (release) => {
+      return release.assets.find((el) =>
+        /^MaaMeow-v.*-universal\.apk$/.test(el.name),
+      )
+    },
+    fallbackHref: MEOW_RELEASES_PAGE,
+  },
 ]
 
 // detectPlatform detects the platform of the current user and returns the
@@ -101,6 +121,10 @@ export const detectPlatform = async (): Promise<
   if (userAgentData) {
     const { platform, architecture } = userAgentData
 
+    if (platform === 'Android') {
+      return 'android-universal'
+    }
+
     if (platform === 'macOS') {
       return 'macos-universal'
     }
@@ -135,6 +159,11 @@ export const detectPlatform = async (): Promise<
     return 'macos-universal'
   }
 
+  // Android 的 UA 通常也包含 Linux，需要先于 Linux 判断
+  if (lowerCaseUA.includes('android')) {
+    return 'android-universal'
+  }
+
   if (lowerCaseUA.includes('linux')) {
     if (lowerCaseUA.includes('aarch64') || lowerCaseUA.includes('arm64')) {
       return 'linux-aarch64'
@@ -146,6 +175,8 @@ export const detectPlatform = async (): Promise<
 }
 
 export interface ResolvedPlatform {
-  asset: ReleaseAsset
   platform: PlatformPredicate
+  href: string
+  releaseName: string | null
+  downloadCount?: number
 }
