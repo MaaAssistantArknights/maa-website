@@ -51,7 +51,7 @@ export const HomeActions: FC<HomeActionsProps> = ({
       className={`items-center absolute bottom-0 left-0 right-0 flex flex-col mx-8 ${isWidthOverflow ? 'mb-24' : 'mb-[7vh]'}`}
     >
       <motion.div
-        className={`items-center justify-center font-light flex-wrap relative ${isWidthOverflow ? 'flex-col hidden gap-2' : 'flex flex-row gap-x-4 gap-y-2'}`}
+        className={`items-center justify-center font-light flex-wrap relative ${isWidthOverflow ? 'flex flex-col gap-2' : 'flex flex-row gap-x-4 gap-y-2'}`}
         // layout
         layoutRoot
       >
@@ -72,7 +72,7 @@ export const HomeActions: FC<HomeActionsProps> = ({
 
       <div
         ref={containerRef} // 水平overflow检测锚点
-        className={`gap-4 items-center justify-center mt-4 flex max-h-[50vh] ${isWidthOverflow ? 'flex-col' : 'flex-row'}`}
+        className={`gap-4 items-center justify-center mt-4 flex max-h-[50vh] ${isWidthOverflow ? 'flex-row flex-wrap' : 'flex-row'}`}
       >
         <GlowButton translucent href={docsLink} className="docs-highlight">
           <div className="flex items-center -ml-1 text-sm font-medium text-sky-600 dark:text-sky-300">

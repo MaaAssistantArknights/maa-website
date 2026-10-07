@@ -19,6 +19,10 @@
         "linux-aarch64": {
             "title": "Linux",
             "subtitle": "aarch64 ダイナミックライブラリ"
+        },
+        "android-universal": {
+            "title": "Android",
+            "subtitle": "ユニバーサル"
         }
     },
     "release": {

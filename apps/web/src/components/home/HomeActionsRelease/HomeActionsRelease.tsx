@@ -1,5 +1,6 @@
 import { GlowButton } from '@/components/foundations/GlowButton/GlowButton'
 import { useLayoutState } from '@/contexts/LayoutStateContext'
+import { useMeowRelease } from '@/hooks/use-meow-release'
 import { Release, useRelease } from '@/hooks/use-release'
 import i18n, { getLanguageOption } from '@/i18n'
 import {
@@ -565,19 +566,17 @@ const AllPlatformsModal: FC<{
 
 const DownloadButton: FC<{
   platform: ResolvedPlatform
-  releaseName: string | null
   requiresCompatibilityConfirm?: boolean
   detectedPlatformLabel?: string | null
   isCurrentPlatform?: boolean
 }> = ({
   platform,
-  releaseName,
   requiresCompatibilityConfirm = false,
   detectedPlatformLabel,
   isCurrentPlatform = false,
 }) => {
   const { t } = useTranslation()
-  const href = platform.asset.browser_download_url
+  const href = platform.href
 
   const [loadState, setLoadState] = useState<DownloadDetectionStates>({
     state: 'idle',
@@ -676,13 +675,13 @@ const DownloadButton: FC<{
               </span>
             </div>
             <div className="flex items-center mt-1 mb-0.5 ml-8 text-sm">
-              <span>{releaseName}</span>
-              {platform.asset.download_count && (
+              <span>{platform.releaseName}</span>
+              {platform.downloadCount && (
                 <>
                   <Icon icon={mdiDownload} className="ml-2 mr-0.5" />
                   <span>
-                    {platform.asset.download_count
-                      ? platform.asset.download_count.toLocaleString()
+                    {platform.downloadCount
+                      ? platform.downloadCount.toLocaleString()
                       : '—'}
                   </span>
                 </>
@@ -829,7 +828,10 @@ const ViewAllButton: FC<{
   )
 }
 
-export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
+export const DownloadButtons: FC<{
+  release: Release
+  meowRelease?: Release
+}> = ({ release, meowRelease }) => {
   const { t } = useTranslation()
   const { isWidthOverflow } = useLayoutState()
 
@@ -847,15 +849,27 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
   const validPlatforms = useMemo(
     () =>
       PLATFORMS.reduce((acc, platform) => {
-        const asset = platform.assetMatcher(release)
-        if (asset)
+        const source = platform.source === 'meow' ? meowRelease : release
+        const asset = source ? platform.assetMatcher(source) : undefined
+        if (source && asset) {
           acc.push({
-            asset,
             platform,
+            href: asset.browser_download_url,
+            releaseName: source.name,
+            // 与 MAA 本体保持一致，不展示 MAA-Meow 的下载量
+            downloadCount:
+              platform.source === 'meow' ? undefined : asset.download_count,
           })
+        } else if (platform.fallbackHref) {
+          acc.push({
+            platform,
+            href: platform.fallbackHref,
+            releaseName: null,
+          })
+        }
         return acc
       }, [] as ResolvedPlatform[]),
-    [release],
+    [meowRelease, release],
   )
 
   const detectedPlatform = useMemo(
@@ -916,7 +930,6 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
           >
             <DownloadButton
               platform={platform}
-              releaseName={release.name}
               requiresCompatibilityConfirm={shouldConfirmIncompatibleDownload}
               detectedPlatformLabel={detectedPlatformLabel}
               isCurrentPlatform={isCurrentPlatform}
@@ -925,7 +938,7 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
         </motion.div>
       )
     },
-    [detectedPlatformLabel, envPlatformId, release.name, viewAll, t],
+    [detectedPlatformLabel, envPlatformId, viewAll, t],
   )
 
   const innerContent = useMemo<React.ReactNode>(() => {
@@ -968,7 +981,7 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
   }, [envPlatformId])
 
   const mirrorchyanAvailable = useMemo(() => {
-    return os === 'windows' || os === 'macos'
+    return os === 'windows' || os === 'macos' || os === 'android'
   }, [os])
 
   if (!envPlatformId) {
@@ -982,6 +995,35 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
   }
 
   const mirrorchyanLang = getLanguageOption(i18n.language).mirrorchyanLang
+  const mirrorchyanPlatformQuery =
+    os === 'android' ? 'os=android' : `os=${os}&arch=${arch}`
+
+  const renderMirrorchyanButton = (className?: string) => (
+    <GlowButton
+      bordered
+      className={className}
+      href={`https://mirrorchyan.com/${mirrorchyanLang}/projects?rid=MAA&${mirrorchyanPlatformQuery}&channel=stable&source=maaplus-download`}
+    >
+      <div className="text-sm">
+        <p>
+          <i>{t('release.buttonLabels.mirrorchyanCDKPrompt')}</i>
+        </p>
+        <p>
+          <i>{t('release.buttonLabels.mirrorchyanDownload')}</i>
+        </p>
+      </div>
+    </GlowButton>
+  )
+
+  // 窄屏下只保留当前平台的下载按钮和 Mirror酱，并省去提示槽位以节省高度
+  if (isWidthOverflow) {
+    return detectedPlatform ? (
+      <>
+        <DownloadButton platform={detectedPlatform} isCurrentPlatform />
+        {mirrorchyanAvailable && renderMirrorchyanButton()}
+      </>
+    ) : null
+  }
 
   // 原来的逻辑是 当`ViewAll=true`时使用`allPlatformDownloadBtns`进行替换，把整个第一行（下载，查看全部，mirror酱）替换为全部平台的下载渠道按钮。
   // 下面的按钮因为`!viewAll`便不再渲染。我将渲染逻辑进行了修改，`ViewAll=true`时不再进行替换，而是根据其值展示和收起相关按钮。
@@ -1010,20 +1052,7 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
               exit={{ opacity: 0, scale: 0.8 }}
             >
               <DownloadButtonColumn>
-                <GlowButton
-                  bordered
-                  className={downloadButtonClassName}
-                  href={`https://mirrorchyan.com/${mirrorchyanLang}/projects?rid=MAA&os=${os}&arch=${arch}&channel=stable&source=maaplus-download`}
-                >
-                  <div className="text-sm">
-                    <p>
-                      <i>{t('release.buttonLabels.mirrorchyanCDKPrompt')}</i>
-                    </p>
-                    <p>
-                      <i>{t('release.buttonLabels.mirrorchyanDownload')}</i>
-                    </p>
-                  </div>
-                </GlowButton>
+                {renderMirrorchyanButton(downloadButtonClassName)}
               </DownloadButtonColumn>
             </motion.div>
           )}
@@ -1035,7 +1064,7 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
-            className={`flex items-center gap-4 ${isWidthOverflow ? 'flex-col w-full' : ''}`}
+            className="flex items-center gap-4"
           >
             <ViewAllButton
               viewAll={viewAll}
@@ -1132,5 +1161,8 @@ export const HomeActionsReleaseErrorBoundary: ComponentType<
 
 export const HomeActionsRelease: FC = () => {
   const { data } = useRelease()
-  return <>{data && <DownloadButtons release={data} />}</>
+  const { data: meowRelease } = useMeowRelease()
+  return (
+    <>{data && <DownloadButtons release={data} meowRelease={meowRelease} />}</>
+  )
 }
